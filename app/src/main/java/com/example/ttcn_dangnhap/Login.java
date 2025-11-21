@@ -1,9 +1,11 @@
 package com.example.ttcn_dangnhap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -33,6 +35,7 @@ public class Login extends AppCompatActivity {
     TextInputEditText txt_mk;
     RadioButton rdo_user,rdo_admin;
     Button btn_login;
+    TextView txt_quenmk;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,17 +81,9 @@ public class Login extends AppCompatActivity {
                                 String status = jsonObject.getString("status");
                                 String message = jsonObject.getString("message");
                                 if (status.equals("success")) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setTitle("Thông báo");
-                                    builder.setMessage(message);
-                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
-                                    builder.create().show();
+                                    ThongBao.showThongBao(Login.this,"Thông báo",message);
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setTitle("Thất bại");
-                                    builder.setMessage(message);
-                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
-                                    builder.create().show();
+                                    ThongBao.showThongBao(Login.this,"Thất bại",message);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -115,6 +110,10 @@ public class Login extends AppCompatActivity {
             };
             queue.add(postRequest);
             });
+        txt_quenmk.setOnClickListener(view -> {
+            Intent intent = new Intent(Login.this,forgot.class);
+            startActivity(intent);
+        });
     }
 
     private void addControls() {
@@ -123,5 +122,6 @@ public class Login extends AppCompatActivity {
         btn_login=findViewById(R.id.btn_login);
         rdo_admin=findViewById(R.id.rdo_admin);
         rdo_user=findViewById(R.id.rdo_user);
+        txt_quenmk=findViewById(R.id.txt_quenmk);
     }
 }
