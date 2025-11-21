@@ -1,9 +1,12 @@
 package com.example.ttcn_dangnhap;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -33,6 +36,9 @@ public class Login extends AppCompatActivity {
     TextInputEditText txt_mk;
     RadioButton rdo_user,rdo_admin;
     Button btn_login;
+
+    TextView txViewSignup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,18 @@ public class Login extends AppCompatActivity {
     }
 
     private void addEvents() {
+
+        txViewSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Login.this, ttcn_dangky.class);
+                startActivity(intent);
+
+            }
+        });
+
+
+
         btn_login.setOnClickListener(view -> {
             String tk=txt_tk.getText().toString();
             String mk=txt_mk.getText().toString();
@@ -123,5 +141,7 @@ public class Login extends AppCompatActivity {
         btn_login=findViewById(R.id.btn_login);
         rdo_admin=findViewById(R.id.rdo_admin);
         rdo_user=findViewById(R.id.rdo_user);
+
+        txViewSignup = findViewById(R.id.txt_dky);
     }
 }

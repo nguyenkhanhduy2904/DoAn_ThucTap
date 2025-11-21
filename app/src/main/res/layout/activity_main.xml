@@ -236,6 +236,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tạo ngay "
+                                android:clickable="true"
                                 android:textColor="#FF2222"
                                 android:textSize="17sp"/>
                         </LinearLayout>
