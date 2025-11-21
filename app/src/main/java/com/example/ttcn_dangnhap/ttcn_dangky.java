@@ -2,6 +2,7 @@ package com.example.ttcn_dangnhap;
 
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
@@ -17,6 +18,7 @@ public class ttcn_dangky extends AppCompatActivity {
     EditText eTxTFullName, eTxTPhoneNum,eTxTAddress, eTxTUserLoginName,eTxTPassword,eTxTRepeatPassword;
     Spinner spinnerGender;
     MaterialButton mBtnCreateAcc;
+    ImageView ivBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,8 @@ public class ttcn_dangky extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        addControls();
+        addEvents();
     }
 
 
@@ -39,12 +43,17 @@ public class ttcn_dangky extends AppCompatActivity {
         eTxTRepeatPassword = findViewById(R.id.eTxTRepeatPassword);
         mBtnCreateAcc = findViewById(R.id.mBtnCreateAcc);
         spinnerGender= findViewById(R.id.spinner_gender);
+        ivBack = findViewById(R.id.ivBack);
+
 
 
     }
 
     void addEvents(){
         //to be implements
+        ivBack.setOnClickListener(view -> {
+            finish();
+        });
 
     }
 }

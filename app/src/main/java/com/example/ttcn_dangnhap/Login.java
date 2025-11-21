@@ -36,8 +36,7 @@ public class Login extends AppCompatActivity {
     TextInputEditText txt_mk;
     RadioButton rdo_user,rdo_admin;
     Button btn_login;
-
-    TextView txViewSignup;
+    TextView txtSignup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +53,13 @@ public class Login extends AppCompatActivity {
     }
 
     private void addEvents() {
-
-        txViewSignup.setOnClickListener(new View.OnClickListener() {
+        txtSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Login.this, ttcn_dangky.class);
                 startActivity(intent);
-
             }
         });
-
 
 
         btn_login.setOnClickListener(view -> {
@@ -141,7 +137,8 @@ public class Login extends AppCompatActivity {
         btn_login=findViewById(R.id.btn_login);
         rdo_admin=findViewById(R.id.rdo_admin);
         rdo_user=findViewById(R.id.rdo_user);
+        txtSignup = findViewById(R.id.txt_dky);
 
-        txViewSignup = findViewById(R.id.txt_dky);
+
     }
 }

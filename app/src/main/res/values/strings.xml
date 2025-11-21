@@ -2,9 +2,9 @@
     <string name="app_name">TTCN_DangNhap</string>
 
     <string-array name="gender_options">
-        <item>Male</item>
-        <item>Female</item>
-        <item>Other</item>
+        <item>Nam</item>
+        <item>Nữ</item>
+        <item>Khác</item>
     </string-array>
 
 </resources>

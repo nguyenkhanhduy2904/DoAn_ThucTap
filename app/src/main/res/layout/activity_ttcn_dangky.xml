@@ -26,18 +26,28 @@
                 android:layout_marginBottom="53dp"
                 android:layout_marginHorizontal="27dp"
                 android:orientation="horizontal">
-<!--                <ImageView-->
-<!--                    android:id="@+id/rpv3bil3mnrg"-->
-<!--                    android:layout_width="25dp"-->
-<!--                    android:layout_height="22dp"-->
-<!--                    android:src="@mipmap/ic_launcher"-->
-<!--                    android:scaleType="fitXY"-->
-<!--                    />-->
+
+
+
+<!--                  Back arrow -->
+                <ImageView
+                    android:clickable="true"
+                    android:id="@+id/ivBack"
+                    android:layout_width="25dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/back"
+
+                    android:contentDescription="Back"
+                    android:padding="4dp"/>
+
+                <!-- Spacer to push title to center -->
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
+                    android:layout_weight="1"/>
+
+
+
                 <TextView
                     android:id="@+id/ran7ys7i2i2h"
                     android:textColor="#000000"
@@ -46,18 +56,21 @@
                     android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
                     android:text="Tạo tài khoản"
+                    android:textAlignment="center"
+                    android:layout_weight="10"
                     />
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    />
-                <LinearLayout
-                    android:id="@+id/r7c5d7gpb04x"
-                    android:layout_width="25dp"
-                    android:layout_height="22dp"
-                    android:orientation="vertical">
-                </LinearLayout>
+
+                <!--                <View-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    />-->
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/r7c5d7gpb04x"-->
+<!--                    android:layout_width="25dp"-->
+<!--                    android:layout_height="22dp"-->
+<!--                    android:orientation="vertical">-->
+<!--                </LinearLayout>-->
             </LinearLayout>
             <TextView
                 android:id="@+id/rur4d52p1b5j"
