@@ -62,73 +62,82 @@ public class Login extends AppCompatActivity {
         });
 
 
-        btn_login.setOnClickListener(view -> {
-            String tk=txt_tk.getText().toString();
-            String mk=txt_mk.getText().toString();
-            String role = "";
-            if (rdo_user.isChecked()) {
-                role = "user";
-            } else if (rdo_admin.isChecked()) {
-                role = "admin";
-            }
+        btn_login.setOnClickListener( view -> {
+            Intent intent = new Intent(Login.this, HomePage.class);
+            startActivity(intent);
 
-            if (tk.isEmpty() || mk.isEmpty()) {
-                Toast.makeText(Login.this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            if (role.isEmpty()) {
-                Toast.makeText(Login.this, "Vui lòng chọn vai trò (User hoặc Admin)!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            String url = "http://10.0.2.2:8080/login";
-            String finalRole = role;
-            RequestQueue queue = Volley.newRequestQueue(this);
-            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                String status = jsonObject.getString("status");
-                                String message = jsonObject.getString("message");
-                                if (status.equals("success")) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setTitle("Thông báo");
-                                    builder.setMessage(message);
-                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
-                                    builder.create().show();
-                                } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setTitle("Thất bại");
-                                    builder.setMessage(message);
-                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
-                                    builder.create().show();
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(Login.this, "Lỗi đọc dữ liệu JSON", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(Login.this, "Lỗi kết nối Server!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-            ){
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("username",tk);
-                    params.put("password",mk);
-                    params.put("role", finalRole);
-                    return params;
-                }
-            };
-            queue.add(postRequest);
-            });
+        });
+
+
+//        btn_login.setOnClickListener(view -> {
+//
+//
+//            String tk=txt_tk.getText().toString();
+//            String mk=txt_mk.getText().toString();
+//            String role = "";
+//            if (rdo_user.isChecked()) {
+//                role = "user";
+//            } else if (rdo_admin.isChecked()) {
+//                role = "admin";
+//            }
+//
+//            if (tk.isEmpty() || mk.isEmpty()) {
+//                Toast.makeText(Login.this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            if (role.isEmpty()) {
+//                Toast.makeText(Login.this, "Vui lòng chọn vai trò (User hoặc Admin)!", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//            String url = "http://10.0.2.2:8080/login";
+//            String finalRole = role;
+//            RequestQueue queue = Volley.newRequestQueue(this);
+//            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+//                    new Response.Listener<String>() {
+//                        @Override
+//                        public void onResponse(String response) {
+//                            try {
+//                                JSONObject jsonObject = new JSONObject(response);
+//                                String status = jsonObject.getString("status");
+//                                String message = jsonObject.getString("message");
+//                                if (status.equals("success")) {
+//                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+//                                    builder.setTitle("Thông báo");
+//                                    builder.setMessage(message);
+//                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
+//                                    builder.create().show();
+//                                } else {
+//                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+//                                    builder.setTitle("Thất bại");
+//                                    builder.setMessage(message);
+//                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
+//                                    builder.create().show();
+//                                }
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                                Toast.makeText(Login.this, "Lỗi đọc dữ liệu JSON", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    },
+//                    new Response.ErrorListener() {
+//                        @Override
+//                        public void onErrorResponse(VolleyError error) {
+//                            Toast.makeText(Login.this, "Lỗi kết nối Server!", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//            ){
+//                @Nullable
+//                @Override
+//                protected Map<String, String> getParams() throws AuthFailureError {
+//                    Map<String, String> params = new HashMap<>();
+//                    params.put("username",tk);
+//                    params.put("password",mk);
+//                    params.put("role", finalRole);
+//                    return params;
+//                }
+//            };
+//            queue.add(postRequest);
+//            });
     }
 
     private void addControls() {
