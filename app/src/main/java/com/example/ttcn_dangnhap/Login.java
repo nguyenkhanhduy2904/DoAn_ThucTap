@@ -101,17 +101,9 @@ public class Login extends AppCompatActivity {
                                 String status = jsonObject.getString("status");
                                 String message = jsonObject.getString("message");
                                 if (status.equals("success")) {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setTitle("Thông báo");
-                                    builder.setMessage(message);
-                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
-                                    builder.create().show();
+                                    ThongBao.showThongBao(Login.this,"Thành công",message);
                                 } else {
-                                    AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                    builder.setTitle("Thất bại");
-                                    builder.setMessage(message);
-                                    builder.setPositiveButton("Ok",(dialogInterface, i) -> {});
-                                    builder.create().show();
+                                    ThongBao.showThongBao(Login.this,"Thất bại",message);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

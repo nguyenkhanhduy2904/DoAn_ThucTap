@@ -71,6 +71,7 @@
                 android:focusable="true">
 
                 <ImageView
+                    android:id="@+id/img"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@drawable/icon_camera"
@@ -106,6 +107,7 @@
                 android:textColor="#FF0000"/>
         </LinearLayout>
             <EditText
+                android:id="@+id/txt_ten_ct"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
@@ -137,11 +139,12 @@
             </LinearLayout>
 
             <EditText
+                android:id="@+id/txt_mota_ct"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/nhap_bogoc"
-                android:hint="Nhập mô tả món ăn"
+                android:hint="Nhập mô tả giảm giá"
                 android:paddingHorizontal="16dp"
                 android:textSize="14sp"/>
 
@@ -167,54 +170,26 @@
                     android:textColor="#FF0000"/>
             </LinearLayout>
 
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giảm % trên tổng hóa đơn"
-                android:layout_marginTop="4dp"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Giảm số tiền nhất định"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mua X tặng Y"/>
-
-            <LinearLayout
+            <RadioGroup
+                android:id="@+id/rdg_loai_uu_dai"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chi tiết ưu đãi "
-                    android:textStyle="bold"
-                    android:textColor="#000000"
-                    android:textSize="16sp"
-                    />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" *"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:textColor="#FF0000"/>
-            </LinearLayout>
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="50dp"
-                android:layout_marginTop="8dp"
-                android:background="@drawable/nhap_bogoc"
-                android:hint="Tùy theo loại ưu đãi mà thay đổi"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp"
-                android:textSize="14sp"/>
+                android:orientation="vertical">
 
+                <RadioButton
+                    android:id="@+id/rdo_giam_phan_tram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Giảm % trên tổng hóa đơn"
+                    android:layout_marginBottom="8dp"/>
+
+                <RadioButton
+                    android:id="@+id/rdo_giam_tien"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Giảm số tiền nhất định"/>
+            </RadioGroup>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -285,9 +260,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@drawable/nhap_bogoc"
-                    android:hint="04/11/2025"
+                    android:text="dd/MM/yyyy"
                     android:paddingHorizontal="20dp"
                     android:gravity="center"/>
+
+                <ImageButton
+                    android:id="@+id/imageButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_date_picker" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -309,13 +291,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:background="@drawable/nhap_bogoc"
-                    android:hint="04/12/2025"
+                    android:text="dd/MM/yyyy"
                     android:paddingHorizontal="20dp"
                     android:gravity="center"/>
+                <ImageButton
+                    android:id="@+id/imageButton2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_date_picker" />
             </LinearLayout>
 
             <Button
-                android:id="@+id/btn_create_voucher"
+                android:id="@+id/btn_tao_voucher"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Tạo"
