@@ -15,13 +15,13 @@ import java.util.List;
 
 import models.MonAn;
 
-public class CustomListAdapter extends BaseAdapter {
+public class CustomFoodListAdapter extends BaseAdapter {
 
     Context context;
     List<MonAn> lsMonAn;
     LayoutInflater inflater;
 
-    public CustomListAdapter(Context ctx, List<MonAn> lsMonAn){
+    public CustomFoodListAdapter(Context ctx, List<MonAn> lsMonAn){
         this.context = ctx;
         this.lsMonAn = lsMonAn;
         inflater = LayoutInflater.from(ctx);
@@ -31,7 +31,7 @@ public class CustomListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        Log.d("CustomListAdapter", "getCount called, size = " + lsMonAn.size());
+        Log.d("CustomFoodListAdapter", "getCount called, size = " + lsMonAn.size());
         return lsMonAn.size();
     }
 

@@ -13,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 
-public class ttcn_dangky extends AppCompatActivity {
+public class Dangky extends AppCompatActivity {
 
     EditText eTxTFullName, eTxTPhoneNum,eTxTAddress, eTxTUserLoginName,eTxTPassword,eTxTRepeatPassword;
     Spinner spinnerGender;

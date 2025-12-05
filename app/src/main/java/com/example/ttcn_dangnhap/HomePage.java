@@ -1,11 +1,14 @@
 package com.example.ttcn_dangnhap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +26,12 @@ public class HomePage extends AppCompatActivity {
 
     List<MonAn> lsMonAn;
     ListView lsView;
-    CustomListAdapter customListAdapter;
+    CustomFoodListAdapter customFoodListAdapter;
+
+    //nav bar button
+    ImageButton ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount, ibtnMenu;
+
+
 
 
     @Override
@@ -40,6 +48,7 @@ public class HomePage extends AppCompatActivity {
         lsMonAn = getListMonAn();
         Log.d("HomePage", "List size: " + lsMonAn.size());
         addControls();
+        addEvents();
 
     }
 
@@ -47,7 +56,7 @@ public class HomePage extends AppCompatActivity {
         List<MonAn> lsMonAn = new ArrayList<>();
 
         lsMonAn.add(new MonAn(
-                "1",
+                1,
                 "Phở Bò",
                 "Phở bò truyền thống Việt Nam",
                 50000L,
@@ -57,7 +66,7 @@ public class HomePage extends AppCompatActivity {
         ));
 
         lsMonAn.add(new MonAn(
-                "2",
+                2,
                 "Sushi",
                 "Sushi tươi ngon Nhật Bản",
                 120000L,
@@ -67,7 +76,7 @@ public class HomePage extends AppCompatActivity {
         ));
 
         lsMonAn.add(new MonAn(
-                "3",
+                3,
                 "Kimchi",
                 "Kimchi cay Hàn Quốc",
                 40000L,
@@ -83,10 +92,48 @@ public class HomePage extends AppCompatActivity {
 
     void addControls(){
         lsView = findViewById(R.id.lsViewItem);
-        customListAdapter = new CustomListAdapter(HomePage.this, lsMonAn);
-        lsView.setAdapter(customListAdapter);
+        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, lsMonAn);
+        lsView.setAdapter(customFoodListAdapter);
         setListViewHeight(lsView);
+
+        //set image button cho thanh nav
+        View navBar = findViewById(R.id.navBar);
+        ibtnHome = navBar.findViewById(R.id.ibtnHome);
+        ibtnVoucher = navBar.findViewById(R.id.ibtnVoucher);
+        ibtnOrder = navBar.findViewById(R.id.ibtnOrder);
+        ibtnAccount = navBar.findViewById(R.id.ibtnAccount);
+        ibtnMenu = navBar.findViewById(R.id.ibtnMenu);
     }
+
+
+    void addEvents(){
+        ibtnHome.setOnClickListener(view -> {
+            Intent intent = new Intent(HomePage.this, HomePage.class);
+            startActivity(intent);
+            overridePendingTransition(0,0);
+            Toast.makeText(HomePage.this, "Clicked Home", Toast.LENGTH_SHORT).show();
+        });
+        ibtnVoucher.setOnClickListener(view -> {
+
+
+            Toast.makeText(HomePage.this, "Clicked Voucher", Toast.LENGTH_SHORT).show();
+        });
+        ibtnOrder.setOnClickListener(view -> {
+
+            Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
+        });
+        ibtnAccount.setOnClickListener(view -> {
+
+            Toast.makeText(HomePage.this, "Clicked Account", Toast.LENGTH_SHORT).show();
+        });
+        ibtnMenu.setOnClickListener(view -> {
+
+            Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+
 
     void setListViewHeight(ListView lsView){
         ListAdapter adapter = lsView.getAdapter();

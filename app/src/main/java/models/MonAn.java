@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 public class MonAn implements Serializable {
-    private String idMonAn;
+    private int idMonAn;
     private String tenMonAn;
     private String motaMonAn;
     private long giaMonAn;
@@ -15,7 +15,7 @@ public class MonAn implements Serializable {
     private boolean trangThai;
 
 
-    public MonAn(String idMonAn, String tenMonAn, String motaMonAn, long giaMonAn, String urlHinhAnhMonAn, EQuocGia quocGia, boolean trangThai) {
+    public MonAn(int idMonAn, String tenMonAn, String motaMonAn, long giaMonAn, String urlHinhAnhMonAn, EQuocGia quocGia, boolean trangThai) {
         this.idMonAn = idMonAn;
         this.tenMonAn = tenMonAn;
         this.motaMonAn = motaMonAn;
@@ -25,11 +25,11 @@ public class MonAn implements Serializable {
         this.trangThai = trangThai;
     }
 
-    public String getIdMonAn() {
+    public int getIdMonAn() {
         return idMonAn;
     }
 
-    public void setIdMonAn(String idMonAn) {
+    public void setIdMonAn(int idMonAn) {
         this.idMonAn = idMonAn;
     }
 

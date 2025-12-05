@@ -73,6 +73,7 @@
                     android:layout_weight="1"/>
                 
                 <LinearLayout
+                    android:id="@+id/addimgZone"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:orientation="horizontal"
@@ -80,6 +81,7 @@
                     android:gravity="center">
 
                     <ImageView
+                        android:id="@+id/imgPreview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/solar_camera_bold"/>
@@ -120,6 +122,7 @@
                     android:background="@drawable/cr10bd9d9d9">
 
                     <EditText
+                        android:id="@+id/etxtFoodName"
                         android:inputType="text"
                         android:background="@null"
                         android:hint="Nhập tên món ăn"
@@ -161,6 +164,7 @@
                     android:background="@drawable/cr10bd9d9d9">
 
                     <EditText
+                        android:id="@+id/etxtDesc"
                         android:inputType="text"
                         android:background="@null"
                         android:hint="Nhập mô tả món ăn"
@@ -207,7 +211,8 @@
                         android:background="@drawable/cr10bd9d9d9">
 
                         <EditText
-                            android:inputType="text"
+                            android:id="@+id/etxtPrice"
+                            android:inputType="number"
                             android:background="@null"
                             android:hint="0"
                             android:textColor="#000000"
@@ -254,59 +259,62 @@
                     android:textSize="21dp" />
                 
                <RadioGroup
+                   android:id="@+id/rbgQuocGia"
                    android:layout_width="match_parent"
                    android:layout_height="match_parent">
-                   
-                   <GridLayout
+
+                   <RadioButton
+                       android:id="@+id/rbVN"
                        android:layout_width="wrap_content"
                        android:layout_height="wrap_content"
-                       android:columnCount="2"
-                       android:rowCount="2"
-                       android:alignmentMode="alignBounds"
-                       android:useDefaultMargins="true"
-                       android:layout_gravity="center"
-                       >
+                       android:text="Việt Nam"
+                       android:textSize="17dp"
+                       android:layout_margin="0dp"
 
 
-                       <RadioButton
-                           android:id="@+id/rbOption1"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="Việt Nam"
-                           android:textSize="17dp"
-                           android:layout_margin="10dp"
+                       />
+
+                   <RadioButton
+                       android:id="@+id/rbTL"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Thái Lan"
+                       android:textSize="17dp"
+                       android:layout_margin="0dp"
+                       />
+
+                   <RadioButton
+                       android:id="@+id/rbHQ"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Hàn quốc"
+                       android:textSize="17dp"
+                       android:layout_margin="0dp"
+                       />
+
+                   <RadioButton
+                       android:id="@+id/rbTQ"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:text="Trung Quốc"
+                       android:textSize="17dp"
+                       android:layout_margin="0dp"
+                       />
+                   
+<!--                   <GridLayout-->
+<!--                       android:layout_width="wrap_content"-->
+<!--                       android:layout_height="wrap_content"-->
+<!--                       android:columnCount="2"-->
+<!--                       android:rowCount="2"-->
+<!--                       android:alignmentMode="alignBounds"-->
+<!--                       android:useDefaultMargins="true"-->
+<!--                       android:layout_gravity="center"-->
+<!--                       >-->
 
 
-                           />
+<!--                      -->
 
-                       <RadioButton
-                           android:id="@+id/rbOption2"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="Thái Lan"
-                           android:textSize="17dp"
-                           android:layout_margin="10dp"
-                           />
-
-                       <RadioButton
-                           android:id="@+id/rbOption3"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="Hàn quốc"
-                           android:textSize="17dp"
-                           android:layout_margin="10dp"
-                           />
-
-                       <RadioButton
-                           android:id="@+id/rbOption4"
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:text="Trung Quốc"
-                           android:textSize="17dp"
-                           android:layout_margin="10dp"
-                           />
-
-                   </GridLayout>
+<!--                   </GridLayout>-->
 
 
 
@@ -334,7 +342,7 @@
                     android:layout_height="wrap_content">
 
                     <RadioButton
-                        android:id="@+id/rbOption5"
+                        android:id="@+id/rbDacBiet"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Món ăn đặt biệt"
@@ -344,7 +352,7 @@
 
                         />
                     <RadioButton
-                        android:id="@+id/rbOption6"
+                        android:id="@+id/rbBinhThuong"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Món bình thường"
