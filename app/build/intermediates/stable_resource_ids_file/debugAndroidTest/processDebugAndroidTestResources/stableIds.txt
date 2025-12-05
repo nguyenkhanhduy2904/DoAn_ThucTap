@@ -1,0 +1,2 @@
+com.example.ttcn_dangnhap.test:style/WhiteBackgroundTheme = 0x7f010001
+com.example.ttcn_dangnhap.test:style/WhiteBackgroundDialogTheme = 0x7f010000

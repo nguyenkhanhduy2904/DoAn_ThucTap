@@ -1,0 +1,5 @@
+com.example.ttcn_dangnhap.test.app-core-1.7.0-0 C:\Users\Khanh Duy\.gradle\caches\transforms-4\fd6d121534a5bbfd1b47d5160eab9370\transformed\core-1.7.0\res
+com.example.ttcn_dangnhap.test.app-androidTest-1 C:\Users\Khanh Duy\DoAn_ThucTap\app\build\generated\res\resValues\androidTest\debug
+com.example.ttcn_dangnhap.test.app-mergeDebugAndroidTestResources-2 C:\Users\Khanh Duy\DoAn_ThucTap\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.example.ttcn_dangnhap.test.app-mergeDebugAndroidTestResources-3 C:\Users\Khanh Duy\DoAn_ThucTap\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.example.ttcn_dangnhap.test.app-debugAndroidTest-4 C:\Users\Khanh Duy\DoAn_ThucTap\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
