@@ -96,7 +96,7 @@ public class Them_Voucher extends AppCompatActivity {
             String moTa = txt_mota_ct.getText().toString().trim();
 
             if (tenVoucher.isEmpty() || moTa.isEmpty()) {
-                ThongBao.showThongBao(Them_Voucher.this, "Thông báo", "Vui lòng nhập đầy đủ thông tin!");
+                ThongBao.showThongBao(Them_Voucher.this, "Thông báo", "Vui lòng nhập đầy đủ thông tin!",null);
                 return;
             }
             String ngayBatDau = tv_start_date.getText().toString();

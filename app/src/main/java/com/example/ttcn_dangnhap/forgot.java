@@ -80,9 +80,9 @@ public class forgot extends AppCompatActivity {
                             String status = jsonObject.getString("status");
                             String message = jsonObject.getString("message");
                             if (status.equals("success")) {
-                                ThongBao.showThongBao(forgot.this,"Thông báo",message);
+                                ThongBao.showThongBao(forgot.this,"Thông báo",message,null);
                             } else {
-                                ThongBao.showThongBao(forgot.this,"Thất bại",message);
+                                ThongBao.showThongBao(forgot.this,"Thất bại",message,null);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

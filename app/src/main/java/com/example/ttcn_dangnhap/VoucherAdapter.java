@@ -41,7 +41,7 @@ public class VoucherAdapter extends ArrayAdapter<Voucher> {
             txtTen.setText(voucher.getTenVoucher());
             txtMoTa.setText(voucher.getMoTa());
             txtLoai.setText("Loại: "+voucher.getLoaiUuDai());
-            txtNgay.setText("Ngày: " + voucher.getNgay());
+            txtNgay.setText("Ngày: " + voucher.getNgaybd()+" - "+voucher.getNgaykt());
             if (voucher.getAnhUri() != null && !voucher.getAnhUri().isEmpty()) {
                 try {
                     imgVoucher.setImageURI(Uri.parse(voucher.getAnhUri()));

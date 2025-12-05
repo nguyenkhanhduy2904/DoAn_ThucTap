@@ -59,6 +59,7 @@ public class Voucher_admin extends AppCompatActivity {
             String ten = intent.getStringExtra("TEN");
             String moTa = intent.getStringExtra("MO_TA");
             String ngayBD = intent.getStringExtra("NGAY_BD");
+            String ngayKT = intent.getStringExtra("NGAY_KT");
             String loai = intent.getStringExtra("LOAI");
             String dieuKien = intent.getStringExtra("DIEU_KIEN");
             String anhUriString = intent.getStringExtra("ANH");
@@ -66,7 +67,7 @@ public class Voucher_admin extends AppCompatActivity {
             if (anhUriString != null) {
                 anh = Uri.parse(anhUriString);
             }
-            Voucher newVoucher = new Voucher(ten, moTa, loai, ngayBD, anhUriString);
+            Voucher newVoucher = new Voucher(ten, moTa, loai, ngayBD,ngayKT, anhUriString);
             dsvc.add(0, newVoucher);
             adapter.notifyDataSetChanged();
         }
