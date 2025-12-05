@@ -15,6 +15,8 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import models.Voucher;
+
 public class VoucherAdapter extends ArrayAdapter<Voucher> {
     private Activity context;
     private int res;

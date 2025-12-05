@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap;
+package models;
 
 public class Voucher {
     private String tenVoucher;

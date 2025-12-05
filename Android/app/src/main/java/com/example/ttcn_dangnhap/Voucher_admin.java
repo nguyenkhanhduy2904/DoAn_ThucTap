@@ -14,6 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
 
+import models.Voucher;
+
 public class Voucher_admin extends AppCompatActivity {
     Button btn_them_voucher,btn_active,btn_end;
     ListView lvDanhSach;
