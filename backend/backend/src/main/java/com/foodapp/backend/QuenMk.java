@@ -1,12 +1,12 @@
-package com.example.dat_mon_;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+package com.foodapp.backend;
 import java.util.HashMap;
 import java.util.Map;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 @RestController
-public class forgot {
+public class QuenMk {
 	@PostMapping("/forgot")
     public Map<String, String> resetPassword(@RequestParam("sdt") String phone) {
 		Map<String, String> response = new HashMap<>();

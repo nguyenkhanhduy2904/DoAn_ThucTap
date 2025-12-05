@@ -1,17 +1,18 @@
-package com.example.dat_mon_;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+package com.foodapp.backend;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController 
-public class LoginController {
-    private Integer flag =0;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DangNhap {
+	private Integer flag =0;
     private Integer role_flag =0;
-    @PostMapping("/login") 
+    @PostMapping(value="/login",produces = "application/json; charset=UTF-8") 
     public Map<String, String> login(
             @RequestParam String username, 
             @RequestParam String password,
@@ -36,7 +37,7 @@ public class LoginController {
         }
         else {
             response.put("status", "failed");
-            response.put("message", "Sai tài khoản hoặc mật khẩu");
+            response.put("message", "Sai tài khoản hoặc sai mật khẩu");
         }
 
         return response;

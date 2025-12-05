@@ -1,10 +1,10 @@
-package com.example.dat_mon_;
+package com.foodapp.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class DatMonApplicationTests {
+class BackendApplicationTests {
 
 	@Test
 	void contextLoads() {
