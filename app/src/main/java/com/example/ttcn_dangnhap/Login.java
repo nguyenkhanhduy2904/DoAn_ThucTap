@@ -70,8 +70,6 @@ public class Login extends AppCompatActivity {
 
 
         btn_login.setOnClickListener(view -> {
-
-
             String tk=txt_tk.getText().toString();
             String mk=txt_mk.getText().toString();
             String role = "";
@@ -101,9 +99,13 @@ public class Login extends AppCompatActivity {
                                 String status = jsonObject.getString("status");
                                 String message = jsonObject.getString("message");
                                 if (status.equals("success")) {
-                                    ThongBao.showThongBao(Login.this,"Thành công",message);
+                                    ThongBao.showThongBao(Login.this,"Thành công",message,() -> {
+                                        Intent intent = new Intent(Login.this, Voucher_admin.class);
+                                        startActivity(intent);
+                                    });
+
                                 } else {
-                                    ThongBao.showThongBao(Login.this,"Thất bại",message);
+                                    ThongBao.showThongBao(Login.this,"Thất bại",message,null);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -139,7 +141,6 @@ public class Login extends AppCompatActivity {
         rdo_admin=findViewById(R.id.rdo_admin);
         rdo_user=findViewById(R.id.rdo_user);
         txtSignup = findViewById(R.id.txt_dky);
-
-
     }
+
 }

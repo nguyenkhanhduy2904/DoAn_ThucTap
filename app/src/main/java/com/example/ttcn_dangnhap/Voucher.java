@@ -4,14 +4,16 @@ public class Voucher {
     private String tenVoucher;
     private String moTa;
     private String loaiUuDai;
-    private String ngay;
+    private String ngaybd;
+    private String ngaykt;
     private String anhUri;
 
-    public Voucher(String tenVoucher, String moTa, String loaiUuDai, String ngay, String anhUri) {
+    public Voucher(String tenVoucher, String moTa, String loaiUuDai, String ngaybd, String ngaykt, String anhUri) {
         this.tenVoucher = tenVoucher;
         this.moTa = moTa;
         this.loaiUuDai = loaiUuDai;
-        this.ngay = ngay;
+        this.ngaybd = ngaybd;
+        this.ngaykt=ngaykt;
         this.anhUri = anhUri;
     }
 
@@ -39,12 +41,19 @@ public class Voucher {
         this.loaiUuDai = loaiUuDai;
     }
 
-    public String getNgay() {
-        return ngay;
+    public String getNgaybd() {
+        return ngaybd;
     }
 
-    public void setNgay(String ngay) {
-        this.ngay= ngay;
+    public void setNgayBd(String ngaybd) {
+        this.ngaybd= ngaybd;
+    }
+    public String getNgaykt() {
+        return ngaykt;
+    }
+
+    public void setNgaykt(String ngaykt) {
+        this.ngaykt = ngaykt;
     }
 
     public String getAnhUri() {
