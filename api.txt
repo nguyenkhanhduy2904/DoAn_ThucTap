@@ -1,0 +1,132 @@
+Base URL (http://localhost:8080/api/v1/)
+
+User:
+GET http://localhost:8080/api/v1/user -> tra full list userDTO(chi cos ten hien thi, sdt, dia chi, gioi tinh)
+
+JSON mau nhan ve khi call GET:
+[
+    {
+        "SDT": "0123456789",
+        "DiaChi": "123 Main Street",
+        "GioiTinh": "Male",
+        "TenHienThi": "Administrator"
+    },
+    {
+        "SDT": "0123456789",
+        "DiaChi": "120 Yen Lang, Cao Bang",
+        "GioiTinh": "Nu",
+        "TenHienThi": "Tester2"
+    },
+    {
+        "SDT": "0123456789",
+        "DiaChi": "120 Yen Lang, Cao Bang",
+        "GioiTinh": "Nu",
+        "TenHienThi": "Tester2"
+    },
+    {
+        "SDT": "0123456789",
+        "DiaChi": "120 Yen Lang, Cao Bang",
+        "GioiTinh": "Nu",
+        "TenHienThi": "Tester2"
+    }
+]
+
+
+GET http://localhost:8080/api/v1/user/{id} tra userDTO cua id nay
+
+Vi du: GET http://localhost:8080/api/v1/user/2
+JSON nhan: 
+{
+    "SDT": "0123456789",
+    "DiaChi": "120 Yen Lang, Cao Bang",
+    "GioiTinh": "Nu",
+    "TenHienThi": "Tester2"
+}
+
+POST http://localhost:8080/api/v1/user -> can body, tao user moi trong db( backend hashed pass trc khi luu )
+
+JSON mau cho POST(phan body):
+
+{
+  "TenDangNhap": "Do Mi XI",
+  "MatKhau": "123456",
+  "Role": "ADMIN",
+  "SDT": "0123456789",
+  "DiaChi": "120 Yen Lang, Cao Bang",
+  "TenHienThi": "Bo PC",
+  "GioiTinh": "Nu",
+  "TrangThai":"ACTIVE"
+}
+
+
+DELETE http://localhost:8080/api/v1/user/{id} xoa user co id = {id}
+
+Vidu: DELETE http://localhost:8080/api/v1/user/6
+
+PUT http://localhost:8080/api/v1/user/{id}?{param=data}&{param=data} update user, dung data trong param(phan nao ko nhap se ko update)
+
+Vidu: PUT http://localhost:8080/api/v1/user/2?TenHienThi=Phung Thanh Do&DiaChi= 36A, Thanh Hoa
+
+
+_______________________________________________________________________________________________________________________________________
+
+MonAn
+GET http://localhost:8080/api/v1/monan -> tra full list MonAnDTO
+
+Vidu: 
+[
+    {
+        "Gia": 45000,
+        "HinhAnhURL": "https://example.com/images/comtam.jpg",
+        "MoTa": "Com tam truyen thong voi suon nuong, bi, cha hap",
+        "QuocGia": "VietNam",
+        "TenMonAn": "Com Tam Suon Bi Cha",
+        "TrangThai": "Active"
+    },
+    {
+        "Gia": 55000,
+        "HinhAnhURL": "https://example.com/images/buncha.jpg",
+        "MoTa": "Bun cha Ha Noi voi thit nuong va bun tuoi",
+        "QuocGia": "VietNam",
+        "TenMonAn": "Bun Cha",
+        "TrangThai": "Active"
+    }
+]
+
+GET http://localhost:8080/api/v1/monan/{id} tra MonAnDTO cua id nay
+
+Vidu: http://localhost:8080/api/v1/monan/3
+JSON nhan: 
+{
+    "Gia": 55000,
+    "HinhAnhURL": "https://example.com/images/buncha.jpg",
+    "MoTa": "Bun cha Ha Noi voi thit nuong va bun tuoi",
+    "QuocGia": "VietNam",
+    "TenMonAn": "Bun Cha",
+    "TrangThai": "Active"
+}
+
+POST http://localhost:8080/api/v1/monan -> can body, tao monan moi trong db
+
+Vidu:
+JSON mau cho POST:
+ {
+    "TenMonAn": "Bun Cha",
+    "MoTa": "Bun cha Ha Noi voi thit nuong va bun tuoi",
+    "Gia": 55000,
+    "QuocGia": "VietNam",
+    "TrangThai": "Active",
+    "HinhAnhURL": "https://example.com/images/buncha.jpg"
+  },
+
+
+
+DELETE http://localhost:8080/api/v1/monan/{id} xoa monan 
+
+Vidu:DELETE http://localhost:8080/api/v1/monan/5
+
+PUT http://localhost:8080/api/v1/monan/{id}?{param=data}&{param=data} update monan, dung data trong param(phan nao ko nhap se ko update)
+
+Vidu: PUT http://localhost:8080/api/v1/monan/8?TenMonAn=SuShi&Gia=36000
+
+
