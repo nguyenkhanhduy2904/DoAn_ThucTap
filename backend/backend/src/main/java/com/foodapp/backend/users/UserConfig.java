@@ -17,9 +17,10 @@ public class UserConfig {// config auto chay khi backend chay
                         "ADMIN",
                         "0123456789",
                         "123 Main Street",
-                        "avatar.png",
+
                         "Administrator",
-                        "Male"
+                        "Male",
+                        "ACTIVE"
                 );
                 userRepository.save(defaultUser);
             }

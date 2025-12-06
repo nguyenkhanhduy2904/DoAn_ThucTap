@@ -21,38 +21,40 @@ public class User {
     private String SDT;
     @Column(name = "DiaChi")
     private String DiaChi;
-    @Column(name = "AvatarURL")
-    private String AvatarURL;
+
     @Column(name = "TenHienThi")
     private String TenHienThi;
     @Column(name = "GioiTinh")
     private String GioiTinh;
+    @Column(name = "TrangThai")
+    private String TrangThai;
 
 
     public User() {
     }
 
-    public User(Integer id, String tenDangNhap, String MatKhauHashed, String role, String SDT, String diaChi, String avatarURL, String tenHienThi, String gioiTinh) {
+    public User(Integer id, String tenDangNhap, String MatKhauHashed, String role, String SDT, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
         this.ID = id;
         this.TenDangNhap = tenDangNhap;
         this.MatKhauHashed = MatKhauHashed;
         this.Role = role;
         this.SDT = SDT;
         this.DiaChi = diaChi;
-        this.AvatarURL = avatarURL;
+
         this.TenHienThi = tenHienThi;
         this.GioiTinh = gioiTinh;
+        this.TrangThai = trangThai;
     }
 
-    public User(String tenDangNhap, String MatKhauHashed, String role, String SDT, String diaChi, String avatarURL, String tenHienThi, String gioiTinh) {
+    public User(String tenDangNhap, String MatKhauHashed, String role, String SDT, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
         this.TenDangNhap = tenDangNhap;
         this.MatKhauHashed = MatKhauHashed;
         this.Role = role;
         this.SDT = SDT;
         this.DiaChi = diaChi;
-        this.AvatarURL = avatarURL;
         this.TenHienThi = tenHienThi;
         this.GioiTinh = gioiTinh;
+        this.TrangThai = trangThai;
     }
 
     public Integer getID() {
@@ -103,13 +105,6 @@ public class User {
         this.DiaChi = diaChi;
     }
 
-    public String getAvatarURL() {
-        return AvatarURL;
-    }
-
-    public void setAvatarURL(String avatarURL) {
-        this.AvatarURL = avatarURL;
-    }
 
     public String getTenHienThi() {
         return TenHienThi;
@@ -127,18 +122,26 @@ public class User {
         this.GioiTinh = gioiTinh;
     }
 
+    public String getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        TrangThai = trangThai;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "id=" + ID +
-                ", tenDangNhap='" + TenDangNhap + '\'' +
-                ", passwordHashed='" + MatKhauHashed + '\'' +
-                ", role='" + Role + '\'' +
+                "ID=" + ID +
+                ", TenDangNhap='" + TenDangNhap + '\'' +
+                ", MatKhauHashed='" + MatKhauHashed + '\'' +
+                ", Role='" + Role + '\'' +
                 ", SDT='" + SDT + '\'' +
-                ", diaChi='" + DiaChi + '\'' +
-                ", avatarURL='" + AvatarURL + '\'' +
-                ", tenHienThi='" + TenHienThi + '\'' +
-                ", gioiTinh='" + GioiTinh + '\'' +
+                ", DiaChi='" + DiaChi + '\'' +
+                ", TenHienThi='" + TenHienThi + '\'' +
+                ", GioiTinh='" + GioiTinh + '\'' +
+                ", TrangThai='" + TrangThai + '\'' +
                 '}';
     }
 }

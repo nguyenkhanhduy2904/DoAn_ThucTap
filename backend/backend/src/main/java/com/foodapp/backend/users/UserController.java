@@ -1,7 +1,6 @@
 package com.foodapp.backend.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +17,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers(){
-        return userService.getUsers();
+    public List<UserDTO> getAllUsers(){
+        return userService.getAllUsers();
+    }
+
+    @GetMapping(path = "{userid}")
+    public UserDTO getUserByID(@PathVariable("userid") Integer userid){
+        return userService.getUserByID(userid);
 
     }
 

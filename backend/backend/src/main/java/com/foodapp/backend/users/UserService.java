@@ -17,29 +17,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getUsers(){
-//        return List.of(
-//                new User(
-//                        1,
-//                        "admin1",
-//                        "hashed",
-//                        "ADMIN",
-//                        "0827281099",
-//                        "120 yen lang, cao bang",
-//                        "url",
-//                        "Admin_default",
-//                        "nam"
-//                )
-//        );
-        return userRepository.findAll();
+    public List<UserDTO> getAllUsers(){
+        return userRepository.findAll().stream().map(UserMapper::toDTO).toList();
+    }
+    public UserDTO getUserByID(Integer userid) {
+        User user = userRepository.findById(userid).orElseThrow(() -> new IllegalStateException("user with id: "+ userid + " doesnt exist"));
+        return UserMapper.toDTO(user);
     }
 
     public void addUser(User user) {
         System.out.println(user);
         userRepository.save(user);
-
-
-
     }
 
     public void deleteUser(Integer userid) {
@@ -55,7 +43,8 @@ public class UserService {
     public void updateUser(Integer userid,String tenHienThi, String diaChi, String gioiTinh, String sdt) {
         User user = userRepository.findById(userid).orElseThrow(() -> new IllegalStateException("user with id: "+ userid + " doesnt exist"));
 
-        if(tenHienThi !=null && tenHienThi.length()> 0 && !Objects.equals(user.getTenHienThi(), tenHienThi)){
+        //update TenHienThi
+        if(tenHienThi !=null && !tenHienThi.isBlank() && !Objects.equals(user.getTenHienThi(), tenHienThi)){
             user.setTenHienThi(tenHienThi);
 
         }
@@ -79,4 +68,6 @@ public class UserService {
 
 
     }
+
+
 }
