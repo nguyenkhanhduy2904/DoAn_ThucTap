@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
-            android:id="@+id/btnHome"
+            android:id="@+id/ibtnHome"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -40,7 +40,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/btnVoucher"
+            android:id="@+id/ibtnVoucher"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/btnOrder"
+            android:id="@+id/ibtnOrder"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -100,7 +100,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/btnAccount"
+            android:id="@+id/ibtnAccount"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

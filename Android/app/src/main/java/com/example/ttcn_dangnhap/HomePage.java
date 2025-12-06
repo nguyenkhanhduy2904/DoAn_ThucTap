@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -29,8 +30,8 @@ public class HomePage extends AppCompatActivity {
     CustomFoodListAdapter customFoodListAdapter;
 
     //nav bar button
-    ImageButton ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount, ibtnMenu;
-
+    LinearLayout ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount;
+    ImageButton  ibtnMenu;
 
 
 

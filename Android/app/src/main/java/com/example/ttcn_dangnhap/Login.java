@@ -33,7 +33,6 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
     EditText txt_tk;
     TextInputEditText txt_mk;
-    RadioButton rdo_user,rdo_admin;
     Button btn_login;
     TextView txtSignup;
 
@@ -71,23 +70,12 @@ public class Login extends AppCompatActivity {
         btn_login.setOnClickListener(view -> {
             String tk=txt_tk.getText().toString();
             String mk=txt_mk.getText().toString();
-            String role = "";
-            if (rdo_user.isChecked()) {
-                role = "user";
-            } else if (rdo_admin.isChecked()) {
-                role = "admin";
-            }
-
             if (tk.isEmpty() || mk.isEmpty()) {
                 Toast.makeText(Login.this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (role.isEmpty()) {
-                Toast.makeText(Login.this, "Vui lòng chọn vai trò (User hoặc Admin)!", Toast.LENGTH_SHORT).show();
-                return;
-            }
+
             String url = "http://10.0.2.2:8080/login";
-            String finalRole = role;
             RequestQueue queue = Volley.newRequestQueue(this);
             StringRequest postRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
@@ -125,7 +113,6 @@ public class Login extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
                     params.put("username",tk);
                     params.put("password",mk);
-                    params.put("role", finalRole);
                     return params;
                 }
             };
@@ -137,8 +124,6 @@ public class Login extends AppCompatActivity {
         txt_tk=findViewById(R.id.txt_tk);
         txt_mk=findViewById(R.id.txt_mk);
         btn_login=findViewById(R.id.btn_login);
-        rdo_admin=findViewById(R.id.rdo_admin);
-        rdo_user=findViewById(R.id.rdo_user);
         txtSignup = findViewById(R.id.txt_dky);
     }
 
