@@ -1,6 +1,7 @@
 package com.foodapp.backend.users;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,7 @@ public class User {
     @Column(name = "TenDangNhap")
     private String TenDangNhap;
     @Column(name = "MatKhauHashed")
+    @JsonProperty("MatKhau")
     private String MatKhauHashed;
     @Column(name = "role")
     private String Role;
