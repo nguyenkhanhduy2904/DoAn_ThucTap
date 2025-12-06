@@ -1,8 +1,10 @@
 package com.foodapp.backend.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,13 @@ import java.util.Objects;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository) {
+
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     public List<UserDTO> getAllUsers(){
@@ -35,6 +40,7 @@ public class UserService {
 
     public void addUser(User user) {
         System.out.println(user);
+        user.setMatKhauHashed(passwordEncoder.encode(user.getMatKhauHashed()));
         userRepository.save(user);
     }
 
