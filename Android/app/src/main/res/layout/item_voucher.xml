@@ -38,6 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="#000000"
                 android:textSize="25sp"
+                android:text="Voucher name"
                 android:textStyle="bold"
                 android:maxLines="2"
                 android:ellipsize="end"/>
@@ -48,6 +49,7 @@
                 android:textSize="13sp"
                 android:textColor="#777777"
                 android:maxLines="2"
+                android:text="description"
                 android:ellipsize="end"/>
             <TextView
                 android:id="@+id/tv_loai_uu_dai"
@@ -56,6 +58,7 @@
                 android:textStyle="bold"
                 android:textColor="#555555"
                 android:textSize="18sp"
+                android:text="loai vuu dai"
                 android:layout_marginTop="6dp"/>
         </LinearLayout>
 
@@ -85,6 +88,7 @@
             android:textColor="#000000"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:text="Date"
             android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btn_sua"
