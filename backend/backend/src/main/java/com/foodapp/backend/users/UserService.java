@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +20,13 @@ public class UserService {
 
     public List<UserDTO> getAllUsers(){
         return userRepository.findAll().stream().map(UserMapper::toDTO).toList();
+//        List<User> lsUser = userRepository.findAll();
+//        List<UserDTO> resultList= new ArrayList<>();
+//        for(User user : lsUser){
+//            UserDTO dto = UserMapper.toDTO(user);
+//            resultList.add(dto);
+//        }
+//        return resultList;
     }
     public UserDTO getUserByID(Integer userid) {
         User user = userRepository.findById(userid).orElseThrow(() -> new IllegalStateException("user with id: "+ userid + " doesnt exist"));
