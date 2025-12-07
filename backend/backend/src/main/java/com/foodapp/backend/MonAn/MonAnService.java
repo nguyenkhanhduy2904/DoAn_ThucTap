@@ -38,7 +38,7 @@ public class MonAnService {
 
     public MonAn addMonAn(MonAn monAn) {
 
-        if(monAn.getTenMonAn()!=null && !monAn.getTenMonAn().isBlank()){
+        if(monAn.getTenMonAn()==null && monAn.getTenMonAn().isBlank()){
             throw new IllegalStateException("TenMonAn cannot be null");
         }
 
