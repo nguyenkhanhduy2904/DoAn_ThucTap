@@ -3,10 +3,8 @@ package com.foodapp.backend.users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,11 +36,24 @@ public class UserService {
         return UserMapper.toDTO(user);
     }
 
-    public void addUser(User user) {
-        System.out.println(user);
-        user.setMatKhauHashed(passwordEncoder.encode(user.getMatKhauHashed()));
-        userRepository.save(user);
+    public UserDTO addUser(User user) {
+
+        // 1. validate unique username
+        if (userRepository.existsByTenDangNhap(user.getTenDangNhap())) {
+            throw new IllegalStateException("TenDangNhap already exist");
+        }
+
+        // 2. hash password
+        String hashed = passwordEncoder.encode(user.getMatKhauHashed());
+        user.setMatKhauHashed(hashed);
+
+        // 3. save
+        User saved = userRepository.save(user);
+
+        // 4. convert to DTO
+        return UserMapper.toDTO(saved);
     }
+
 
     public void deleteUser(Integer userid) {
        boolean isUserExist = userRepository.existsById(userid);
@@ -53,32 +64,52 @@ public class UserService {
     }
 
 
-    @Transactional
-    public void updateUser(Integer userid,String tenHienThi, String diaChi, String gioiTinh, String sdt) {
-        User user = userRepository.findById(userid).orElseThrow(() -> new IllegalStateException("user with id: "+ userid + " doesnt exist"));
+//    @Transactional
+//    public void updateUser(Integer userid,String tenHienThi, String diaChi, String gioiTinh, String sdt) {
+//        User user = userRepository.findById(userid).orElseThrow(() -> new IllegalStateException("user with id: "+ userid + " doesnt exist"));
+//
+//        //update TenHienThi
+//        if(tenHienThi !=null && !tenHienThi.isBlank() && !Objects.equals(user.getTenHienThi(), tenHienThi)){
+//            user.setTenHienThi(tenHienThi);
+//
+//        }
+//        // Update DiaChi
+//        if (diaChi != null && !diaChi.isBlank()
+//                && !Objects.equals(user.getDiaChi(), diaChi)) {
+//            user.setDiaChi(diaChi);
+//        }
+//
+//        // Update GioiTinh
+//        if (gioiTinh != null && !gioiTinh.isBlank()
+//                && !Objects.equals(user.getGioiTinh(), gioiTinh)) {
+//            user.setGioiTinh(gioiTinh);
+//        }
+//
+//        // Update SDT
+//        if (sdt != null && !sdt.isBlank()
+//                && !Objects.equals(user.getSdt(), sdt)) {
+//            user.setSdt(sdt);
+//        }
+//
+//
+//    }
 
-        //update TenHienThi
-        if(tenHienThi !=null && !tenHienThi.isBlank() && !Objects.equals(user.getTenHienThi(), tenHienThi)){
-            user.setTenHienThi(tenHienThi);
+    public void updateUser(Integer userid, UserDTO newDataDTO){
+        User user = userRepository.findById(userid).orElseThrow(()-> new IllegalStateException("User with id: "+ userid + " doesnt exist" ));
 
+        if(newDataDTO.getTenHienThi() !=null && !newDataDTO.getTenHienThi().isBlank() && !Objects.equals(user.getTenHienThi(), newDataDTO.getTenHienThi()) ){
+            user.setTenHienThi(newDataDTO.getTenHienThi());
         }
-        // Update DiaChi
-        if (diaChi != null && !diaChi.isBlank()
-                && !Objects.equals(user.getDiaChi(), diaChi)) {
-            user.setDiaChi(diaChi);
+        if(newDataDTO.getDiaChi()!=null && !newDataDTO.getDiaChi().isBlank() && !Objects.equals(user.getDiaChi(), newDataDTO.getDiaChi())){
+            user.setDiaChi(newDataDTO.getDiaChi());
         }
-
-        // Update GioiTinh
-        if (gioiTinh != null && !gioiTinh.isBlank()
-                && !Objects.equals(user.getGioiTinh(), gioiTinh)) {
-            user.setGioiTinh(gioiTinh);
+        if(newDataDTO.getSdt()!=null && !newDataDTO.getSdt().isBlank() && !Objects.equals(user.getSdt(), newDataDTO.getSdt())){
+            user.setSdt(newDataDTO.getSdt());
         }
-
-        // Update SDT
-        if (sdt != null && !sdt.isBlank()
-                && !Objects.equals(user.getSDT(), sdt)) {
-            user.setSDT(sdt);
+        if(newDataDTO.getGioiTinh()!=null && !newDataDTO.getGioiTinh().isBlank() && !Objects.equals(user.getGioiTinh(), newDataDTO.getGioiTinh())){
+            user.setGioiTinh(newDataDTO.getGioiTinh());
         }
+        userRepository.save(user);
 
 
     }

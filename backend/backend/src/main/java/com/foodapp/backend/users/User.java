@@ -11,139 +11,139 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Integer ID;
+    private Integer id;
     @Column(name = "TenDangNhap")
-    private String TenDangNhap;
+    private String tenDangNhap;
     @Column(name = "MatKhauHashed")
-    @JsonProperty("MatKhau")
-    private String MatKhauHashed;
+    @JsonProperty("matKhau")
+    private String matKhauHashed;
     @Column(name = "role")
-    private String Role;
+    private String role;
     @Column(name = "sdt")
-    private String SDT;
+    private String sdt;
     @Column(name = "DiaChi")
-    private String DiaChi;
+    private String diaChi;
 
     @Column(name = "TenHienThi")
-    private String TenHienThi;
+    private String tenHienThi;
     @Column(name = "GioiTinh")
-    private String GioiTinh;
+    private String gioiTinh;
     @Column(name = "TrangThai")
-    private String TrangThai;
+    private String trangThai;
 
 
     public User() {
     }
 
-    public User(Integer id, String tenDangNhap, String MatKhauHashed, String role, String SDT, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
-        this.ID = id;
-        this.TenDangNhap = tenDangNhap;
-        this.MatKhauHashed = MatKhauHashed;
-        this.Role = role;
-        this.SDT = SDT;
-        this.DiaChi = diaChi;
+    public User(Integer id, String tenDangNhap, String MatKhauHashed, String role, String sdt, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
+        this.id = id;
+        this.tenDangNhap = tenDangNhap;
+        this.matKhauHashed = MatKhauHashed;
+        this.role = role;
+        this.sdt = sdt;
+        this.diaChi = diaChi;
 
-        this.TenHienThi = tenHienThi;
-        this.GioiTinh = gioiTinh;
-        this.TrangThai = trangThai;
+        this.tenHienThi = tenHienThi;
+        this.gioiTinh = gioiTinh;
+        this.trangThai = trangThai;
     }
 
-    public User(String tenDangNhap, String MatKhauHashed, String role, String SDT, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
-        this.TenDangNhap = tenDangNhap;
-        this.MatKhauHashed = MatKhauHashed;
-        this.Role = role;
-        this.SDT = SDT;
-        this.DiaChi = diaChi;
-        this.TenHienThi = tenHienThi;
-        this.GioiTinh = gioiTinh;
-        this.TrangThai = trangThai;
+    public User(String tenDangNhap, String MatKhauHashed, String role, String sdt, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
+        this.tenDangNhap = tenDangNhap;
+        this.matKhauHashed = MatKhauHashed;
+        this.role = role;
+        this.sdt = sdt;
+        this.diaChi = diaChi;
+        this.tenHienThi = tenHienThi;
+        this.gioiTinh = gioiTinh;
+        this.trangThai = trangThai;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTenDangNhap() {
-        return TenDangNhap;
+        return tenDangNhap;
     }
 
     public void setTenDangNhap(String tenDangNhap) {
-        this.TenDangNhap = tenDangNhap;
+        this.tenDangNhap = tenDangNhap;
     }
 
     public String getMatKhauHashed() {
-        return MatKhauHashed;
+        return matKhauHashed;
     }
 
     public void setMatKhauHashed(String matKhauHashed) {
-        this.MatKhauHashed = matKhauHashed;
+        this.matKhauHashed = matKhauHashed;
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(String role) {
-        this.Role = role;
+        this.role = role;
     }
 
-    public String getSDT() {
-        return SDT;
+    public String getSdt() {
+        return sdt;
     }
 
-    public void setSDT(String SDT) {
-        this.SDT = SDT;
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 
     public String getDiaChi() {
-        return DiaChi;
+        return diaChi;
     }
 
     public void setDiaChi(String diaChi) {
-        this.DiaChi = diaChi;
+        this.diaChi = diaChi;
     }
 
 
     public String getTenHienThi() {
-        return TenHienThi;
+        return tenHienThi;
     }
 
     public void setTenHienThi(String tenHienThi) {
-        this.TenHienThi = tenHienThi;
+        this.tenHienThi = tenHienThi;
     }
 
     public String getGioiTinh() {
-        return GioiTinh;
+        return gioiTinh;
     }
 
     public void setGioiTinh(String gioiTinh) {
-        this.GioiTinh = gioiTinh;
+        this.gioiTinh = gioiTinh;
     }
 
     public String getTrangThai() {
-        return TrangThai;
+        return trangThai;
     }
 
     public void setTrangThai(String trangThai) {
-        TrangThai = trangThai;
+        this.trangThai = trangThai;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "ID=" + ID +
-                ", TenDangNhap='" + TenDangNhap + '\'' +
-                ", MatKhauHashed='" + MatKhauHashed + '\'' +
-                ", Role='" + Role + '\'' +
-                ", SDT='" + SDT + '\'' +
-                ", DiaChi='" + DiaChi + '\'' +
-                ", TenHienThi='" + TenHienThi + '\'' +
-                ", GioiTinh='" + GioiTinh + '\'' +
-                ", TrangThai='" + TrangThai + '\'' +
+                "ID=" + id +
+                ", TenDangNhap='" + tenDangNhap + '\'' +
+                ", MatKhauHashed='" + matKhauHashed + '\'' +
+                ", Role='" + role + '\'' +
+                ", SDT='" + sdt + '\'' +
+                ", DiaChi='" + diaChi + '\'' +
+                ", TenHienThi='" + tenHienThi + '\'' +
+                ", GioiTinh='" + gioiTinh + '\'' +
+                ", TrangThai='" + trangThai + '\'' +
                 '}';
     }
 }

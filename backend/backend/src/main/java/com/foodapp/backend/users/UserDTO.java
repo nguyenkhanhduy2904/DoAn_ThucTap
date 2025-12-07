@@ -1,60 +1,60 @@
 package com.foodapp.backend.users;
 
 public class UserDTO {
-    private String TenHienThi;
-    private String SDT;
-    private String DiaChi;
-    private String GioiTinh;
+    private String tenHienThi;
+    private String sdt;
+    private String diaChi;
+    private String gioiTinh;
 
     public UserDTO() {
     }
 
-    public UserDTO(String tenHienThi, String SDT, String diaChi, String gioiTinh) {
-        TenHienThi = tenHienThi;
-        this.SDT = SDT;
-        DiaChi = diaChi;
-        GioiTinh = gioiTinh;
+    public UserDTO(String tenHienThi, String sdt, String diaChi, String gioiTinh) {
+        this.tenHienThi = tenHienThi;
+        this.sdt = sdt;
+        this.diaChi = diaChi;
+        this.gioiTinh = gioiTinh;
     }
 
     public String getTenHienThi() {
-        return TenHienThi;
+        return tenHienThi;
     }
 
     public void setTenHienThi(String tenHienThi) {
-        TenHienThi = tenHienThi;
+        this.tenHienThi = tenHienThi;
     }
 
-    public String getSDT() {
-        return SDT;
+    public String getSdt() {
+        return sdt;
     }
 
-    public void setSDT(String SDT) {
-        this.SDT = SDT;
+    public void setSdt(String sdt) {
+        this.sdt = sdt;
     }
 
     public String getDiaChi() {
-        return DiaChi;
+        return diaChi;
     }
 
     public void setDiaChi(String diaChi) {
-        DiaChi = diaChi;
+        this.diaChi = diaChi;
     }
 
     public String getGioiTinh() {
-        return GioiTinh;
+        return gioiTinh;
     }
 
     public void setGioiTinh(String gioiTinh) {
-        GioiTinh = gioiTinh;
+        this.gioiTinh = gioiTinh;
     }
 
     @Override
     public String toString() {
         return "UserDTO{" +
-                "TenHienThi='" + TenHienThi + '\'' +
-                ", SDT='" + SDT + '\'' +
-                ", DiaChi='" + DiaChi + '\'' +
-                ", GioiTinh='" + GioiTinh + '\'' +
+                "TenHienThi='" + tenHienThi + '\'' +
+                ", SDT='" + sdt + '\'' +
+                ", DiaChi='" + diaChi + '\'' +
+                ", GioiTinh='" + gioiTinh + '\'' +
                 '}';
     }
 }

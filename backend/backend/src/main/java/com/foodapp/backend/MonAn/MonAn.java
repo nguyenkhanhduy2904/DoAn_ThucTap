@@ -11,108 +11,108 @@ public class MonAn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private Integer ID;
+    private Integer id;
     @Column(name = "TenMonAn")
-    private String TenMonAn;
+    private String tenMonAn;
     @Column(name = "MoTa")
-    private String MoTa;
+    private String moTa;
     @Column(name = "Gia")
-    private BigDecimal Gia;
+    private BigDecimal gia;
     @Column(name = "QuocGia")
-    private String QuocGia;
+    private String quocGia;
     @Column(name = "TrangThai")
-    private String TrangThai;
+    private String trangThai;
     @Column(name = "HinhAnhURL")
-    private String HinhAnhURL;
+    private String hinhAnhURL;
 
     public MonAn() {
     }
 
-    public MonAn(Integer ID, String tenMonAn, String moTa, BigDecimal gia, String quocGia, String trangThai, String hinhAnhURL) {
-        this.ID = ID;
-        TenMonAn = tenMonAn;
-        MoTa = moTa;
-        Gia = gia;
-        QuocGia = quocGia;
-        TrangThai = trangThai;
-        HinhAnhURL = hinhAnhURL;
+    public MonAn(Integer id, String tenMonAn, String moTa, BigDecimal gia, String quocGia, String trangThai, String hinhAnhURL) {
+        this.id = id;
+        this.tenMonAn = tenMonAn;
+        this.moTa = moTa;
+        this.gia = gia;
+        this.quocGia = quocGia;
+        this.trangThai = trangThai;
+        this.hinhAnhURL = hinhAnhURL;
     }
 
     public MonAn(String tenMonAn, String moTa, BigDecimal gia, String quocGia, String trangThai, String hinhAnhURL) {
-        TenMonAn = tenMonAn;
-        MoTa = moTa;
-        Gia = gia;
-        QuocGia = quocGia;
-        TrangThai = trangThai;
-        HinhAnhURL = hinhAnhURL;
+        this.tenMonAn = tenMonAn;
+        this.moTa = moTa;
+        this.gia = gia;
+        this.quocGia = quocGia;
+        this.trangThai = trangThai;
+        this.hinhAnhURL = hinhAnhURL;
     }
 
-    public Integer getID() {
-        return ID;
+    public Integer getId() {
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTenMonAn() {
-        return TenMonAn;
+        return tenMonAn;
     }
 
     public void setTenMonAn(String tenMonAn) {
-        TenMonAn = tenMonAn;
+        this.tenMonAn = tenMonAn;
     }
 
     public String getMoTa() {
-        return MoTa;
+        return moTa;
     }
 
     public void setMoTa(String moTa) {
-        MoTa = moTa;
+        this.moTa = moTa;
     }
 
     public BigDecimal getGia() {
-        return Gia;
+        return gia;
     }
 
     public void setGia(BigDecimal gia) {
-        Gia = gia;
+        this.gia = gia;
     }
 
     public String getQuocGia() {
-        return QuocGia;
+        return quocGia;
     }
 
     public void setQuocGia(String quocGia) {
-        QuocGia = quocGia;
+        this.quocGia = quocGia;
     }
 
     public String getTrangThai() {
-        return TrangThai;
+        return trangThai;
     }
 
     public void setTrangThai(String trangThai) {
-        TrangThai = trangThai;
+        this.trangThai = trangThai;
     }
 
     public String getHinhAnhURL() {
-        return HinhAnhURL;
+        return hinhAnhURL;
     }
 
     public void setHinhAnhURL(String hinhAnhURL) {
-        HinhAnhURL = hinhAnhURL;
+        this.hinhAnhURL = hinhAnhURL;
     }
 
     @Override
     public String toString() {
         return "MonAn{" +
-                "ID=" + ID +
-                ", TenMonAn='" + TenMonAn + '\'' +
-                ", MoTa='" + MoTa + '\'' +
-                ", Gia=" + Gia +
-                ", QuocGia='" + QuocGia + '\'' +
-                ", TrangThai='" + TrangThai + '\'' +
-                ", HinhAnhURL='" + HinhAnhURL + '\'' +
+                "ID=" + id +
+                ", TenMonAn='" + tenMonAn + '\'' +
+                ", MoTa='" + moTa + '\'' +
+                ", Gia=" + gia +
+                ", QuocGia='" + quocGia + '\'' +
+                ", TrangThai='" + trangThai + '\'' +
+                ", HinhAnhURL='" + hinhAnhURL + '\'' +
                 '}';
     }
 }

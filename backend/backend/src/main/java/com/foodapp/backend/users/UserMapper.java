@@ -4,7 +4,7 @@ public class UserMapper {
     public static UserDTO toDTO(User user){
         UserDTO dto = new UserDTO(
                 user.getTenHienThi(),
-                user.getSDT(),
+                user.getSdt(),
                 user.getDiaChi(),
                 user.getGioiTinh()
 

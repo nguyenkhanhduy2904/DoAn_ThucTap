@@ -82,7 +82,7 @@
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/icon_cong_circle"
                 android:scaleType="fitCenter"
-                android:background="null"
+                android:background="@null"
                 />
         </LinearLayout>
 
