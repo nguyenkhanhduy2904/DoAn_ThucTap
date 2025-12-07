@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
@@ -59,65 +60,81 @@ public class Login extends AppCompatActivity {
             }
         });
 
-    //Test login homepage
-//        btn_login.setOnClickListener( view -> {
-//            Intent intent = new Intent(Login.this, HomePage.class);
-//            startActivity(intent);
-//
-//        });
-
-
         btn_login.setOnClickListener(view -> {
-            String tk=txt_tk.getText().toString();
-            String mk=txt_mk.getText().toString();
-            if (tk.isEmpty() || mk.isEmpty()) {
+            String tenDangNhap = txt_tk.getText().toString().trim();
+            String matKhauRaw = txt_mk.getText().toString().trim();
+
+            if(tenDangNhap.isEmpty() || matKhauRaw.isEmpty()){
                 Toast.makeText(Login.this, "Vui lòng nhập đầy đủ tài khoản và mật khẩu!", Toast.LENGTH_SHORT).show();
+
                 return;
             }
 
-            String url = "http://10.0.2.2:8080/login";
-            RequestQueue queue = Volley.newRequestQueue(this);
-            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject jsonObject = new JSONObject(response);
-                                String status = jsonObject.getString("status");
-                                String message = jsonObject.getString("message");
-                                if (status.equals("success")) {
-                                    ThongBao.showThongBao(Login.this,"Thành công",message,() -> {
-                                        Intent intent = new Intent(Login.this, Voucher_admin.class);
-                                        startActivity(intent);
-                                    });
+            String url = "http://10.0.2.2:8080/api/v1/login/login";
 
-                                } else {
-                                    ThongBao.showThongBao(Login.this,"Thất bại",message,null);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Toast.makeText(Login.this, "Lỗi đọc dữ liệu JSON", Toast.LENGTH_SHORT).show();
+            JSONObject jsonBody = new JSONObject();
+            try {
+                jsonBody.put("tenDangNhap", tenDangNhap);
+                jsonBody.put("matKhauRaw", matKhauRaw);
+            }catch (Exception e){
+                Toast.makeText(Login.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+
+            JsonObjectRequest request = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    jsonBody,
+                    response -> {
+                        try {
+                            String status = response.getString("status");
+                            String message = response.getString("message");
+                            if(status.equals("success")){
+                                Toast.makeText(Login.this, "Login Success", Toast.LENGTH_LONG).show();
+                                //intent chuyen activity
+
+                            }else{
+                                Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
                             }
                         }
+                        catch (Exception e){
+                            Toast.makeText(Login.this, "Error convert request: " + e.getMessage(),Toast.LENGTH_LONG ).show();
+
+                        }
+
+
+
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(Login.this, "Lỗi kết nối Server!", Toast.LENGTH_SHORT).show();
+                    error -> {
+                        if (error.networkResponse != null && error.networkResponse.data != null) {
+                            try {
+                                String errorJson = new String(error.networkResponse.data, "UTF-8");
+                                JSONObject obj = new JSONObject(errorJson);
+
+                                String status = obj.getString("status");
+                                String message = obj.getString("message");
+
+                                Toast.makeText(Login.this, message, Toast.LENGTH_LONG).show();
+                            } catch (Exception e) {
+                                Toast.makeText(Login.this, "Error parsing error response", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(Login.this, "Connection Error", Toast.LENGTH_LONG).show();
                         }
                     }
-            ){
-                @Nullable
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("username",tk);
-                    params.put("password",mk);
-                    return params;
-                }
-            };
-            queue.add(postRequest);
-            });
+
+            );
+
+            queue.add(request);
+
+
+
+
+        });
+
+
     }
 
     private void addControls() {
@@ -126,5 +143,7 @@ public class Login extends AppCompatActivity {
         btn_login=findViewById(R.id.btn_login);
         txtSignup = findViewById(R.id.txt_dky);
     }
+
+
 
 }
