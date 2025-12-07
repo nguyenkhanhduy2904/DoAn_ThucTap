@@ -1,19 +1,25 @@
 package com.foodapp.backend.users;
 
 public class UserDTO {
+    private Integer id;
     private String tenHienThi;
     private String sdt;
+    private String role;
     private String diaChi;
     private String gioiTinh;
+    private String trangThai;
 
     public UserDTO() {
     }
 
-    public UserDTO(String tenHienThi, String sdt, String diaChi, String gioiTinh) {
+    public UserDTO(Integer id,String tenHienThi, String sdt, String role, String diaChi, String gioiTinh, String trangThai) {
+        this.id = id;
         this.tenHienThi = tenHienThi;
         this.sdt = sdt;
+        this.role = role;
         this.diaChi = diaChi;
         this.gioiTinh = gioiTinh;
+        this.trangThai = trangThai;
     }
 
     public String getTenHienThi() {
@@ -46,6 +52,30 @@ public class UserDTO {
 
     public void setGioiTinh(String gioiTinh) {
         this.gioiTinh = gioiTinh;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     @Override
