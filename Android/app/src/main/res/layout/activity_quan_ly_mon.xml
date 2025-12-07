@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFFFFF"
-    tools:context=".MenuManagementActivity">
+    tools:context=".QuanLyMon">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -279,6 +279,7 @@
         android:divider="@null"
         android:dividerHeight="10dp"
         android:paddingHorizontal="15dp"
+        tools:listitem="@layout/layout_fooditem"
          />
     <LinearLayout
         android:layout_width="match_parent"

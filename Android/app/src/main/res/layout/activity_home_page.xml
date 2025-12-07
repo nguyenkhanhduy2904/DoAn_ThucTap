@@ -99,7 +99,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:layout_marginHorizontal="16dp"
-                    android:src="@drawable/ic_launcher_background"
                     android:scaleType="centerCrop"/>
 
                 <TextView
@@ -262,7 +261,8 @@
                 android:scrollbars="none"
                 android:dividerHeight="10dp"
                 android:divider="@null"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                tools:listitem="@layout/layout_fooditem"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
