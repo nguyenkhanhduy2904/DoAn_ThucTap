@@ -13,12 +13,17 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dangky extends AppCompatActivity {
 
-    EditText eTxTFullName, eTxTPhoneNum,eTxTAddress, eTxTUserLoginName,eTxTPassword,eTxTRepeatPassword;
+    EditText eTxTFullName, eTxTPhoneNum,eTxTAddress, eTxTUserLoginName,eTxTPassword,eTxTRepeatPassword, eTxTEmail;
     Spinner spinnerGender;
     MaterialButton mBtnCreateAcc;
     ImageView ivBack;
+    Spinner spinner_gender;
+    List<String> gioitinh;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,7 @@ public class Dangky extends AppCompatActivity {
             return insets;
         });
         addControls();
+        setupData();
         addEvents();
     }
 
@@ -44,8 +50,8 @@ public class Dangky extends AppCompatActivity {
         mBtnCreateAcc = findViewById(R.id.mBtnCreateAcc);
         spinnerGender= findViewById(R.id.spinner_gender);
         ivBack = findViewById(R.id.ivBack);
-
-
+        eTxTEmail = findViewById(R.id.eTxTEmail);
+        spinner_gender=findViewById(R.id.spinner_gender);
 
     }
 
@@ -54,6 +60,13 @@ public class Dangky extends AppCompatActivity {
         ivBack.setOnClickListener(view -> {
             finish();
         });
+        mBtnCreateAcc.setOnClickListener(view -> {
 
+        });
+    }
+    private void setupData() {
+        gioitinh = new ArrayList<>();
+        gioitinh.add("Nam");
+        gioitinh.add("Nữ");
     }
 }
