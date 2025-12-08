@@ -100,7 +100,7 @@
             android:id="@+id/rbDiscountOff"
             android:layout_width="60dp"
             android:layout_height="match_parent"
-            android:background="@drawable/selector_toggle_bg"
+            android:background="@drawable/rdo_btn_chon"
             android:button="@null"
             android:checked="true"
             android:gravity="center"
