@@ -278,7 +278,7 @@
                 android:layout_marginTop="8dp">
 
                 <RadioButton
-                    android:id="@+id/rbAvailable"
+                    android:id="@+id/rb_con"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -286,7 +286,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/rbOutOfStock"
+                    android:id="@+id/rb_het"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -323,7 +323,6 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/rdo_btn_chon"
                         android:button="@null"
-                        android:checked="true"
                         android:gravity="center"
                         android:text="ON"
                         android:textColor="#000000"
@@ -335,6 +334,7 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/rdo_btn_chon"
                         android:button="@null"
+                        android:checked="true"
                         android:gravity="center"
                         android:text="Off"
                         android:textColor="#000000"
@@ -343,6 +343,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_percent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -366,6 +367,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_nbd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -397,6 +399,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_nkt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
