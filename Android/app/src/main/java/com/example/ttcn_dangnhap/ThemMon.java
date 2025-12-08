@@ -111,24 +111,32 @@ public class ThemMon extends AppCompatActivity {
 
 
 
+            //upload image
+            String urlUploadImg ="http://10.0.2.2:8080/api/v1/upload/image";
 
 
 
 
 
 
-            MonAn monAn = new MonAn(
-                    1,// can 1 method de track id cua mon an
-                    etxtFoodName.getText().toString(),
-                    etxtFoodDesc.getText().toString(),
-                    price,
-                    null,// can 1 cach de luu hinh anh?
-                    quocGiaChon,
-                    true
 
-            );
 
-            Toast.makeText(ThemMon.this, monAn.toString(), Toast.LENGTH_LONG).show();
+
+
+
+
+//            MonAn monAn = new MonAn(
+//                    1,// can 1 method de track id cua mon an
+//                    etxtFoodName.getText().toString(),
+//                    etxtFoodDesc.getText().toString(),
+//                    price,
+//                    null,// can 1 cach de luu hinh anh?
+//                    quocGiaChon,
+//                    true
+//
+//            );
+
+//            Toast.makeText(ThemMon.this, monAn.toString(), Toast.LENGTH_LONG).show();
 
 
 
