@@ -163,7 +163,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/menu_bo_goc"
             app:srcCompat="@drawable/ic_date_picker" />
     </LinearLayout>
 
