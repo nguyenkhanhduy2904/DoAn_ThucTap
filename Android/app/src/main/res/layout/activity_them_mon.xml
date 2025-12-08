@@ -325,45 +325,45 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_marginVertical="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tùy chọn cho món ăn:"
-                    android:textStyle="bold"
-                    android:textSize="21dp" />
+<!--            <LinearLayout-->
+<!--                android:layout_marginVertical="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="vertical">-->
+<!--                <TextView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Tùy chọn cho món ăn:"-->
+<!--                    android:textStyle="bold"-->
+<!--                    android:textSize="21dp" />-->
 
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+<!--                <RadioGroup-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content">-->
 
-                    <RadioButton
-                        android:id="@+id/rbDacBiet"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Món ăn đặt biệt"
-                        android:textSize="17dp"
-
-
-
-                        />
-                    <RadioButton
-                        android:id="@+id/rbBinhThuong"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Món bình thường"
-                        android:textSize="17dp"
-
-                        />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbDacBiet"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Món ăn đặt biệt"-->
+<!--                        android:textSize="17dp"-->
 
 
-                </RadioGroup>
 
-            </LinearLayout>
+<!--                        />-->
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/rbBinhThuong"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Món bình thường"-->
+<!--                        android:textSize="17dp"-->
+
+<!--                        />-->
+
+
+<!--                </RadioGroup>-->
+
+<!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_marginTop="10dp"

@@ -1,6 +1,10 @@
 package com.foodapp.backend.login;
 
 import com.foodapp.backend.Response.APIResponse;
+import com.foodapp.backend.users.User;
+import com.foodapp.backend.users.UserDTO;
+import com.foodapp.backend.users.UserMapper;
+import com.foodapp.backend.users.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,23 +19,28 @@ public class LoginController {
 
 
     private final LoginService loginService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public LoginController(LoginService loginService) {
+    public LoginController(LoginService loginService, UserRepository userRepository) {
         this.loginService = loginService;
+        this.userRepository = userRepository;
     }
 
 
     @PostMapping("/login")
-    public ResponseEntity<APIResponse<Void>> login(@RequestBody LoginRequest loginReq) {
+    public ResponseEntity<APIResponse<UserDTO>> login(@RequestBody LoginRequest loginReq) {
 
         try {
             boolean ok = loginService.checkLogin(loginReq.getTenDangNhap(),
                     loginReq.getMatKhauRaw());
 
             if (ok) {
+                User returnUser = userRepository.findByTenDangNhap(loginReq.getTenDangNhap()).orElseThrow(()-> new IllegalStateException("ko tim dc acc nay"));
+                UserDTO dto = UserMapper.toDTO(returnUser);
                 return ResponseEntity.ok(
-                        new APIResponse<>("success", 200, "Login success", null)
+
+                        new APIResponse<>("success", 200, "Login success", dto)
                 );
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

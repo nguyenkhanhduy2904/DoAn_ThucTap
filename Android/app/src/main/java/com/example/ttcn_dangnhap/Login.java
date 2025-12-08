@@ -91,11 +91,29 @@ public class Login extends AppCompatActivity {
                         try {
                             String status = response.getString("status");
                             String message = response.getString("message");
-                            if(status.equals("success")){
-                                Toast.makeText(Login.this, "Login Success", Toast.LENGTH_LONG).show();
-                                //intent chuyen activity
 
-                            }else{
+                            if (status.equals("success")) {
+
+                                JSONObject data = response.getJSONObject("data");
+                                String role = data.getString("role");
+
+                                if (role.equals("CUSTOMER")) {
+                                    ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
+                                        Intent intent = new Intent(Login.this, HomePage.class);
+                                        startActivity(intent);
+                                    });
+                                }
+                                else if (role.equals("ADMIN")) {
+                                    ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
+                                        Intent intent = new Intent(Login.this, Voucher_admin.class);
+                                        startActivity(intent);
+                                    });
+                                }
+                                else {
+                                    Toast.makeText(Login.this, "Role không hợp lệ!", Toast.LENGTH_LONG).show();
+                                }
+
+                            } else {
                                 Toast.makeText(Login.this, "Login failed", Toast.LENGTH_LONG).show();
                             }
                         }

@@ -69,8 +69,8 @@ public class ThemMon extends AppCompatActivity {
         rbTL = findViewById(R.id.rbTL);
         rbHQ = findViewById(R.id.rbHQ);
         rbTQ = findViewById(R.id.rbTQ);
-        rbDB = findViewById(R.id.rbDacBiet);
-        rbBT = findViewById(R.id.rbBinhThuong);
+//        rbDB = findViewById(R.id.rbDacBiet);
+//        rbBT = findViewById(R.id.rbBinhThuong);
 
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
