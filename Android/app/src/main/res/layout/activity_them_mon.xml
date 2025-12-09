@@ -149,13 +149,14 @@
             <EditText
                 android:id="@+id/etxtDesc"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:minLines="3"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/nhap_bogoc"
                 android:hint="Nhập mô tả món ăn"
                 android:paddingHorizontal="16dp"
                 android:textSize="16sp"
-                android:inputType="textCapSentences"/>
+                android:inputType="textMultiLine|textCapSentences"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
