@@ -13,12 +13,15 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+<<<<<<< HEAD
       <SelectionState runConfigName="Login">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
       <SelectionState runConfigName="ThemMon">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+=======
+>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
     </selectionStates>
   </component>
 </project>

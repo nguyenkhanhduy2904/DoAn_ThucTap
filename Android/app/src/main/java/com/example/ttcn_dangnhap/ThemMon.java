@@ -1,14 +1,21 @@
 package com.example.ttcn_dangnhap;
 
+//<<<<<<< HEAD
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+//=======
+import android.app.DatePickerDialog;
+import android.os.Bundle;
+import android.view.View;
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -19,6 +26,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+//<<<<<<< HEAD
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
@@ -34,6 +42,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import models.APIResponse;
+//=======
+import java.util.Calendar;
+
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
 import models.EQuocGia;
 import models.ImageUpload;
 import models.MonAn;
@@ -44,12 +56,19 @@ import retrofit2.Call;
 public class ThemMon extends AppCompatActivity {
 
     private ActivityResultLauncher<String> pickImageLauncher;
-    LinearLayout imgZone;
+    LinearLayout imgZone,layout_percent,layout_nbd,layout_nkt;
     ImageView imgPreview;
     EditText etxtFoodName, etxtFoodDesc, etxtPrice;
-    RadioGroup rbgQuocGia;
+//<<<<<<< HEAD
+//    RadioGroup rbgQuocGia;
     RadioButton rbVN, rbTL, rbHQ, rbTQ, rbConMon, rbHetMon;
+//=======
+    RadioGroup rbgQuocGia,rgStatus,rgDiscount;
+//    RadioButton rbVN, rbTL, rbHQ, rbTQ, rb_con,rb_het;
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
     Button btnCancel, btnSave;
+    TextView tv_start_date,tv_end_date;
+    final Calendar calendar = Calendar.getInstance();
     private EQuocGia quocGiaChon = null;
     private String imgUrl = null;
     private String TenMonAn, MoTa, TrangThai;
@@ -73,8 +92,12 @@ public class ThemMon extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
+//<<<<<<< HEAD
                         imgPreview.setImageURI(uri);
                         imgPreview.setTag(uri);   // store URI for later upload
+////=======
+//                        img.setImageURI(uri); // Display selected image
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
                     }
                 }
         );
@@ -86,32 +109,64 @@ public class ThemMon extends AppCompatActivity {
 
 
     void addControls(){
+//<<<<<<< HEAD
         imgZone = findViewById(R.id.btn_upload_image);
         imgPreview = findViewById(R.id.img);
+//=======
+//        btn_upload_image = findViewById(R.id.btn_upload_image);
+        layout_percent = findViewById(R.id.layout_percent);
+        layout_nbd = findViewById(R.id.layout_nbd);
+        layout_nkt = findViewById(R.id.layout_nkt);
+//        img = findViewById(R.id.img);
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
         etxtFoodName = findViewById(R.id.etxtFoodName);
         etxtFoodDesc = findViewById(R.id.etxtDesc);
         etxtPrice = findViewById(R.id.etxtPrice);
         rbgQuocGia = findViewById(R.id.rbgQuocGia);
+        rgStatus = findViewById(R.id.rgStatus);
+        rgDiscount = findViewById(R.id.rgDiscount);
         rbVN = findViewById(R.id.rbVN);
         rbTL = findViewById(R.id.rbTL);
         rbHQ = findViewById(R.id.rbHQ);
         rbTQ = findViewById(R.id.rbTQ);
-        rbConMon = findViewById(R.id.rbAvailable);
-        rbHetMon = findViewById(R.id.rbOutOfStock);
+//<<<<<<< HEAD
+        rbConMon = findViewById(R.id.rb_con);
+        rbHetMon = findViewById(R.id.rb_het);
 //        rbDB = findViewById(R.id.rbDacBiet);
 //        rbBT = findViewById(R.id.rbBinhThuong);
 
+//=======
+        tv_start_date=findViewById(R.id.tv_start_date);
+        tv_end_date=findViewById(R.id.tv_end_date);
+        tv_start_date.setText(Format_Date.formatDate(calendar.getTime()));
+        tv_end_date.setText(Format_Date.formatDate(calendar.getTime()));
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
     }
 
-    void addEvents(){
+    void addEvents() {
         imgZone.setOnClickListener(view -> {
             pickImageLauncher.launch("image/*");  // Opens gallery
         });
 
         btnCancel.setOnClickListener(view -> {
             finish();
+        });
+        tv_start_date.setOnClickListener(view -> XulyChonNgay(view, tv_start_date));
+        tv_end_date.setOnClickListener(view -> XulyChonNgay(view, tv_end_date));
+        if (rgDiscount.getCheckedRadioButtonId() == R.id.rdo_off) {
+            hienthi(false);
+        }
+        rgDiscount.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rdo_on) {
+                    hienthi(true);
+                } else if (checkedId == R.id.rdo_off) {
+                    hienthi(false);
+                }
+            }
         });
         btnSave.setOnClickListener(view -> {
             String priceText = etxtPrice.getText().toString().trim();
@@ -150,6 +205,7 @@ public class ThemMon extends AppCompatActivity {
                 return;
             }
 
+//<<<<<<< HEAD
             if(rbConMon.isChecked()){
                 TrangThai = "Available";
             } else if (rbHetMon.isChecked()) {
@@ -167,15 +223,6 @@ public class ThemMon extends AppCompatActivity {
             }
 
 
-//            String TenMonAn= etxtFoodName.getText().toString().trim();
-//            String MoTa = etxtFoodDesc.getText().toString().trim();
-//            String QuocGia = quocGiaChon.name();
-
-//            if(TenMonAn.isBlank()){
-//                Toast.makeText(ThemMon.this, "Vui lòng Nhập tên món ăn",Toast.LENGTH_LONG).show();
-//                return;
-//            }
-
 
             uploadImage(selectedImgUri);
 
@@ -186,9 +233,13 @@ public class ThemMon extends AppCompatActivity {
 
 
 
-
+//
+//=======
+//            String urlUploadImg ="http://10.0.2.2:8080/api/v1/upload/image";
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
         });
     }
+//<<<<<<< HEAD
 
     private void BuildMonAnJsonAndSend(){
 
@@ -337,4 +388,26 @@ public class ThemMon extends AppCompatActivity {
     }
 
 
+//=======
+    public void XulyChonNgay(View v, TextView tv) {
+        DatePickerDialog dlg = new DatePickerDialog(ThemMon.this,
+                (datePicker, i, i1, i2) -> {
+                    calendar.set(Calendar.YEAR, i);
+                    calendar.set(Calendar.MONTH, i1);
+                    calendar.set(Calendar.DATE, i2);
+                    tv.setText(Format_Date.formatDate(calendar.getTime()));
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DATE)
+        );
+        dlg.show();
+    }
+    private void hienthi(boolean isVisible) {
+        int visibility = isVisible ? View.VISIBLE : View.GONE;
+        layout_percent.setVisibility(visibility);
+        layout_nbd.setVisibility(visibility);
+        layout_nkt.setVisibility(visibility);
+    }
+//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
 }

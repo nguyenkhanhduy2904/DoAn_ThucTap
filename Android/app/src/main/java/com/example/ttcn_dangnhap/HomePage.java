@@ -131,7 +131,12 @@ public class HomePage extends AppCompatActivity {
 
             Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
         });
-
+        lsView.setOnItemClickListener((adapterView, view, i, l) -> {
+            MonAn monAnDuocChon = lsMonAn.get(i);
+            Intent intent = new Intent(HomePage.this, Chi_tiet_mon.class);
+            intent.putExtra("monAn", monAnDuocChon);
+            startActivity(intent);
+        });
     }
 
 

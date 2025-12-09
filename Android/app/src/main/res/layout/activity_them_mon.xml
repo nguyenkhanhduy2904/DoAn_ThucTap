@@ -149,13 +149,14 @@
             <EditText
                 android:id="@+id/etxtDesc"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:minLines="3"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/nhap_bogoc"
                 android:hint="Nhập mô tả món ăn"
                 android:paddingHorizontal="16dp"
                 android:textSize="16sp"
-                android:inputType="textCapSentences"/>
+                android:inputType="textMultiLine|textCapSentences"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -278,7 +279,7 @@
                 android:layout_marginTop="8dp">
 
                 <RadioButton
-                    android:id="@+id/rbAvailable"
+                    android:id="@+id/rb_con"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
@@ -286,7 +287,7 @@
                     android:textSize="16sp" />
 
                 <RadioButton
-                    android:id="@+id/rbOutOfStock"
+                    android:id="@+id/rb_het"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -323,7 +324,6 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/rdo_btn_chon"
                         android:button="@null"
-                        android:checked="true"
                         android:gravity="center"
                         android:text="ON"
                         android:textColor="#000000"
@@ -335,6 +335,7 @@
                         android:layout_height="match_parent"
                         android:background="@drawable/rdo_btn_chon"
                         android:button="@null"
+                        android:checked="true"
                         android:gravity="center"
                         android:text="Off"
                         android:textColor="#000000"
@@ -343,6 +344,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_percent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -366,6 +368,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_nbd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -397,6 +400,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/layout_nkt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/main"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/btnBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:src="@drawable/icon_rollback"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giỏ hàng"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/btnBack"
+        app:layout_constraintTop_toTopOf="@id/btnBack" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="8dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toTopOf="@id/layoutFooter"
+        tools:listitem="@layout/item_cart" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutFooter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/white"
+        android:elevation="16dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/btnCoupon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+
+            android:padding="12dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/tvDiscountCode">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_uu_dai"/>
+            <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Áp dụng ưu đãi"
+            android:textStyle="bold"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/abc_ic_arrow_drop_right_black_24dp"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDiscountCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mã giảm giá: 10.000đ"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvTotal" />
+
+        <TextView
+            android:id="@+id/tvTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng cộng: 120.000đ"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btnConfirm" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Xác nhận"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:background="@drawable/btn_tao"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

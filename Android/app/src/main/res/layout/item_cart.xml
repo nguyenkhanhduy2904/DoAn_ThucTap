@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp">
+
+        <ImageView
+            android:id="@+id/imgFood"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/icon_trash"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvFoodName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Food name"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toEndOf="@id/imgFood"
+            app:layout_constraintEnd_toStartOf="@id/btnDelete"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvLabelNote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Yêu cầu: "
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="@id/tvFoodName"
+            app:layout_constraintTop_toBottomOf="@id/tvFoodName" />
+
+        <TextView
+            android:id="@+id/tvNoteContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="ghi chu"
+            android:text=""
+            android:textSize="13sp"
+            android:textColor="#555555"
+            app:layout_constraintStart_toEndOf="@id/tvLabelNote"
+            app:layout_constraintEnd_toEndOf="@id/btnDelete"
+            app:layout_constraintTop_toTopOf="@id/tvLabelNote" />
+
+        <TextView
+            android:id="@+id/tvCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="đ"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNoteContent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Money"
+            tools:text=""
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_marginEnd="2dp"
+            app:layout_constraintBottom_toBottomOf="@id/tvCurrency"
+            app:layout_constraintEnd_toStartOf="@id/tvCurrency"
+            app:layout_constraintTop_toTopOf="@id/tvCurrency" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@id/imgFood"
+            app:layout_constraintTop_toBottomOf="@id/imgFood">
+
+            <Button
+                android:id="@+id/btnMinus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="-"
+                android:textSize="24sp"
+                android:includeFontPadding="false"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:background="@drawable/btn_tao"
+                app:backgroundTint="@color/design_default_color_secondary"
+                android:padding="0dp"/>
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="12dp"
+                android:textSize="16sp"/>
+
+            <Button
+                android:id="@+id/btnPlus"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:text="+"
+                android:textSize="24sp"
+                android:includeFontPadding="false"
+                android:gravity="center"
+                android:background="@drawable/btn_tao"
+                app:backgroundTint="@color/design_default_color_secondary"
+                android:textColor="@color/black"
+                android:padding="0dp"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
