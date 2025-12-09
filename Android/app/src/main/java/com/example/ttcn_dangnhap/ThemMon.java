@@ -19,6 +19,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Network.APIClient;
 import com.example.ttcn_dangnhap.Network.APIService;
 import com.google.gson.JsonObject;
@@ -44,10 +48,13 @@ public class ThemMon extends AppCompatActivity {
     ImageView imgPreview;
     EditText etxtFoodName, etxtFoodDesc, etxtPrice;
     RadioGroup rbgQuocGia;
-    RadioButton rbVN, rbTL, rbHQ, rbTQ, rbDB, rbBT;
+    RadioButton rbVN, rbTL, rbHQ, rbTQ, rbConMon, rbHetMon;
     Button btnCancel, btnSave;
     private EQuocGia quocGiaChon = null;
     private String imgUrl = null;
+    private String TenMonAn, MoTa, TrangThai;
+    private long price =0;
+    private Uri selectedImgUri;
 
 
 
@@ -89,6 +96,8 @@ public class ThemMon extends AppCompatActivity {
         rbTL = findViewById(R.id.rbTL);
         rbHQ = findViewById(R.id.rbHQ);
         rbTQ = findViewById(R.id.rbTQ);
+        rbConMon = findViewById(R.id.rbAvailable);
+        rbHetMon = findViewById(R.id.rbOutOfStock);
 //        rbDB = findViewById(R.id.rbDacBiet);
 //        rbBT = findViewById(R.id.rbBinhThuong);
 
@@ -107,7 +116,20 @@ public class ThemMon extends AppCompatActivity {
         btnSave.setOnClickListener(view -> {
             String priceText = etxtPrice.getText().toString().trim();
 
-            long price;
+            TenMonAn = etxtFoodName.getText().toString().trim();
+            MoTa = etxtFoodDesc.getText().toString().trim();
+
+            if(TenMonAn.isBlank()){
+                Toast.makeText(this, "Hãy nhập tên món ăn", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(MoTa.isBlank()){
+                Toast.makeText(this, "Hãy nhập mô tả", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+
             if (priceText.isEmpty()) {
                 price = 0;
             } else {
@@ -128,40 +150,105 @@ public class ThemMon extends AppCompatActivity {
                 return;
             }
 
-
+            if(rbConMon.isChecked()){
+                TrangThai = "Available";
+            } else if (rbHetMon.isChecked()) {
+                TrangThai =" Out of Stock";
+            }
 
 
             //upload image
             String urlUploadImg ="http://10.0.2.2:8080/api/v1/upload/image";
 
-            Uri selectedImgUri = (Uri) imgPreview.getTag();
+            selectedImgUri = (Uri) imgPreview.getTag();
             if(selectedImgUri == null){
                 Toast.makeText(this, "Hãy chọn hình ảnh!", Toast.LENGTH_SHORT).show();
                 return;
             }
+
+
+//            String TenMonAn= etxtFoodName.getText().toString().trim();
+//            String MoTa = etxtFoodDesc.getText().toString().trim();
+//            String QuocGia = quocGiaChon.name();
+
+//            if(TenMonAn.isBlank()){
+//                Toast.makeText(ThemMon.this, "Vui lòng Nhập tên món ăn",Toast.LENGTH_LONG).show();
+//                return;
+//            }
+
+
             uploadImage(selectedImgUri);
 
-            JSONObject jsonBody = new JSONObject();
-            try {
-                jsonBody.put();
-
-
-            }
-            catch (Exception e){
-                Toast.makeText(ThemMon.this, e.getMessage(),Toast.LENGTH_LONG).show();
-                e.printStackTrace();
-            }
 
 
 
 
 
-//
 
 
 
         });
+    }
 
+    private void BuildMonAnJsonAndSend(){
+
+        String urlAddMon = "http://10.0.2.2:8080/api/v1/monan";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("tenMonAn", TenMonAn);
+            jsonBody.put("moTa", MoTa);
+            jsonBody.put("gia", price);
+            jsonBody.put("hinhAnhURL", imgUrl);
+            jsonBody.put("quocGia", quocGiaChon.name());
+            jsonBody.put("trangThai", TrangThai);
+        }
+        catch (Exception e){
+            Toast.makeText(ThemMon.this, e.getMessage(),Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                urlAddMon,
+                jsonBody,
+                response -> {
+                    try {
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+                        if(status.equals("success")){
+                            Toast.makeText(ThemMon.this, "Create New Food Success", Toast.LENGTH_LONG).show();
+                            //intent chuyen activity
+
+                        }else{
+                            Toast.makeText(ThemMon.this, "Create Food failed:"+ message, Toast.LENGTH_LONG).show();
+                        }
+
+                    }catch (Exception e){
+                        Toast.makeText(ThemMon.this, "Error convert request: " + e.getMessage(),Toast.LENGTH_LONG ).show();
+                    }
+                }, error -> {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                try {
+                    String errorJson = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject obj = new JSONObject(errorJson);
+
+                    String status = obj.getString("status");
+                    String message = obj.getString("message");
+
+                    Toast.makeText(ThemMon.this, message, Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(ThemMon.this, "Error parsing error response" + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            } else {
+                Toast.makeText(ThemMon.this, "Connection Error", Toast.LENGTH_LONG).show();
+            }
+        }
+        );
+
+        queue.add(request);
     }
 
     private void uploadImage(Uri uri) {
@@ -194,6 +281,17 @@ public class ThemMon extends AppCompatActivity {
                 public void onResponse(Call<APIResponse<ImageUpload>> call,
                                        retrofit2.Response<APIResponse<ImageUpload>> response) {
 
+                    Log.e("UPLOAD_DEBUG", "Response code: " + response.code());
+                    Log.e("UPLOAD_DEBUG", "Raw: " + response.raw().toString());
+
+                    if (!response.isSuccessful()) {
+                        try {
+                            Log.e("UPLOAD_DEBUG", "Error body: " + response.errorBody().string());
+                        } catch (Exception e) {
+                            Log.e("UPLOAD_DEBUG", "Error parsing error body: " + e.getMessage());
+                        }
+                    }
+
                     if (response.isSuccessful() && response.body() != null) {
                         ImageUpload image = response.body().getData();
 
@@ -203,6 +301,10 @@ public class ThemMon extends AppCompatActivity {
                                     "Upload thành công: " + image.getUrl(),
                                     Toast.LENGTH_LONG).show();
                             imgUrl = image.getUrl();
+
+                            BuildMonAnJsonAndSend();
+
+
                         }
 
                     } else {

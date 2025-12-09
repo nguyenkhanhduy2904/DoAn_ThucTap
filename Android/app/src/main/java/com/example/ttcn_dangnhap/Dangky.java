@@ -156,7 +156,7 @@ public class Dangky extends AppCompatActivity {
                                 //intent chuyen activity
 
                             }else{
-                                Toast.makeText(Dangky.this, "Create Account failed", Toast.LENGTH_LONG).show();
+                                Toast.makeText(Dangky.this, "Create Account failed: " + message, Toast.LENGTH_LONG).show();
                             }
 
                         }
