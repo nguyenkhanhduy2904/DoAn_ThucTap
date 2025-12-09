@@ -1,6 +1,8 @@
 package com.example.ttcn_dangnhap;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -17,8 +19,23 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.ttcn_dangnhap.Network.APIClient;
+import com.example.ttcn_dangnhap.Network.APIService;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import models.APIResponse;
 import models.EQuocGia;
+import models.ImageUpload;
 import models.MonAn;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 
 public class ThemMon extends AppCompatActivity {
 
@@ -30,6 +47,7 @@ public class ThemMon extends AppCompatActivity {
     RadioButton rbVN, rbTL, rbHQ, rbTQ, rbDB, rbBT;
     Button btnCancel, btnSave;
     private EQuocGia quocGiaChon = null;
+    private String imgUrl = null;
 
 
 
@@ -48,10 +66,12 @@ public class ThemMon extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
-                        imgPreview.setImageURI(uri); // Display selected image
+                        imgPreview.setImageURI(uri);
+                        imgPreview.setTag(uri);   // store URI for later upload
                     }
                 }
         );
+
 
         addControls();
         addEvents();
@@ -59,8 +79,8 @@ public class ThemMon extends AppCompatActivity {
 
 
     void addControls(){
-        imgZone = findViewById(R.id.addimgZone);
-        imgPreview = findViewById(R.id.imgPreview);
+        imgZone = findViewById(R.id.btn_upload_image);
+        imgPreview = findViewById(R.id.img);
         etxtFoodName = findViewById(R.id.etxtFoodName);
         etxtFoodDesc = findViewById(R.id.etxtDesc);
         etxtPrice = findViewById(R.id.etxtPrice);
@@ -114,33 +134,105 @@ public class ThemMon extends AppCompatActivity {
             //upload image
             String urlUploadImg ="http://10.0.2.2:8080/api/v1/upload/image";
 
+            Uri selectedImgUri = (Uri) imgPreview.getTag();
+            if(selectedImgUri == null){
+                Toast.makeText(this, "Hãy chọn hình ảnh!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            uploadImage(selectedImgUri);
+
+            JSONObject jsonBody = new JSONObject();
+            try {
+                jsonBody.put();
+
+
+            }
+            catch (Exception e){
+                Toast.makeText(ThemMon.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                e.printStackTrace();
+            }
 
 
 
 
 
-
-
-
-
-
-
-//            MonAn monAn = new MonAn(
-//                    1,// can 1 method de track id cua mon an
-//                    etxtFoodName.getText().toString(),
-//                    etxtFoodDesc.getText().toString(),
-//                    price,
-//                    null,// can 1 cach de luu hinh anh?
-//                    quocGiaChon,
-//                    true
 //
-//            );
-
-//            Toast.makeText(ThemMon.this, monAn.toString(), Toast.LENGTH_LONG).show();
 
 
 
         });
 
     }
+
+    private void uploadImage(Uri uri) {
+        try {
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            byte[] bytes = toBytes(inputStream);
+
+            RequestBody requestFile = RequestBody.create(
+                    okhttp3.MediaType.parse("image/*"),
+                    bytes
+            );
+
+            MultipartBody.Part filePart = MultipartBody.Part.createFormData(
+                    "file",
+                    "upload.png",
+                    requestFile
+            );
+
+            RequestBody typePart = RequestBody.create(
+                    okhttp3.MediaType.parse("text/plain"),
+                    "food"
+            );
+
+            APIService api = APIClient.getClient().create(APIService.class);
+
+            Call<APIResponse<ImageUpload>> call = api.uploadImage(filePart, typePart);
+
+            call.enqueue(new retrofit2.Callback<APIResponse<ImageUpload>>() {
+                @Override
+                public void onResponse(Call<APIResponse<ImageUpload>> call,
+                                       retrofit2.Response<APIResponse<ImageUpload>> response) {
+
+                    if (response.isSuccessful() && response.body() != null) {
+                        ImageUpload image = response.body().getData();
+
+                        if (image != null && image.getUrl() != null) {
+                            Log.d("UPLOAD", "Image URL: " + image.getUrl());
+                            Toast.makeText(ThemMon.this,
+                                    "Upload thành công: " + image.getUrl(),
+                                    Toast.LENGTH_LONG).show();
+                            imgUrl = image.getUrl();
+                        }
+
+                    } else {
+                        Toast.makeText(ThemMon.this,
+                                "Upload failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<APIResponse<ImageUpload>> call, Throwable t) {
+                    Toast.makeText(ThemMon.this,
+                            "Error: " + t.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Lỗi: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private byte[] toBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[4096];
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+        }
+        return buffer.toByteArray();
+    }
+
+
 }

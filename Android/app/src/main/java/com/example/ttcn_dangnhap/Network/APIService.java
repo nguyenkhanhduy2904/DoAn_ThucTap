@@ -1,5 +1,7 @@
 package com.example.ttcn_dangnhap.Network;
 
+import com.google.gson.JsonObject;
+
 import models.APIResponse;
 import models.ImageUpload;
 import okhttp3.MultipartBody;
