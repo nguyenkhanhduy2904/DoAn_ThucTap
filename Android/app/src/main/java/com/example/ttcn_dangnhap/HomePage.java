@@ -22,7 +22,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Network.APICallback;
-import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,13 +34,21 @@ import models.EQuocGia;
 
 public class HomePage extends AppCompatActivity {
 
-    List<MonAn> lsMonAn;
+
+    List<MonAn> listDisplayMonAn;
+
+
+    List<MonAn> lsAllMonAn;
     ListView lsView;
     CustomFoodListAdapter customFoodListAdapter;
 
     //nav bar button
     LinearLayout ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount;
     ImageButton  ibtnMenu;
+
+    //linear layout flag btn
+    LinearLayout lnBestSell,lnVN, lnTL, lnHQ, lnTQ;
+
 
 
 
@@ -56,7 +63,10 @@ public class HomePage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        lsMonAn = new ArrayList<>();
+
+        lsAllMonAn = new ArrayList<>();
+        listDisplayMonAn = new ArrayList<>();
+
 
         addControls();
         addEvents();
@@ -64,14 +74,16 @@ public class HomePage extends AppCompatActivity {
         GETAllItem(new APICallback<List<MonAn>>() {
             @Override
             public void onSuccess(List<MonAn> result) {
-                // replace data and refresh adapter
-                lsMonAn.clear();
-                lsMonAn.addAll(result);
-                // notify adapter
+                lsAllMonAn.clear();            // refresh data source
+                lsAllMonAn.addAll(result);     // fill all items
+
+                listDisplayMonAn.clear();      // refresh UI list
+                listDisplayMonAn.addAll(lsAllMonAn);
+
                 customFoodListAdapter.notifyDataSetChanged();
-                // recalc list height because items changed
                 setListViewHeight(lsView);
-                Log.d("HomePage", "List size (callback): " + lsMonAn.size());
+
+                Log.d("HomePage", "List size: " + listDisplayMonAn.size());
 
 
             }
@@ -200,7 +212,7 @@ public class HomePage extends AppCompatActivity {
 
     void addControls(){
         lsView = findViewById(R.id.lsViewItem);
-        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, lsMonAn);
+        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, listDisplayMonAn);
         lsView.setAdapter(customFoodListAdapter);
         setListViewHeight(lsView);
 
@@ -211,10 +223,82 @@ public class HomePage extends AppCompatActivity {
         ibtnOrder = navBar.findViewById(R.id.ibtnOrder);
         ibtnAccount = navBar.findViewById(R.id.ibtnAccount);
         ibtnMenu = navBar.findViewById(R.id.ibtnMenu);
+
+        //set linear layout flag
+        lnVN = findViewById(R.id.layoutVietNam);
+        lnTL = findViewById(R.id.layoutThaiLand);
+        lnHQ = findViewById(R.id.layoutSKorea);
+        lnTQ = findViewById(R.id.layoutChina);
+        lnBestSell = findViewById(R.id.layoutBestSell);
     }
 
 
     void addEvents(){
+        lnVN.setOnClickListener(view -> {
+            List<MonAn> resultList = new ArrayList<>();
+            for(int i=0; i<lsAllMonAn.size(); i++){
+                MonAn item = lsAllMonAn.get(i);
+                if(item.getQuocGia() == EQuocGia.VietNam){
+
+                    resultList.add(item);
+                }
+            }
+            listDisplayMonAn.clear();      // refresh UI list
+            listDisplayMonAn.addAll(resultList);
+            customFoodListAdapter.notifyDataSetChanged();
+            setListViewHeight(lsView);
+
+        });
+        lnTL.setOnClickListener(view -> {
+            List<MonAn> resultList = new ArrayList<>();
+            for(int i=0; i<lsAllMonAn.size(); i++){
+                MonAn item = lsAllMonAn.get(i);
+                if(item.getQuocGia() == EQuocGia.ThaiLan){
+
+                    resultList.add(item);
+                }
+            }
+            listDisplayMonAn.clear();      // refresh UI list
+            listDisplayMonAn.addAll(resultList);
+            customFoodListAdapter.notifyDataSetChanged();
+            setListViewHeight(lsView);
+
+        });
+        lnHQ.setOnClickListener(view -> {
+            List<MonAn> resultList = new ArrayList<>();
+            for(int i=0; i<lsAllMonAn.size(); i++){
+                MonAn item = lsAllMonAn.get(i);
+                if(item.getQuocGia() == EQuocGia.HanQuoc){
+
+                    resultList.add(item);
+                }
+            }
+            listDisplayMonAn.clear();      // refresh UI list
+            listDisplayMonAn.addAll(resultList);
+            customFoodListAdapter.notifyDataSetChanged();
+            setListViewHeight(lsView);
+
+        });
+        lnTQ.setOnClickListener(view -> {
+            List<MonAn> resultList = new ArrayList<>();
+            for(int i=0; i<lsAllMonAn.size(); i++){
+                MonAn item = lsAllMonAn.get(i);
+                if(item.getQuocGia() == EQuocGia.TrungQuoc){
+
+                    resultList.add(item);
+                }
+            }
+            listDisplayMonAn.clear();      // refresh UI list
+            listDisplayMonAn.addAll(resultList);
+            customFoodListAdapter.notifyDataSetChanged();
+            setListViewHeight(lsView);
+
+        });
+
+
+
+
+
         ibtnHome.setOnClickListener(view -> {
             Intent intent = new Intent(HomePage.this, HomePage.class);
             startActivity(intent);
@@ -239,7 +323,7 @@ public class HomePage extends AppCompatActivity {
             Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
         });
         lsView.setOnItemClickListener((adapterView, view, i, l) -> {
-            MonAn monAnDuocChon = lsMonAn.get(i);
+            MonAn monAnDuocChon = lsAllMonAn.get(i);
             Intent intent = new Intent(HomePage.this, Chi_tiet_mon.class);
             intent.putExtra("monAn", monAnDuocChon);
             startActivity(intent);
