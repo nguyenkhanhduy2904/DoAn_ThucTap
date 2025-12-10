@@ -17,6 +17,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.ttcn_dangnhap.Network.APICallback;
+import com.google.gson.JsonArray;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +45,7 @@ public class HomePage extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,51 +56,147 @@ public class HomePage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        lsMonAn = new ArrayList<>();
 
-        lsMonAn = getListMonAn();
-        Log.d("HomePage", "List size: " + lsMonAn.size());
         addControls();
         addEvents();
 
+        GETAllItem(new APICallback<List<MonAn>>() {
+            @Override
+            public void onSuccess(List<MonAn> result) {
+                // replace data and refresh adapter
+                lsMonAn.clear();
+                lsMonAn.addAll(result);
+                // notify adapter
+                customFoodListAdapter.notifyDataSetChanged();
+                // recalc list height because items changed
+                setListViewHeight(lsView);
+                Log.d("HomePage", "List size (callback): " + lsMonAn.size());
+
+
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(HomePage.this, errorMessage, Toast.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
     }
 
-    private List<MonAn> getListMonAn() {
-        List<MonAn> lsMonAn = new ArrayList<>();
+//    private List<MonAn> getListMonAn() {
+//        List<MonAn> lsMonAn = new ArrayList<>();
+//
+//        lsMonAn.add(new MonAn(
+//                1,
+//                "Phở Bò",
+//                "Phở bò truyền thống Việt Nam",
+//                50000L,
+//                "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250230038502.jpg",
+//                EQuocGia.VietNam,
+//                true
+//        ));
+//
+//        lsMonAn.add(new MonAn(
+//                2,
+//                "Sushi",
+//                "Sushi tươi ngon Nhật Bản",
+//                120000L,
+//                "https://www.justonecookbook.com/wp-content/uploads/2020/01/Sushi-Rolls-Maki-Sushi-%E2%80%93-Hosomaki-1106-II.jpg",
+//                EQuocGia.ThaiLan,
+//                true
+//        ));
+//
+//        lsMonAn.add(new MonAn(
+//                3,
+//                "Kimchi",
+//                "Kimchi cay Hàn Quốc",
+//                40000L,
+//                "https://delishglobe.com/wp-content/uploads/2024/12/Kimchi-Fermented-Vegetables.png",
+//                EQuocGia.HanQuoc,
+//                true
+//        ));
+//
+//        // Add more items if needed
+//
+//        return lsMonAn;
+//    }//tao 1 list tam thoi de test
 
-        lsMonAn.add(new MonAn(
-                1,
-                "Phở Bò",
-                "Phở bò truyền thống Việt Nam",
-                50000L,
-                "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250230038502.jpg",
-                EQuocGia.VietNam,
-                true
-        ));
+    private void GETAllItem(APICallback<List<MonAn>> callback){
+        String url = "http://10.0.2.2:8080/api/v1/monan";
 
-        lsMonAn.add(new MonAn(
-                2,
-                "Sushi",
-                "Sushi tươi ngon Nhật Bản",
-                120000L,
-                "https://www.justonecookbook.com/wp-content/uploads/2020/01/Sushi-Rolls-Maki-Sushi-%E2%80%93-Hosomaki-1106-II.jpg",
-                EQuocGia.ThaiLan,
-                true
-        ));
+        RequestQueue queue = Volley.newRequestQueue(this);
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try {
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+                        if(status.equals("success")){
+                            JSONArray dataArray = response.getJSONArray("data");
+                            List<MonAn> resultList = new ArrayList<>();
+                            for(int i =0; i<dataArray.length(); i++){
+                                JSONObject obj = dataArray.getJSONObject(i);
 
-        lsMonAn.add(new MonAn(
-                3,
-                "Kimchi",
-                "Kimchi cay Hàn Quốc",
-                40000L,
-                "https://delishglobe.com/wp-content/uploads/2024/12/Kimchi-Fermented-Vegetables.png",
-                EQuocGia.HanQuoc,
-                true
-        ));
+                                String quocGia = obj.getString("quocGia");
+                                EQuocGia eQuocGia = EQuocGia.StringtoEnum(quocGia);
 
-        // Add more items if needed
 
-        return lsMonAn;
-    }//tao 1 list tam thoi de test
+
+                                MonAn monAn = new MonAn(
+                                        obj.getInt("id"),
+                                        obj.getString("tenMonAn"),
+                                        obj.getString("moTa"),
+                                        obj.getLong("gia"),
+                                        "http://10.0.2.2:8080"+obj.getString("hinhAnhURL"),
+                                        eQuocGia,
+                                        (obj.getString("trangThai")).equals("ACTIVE")
+                                );
+
+                                resultList.add(monAn);
+                            }
+
+                            callback.onSuccess(resultList);
+
+
+                        }else{
+                            callback.onError("GET food data failed: " + message);
+                        }
+
+                    }catch (Exception e){
+                        callback.onError("Error converting request: " + e.getMessage());
+                    }
+
+                },error -> {
+            if (error.networkResponse != null && error.networkResponse.data != null) {
+                try {
+                    String errorJson = new String(error.networkResponse.data, "UTF-8");
+                    JSONObject obj = new JSONObject(errorJson);
+
+                    callback.onError(obj.getString("message"));
+
+                } catch (Exception e) {
+                    callback.onError("Error parsing error response: " + e.getMessage());
+                }
+            } else {
+                callback.onError("Connection error");
+            }
+        }
+        );
+
+        queue.add(request);
+
+
+
+
+
+    }
+
 
     void addControls(){
         lsView = findViewById(R.id.lsViewItem);

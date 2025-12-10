@@ -16,4 +16,13 @@ public enum EQuocGia {
     public int getDrawableId() {
         return drawableId;
     }
+
+    public static EQuocGia StringtoEnum(String value) {
+        for (EQuocGia qg : EQuocGia.values()) {
+            if (qg.name().equalsIgnoreCase(value)) {
+                return qg;
+            }
+        }
+        return null; // or a default
+    }
 }
