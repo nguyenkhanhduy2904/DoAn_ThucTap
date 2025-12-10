@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.content.SharedPreferences;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,6 +97,12 @@ public class Login extends AppCompatActivity {
 
                                 JSONObject data = response.getJSONObject("data");
                                 String role = data.getString("role");
+                                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("is_logged_in", true); // Lưu trạng thái đã đăng nhập
+                                editor.putString("user_role", role);     // Lưu quyền (ADMIN/CUSTOMER) để sau này dùng
+                                editor.putString("username", tenDangNhap); // Lưu tên đăng nhập (nếu cần hiển thị ở Infor)
+                                editor.apply(); // Xác nhận lưu
 
                                 if (role.equals("CUSTOMER")) {
                                     ThongBao.showThongBao(Login.this, "Thành công", message, () -> {

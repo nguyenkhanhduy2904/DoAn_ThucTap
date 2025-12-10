@@ -315,8 +315,8 @@ public class HomePage extends AppCompatActivity {
             Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
         });
         ibtnAccount.setOnClickListener(view -> {
-
-            Toast.makeText(HomePage.this, "Clicked Account", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(HomePage.this,Infor.class);
+            startActivity(intent);
         });
         ibtnMenu.setOnClickListener(view -> {
 
