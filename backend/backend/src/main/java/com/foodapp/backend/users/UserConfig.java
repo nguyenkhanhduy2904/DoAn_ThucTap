@@ -24,7 +24,8 @@ public class UserConfig {// config auto chay khi backend chay
 
                         "Administrator",
                         "Male",
-                        "ACTIVE"
+                        "ACTIVE",
+                        "duynguyen.29042004tv@gmail.com"
                 );
 
                 userRepository.save(defaultUser);

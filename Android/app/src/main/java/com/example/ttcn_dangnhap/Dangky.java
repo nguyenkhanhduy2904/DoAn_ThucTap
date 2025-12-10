@@ -134,6 +134,7 @@ public class Dangky extends AppCompatActivity {
                 jsonBody.put("tenHienThi", TenHienThi);
                 jsonBody.put("gioiTinh",GioiTinh);
                 jsonBody.put("trangThai", "ACTIVE");
+                jsonBody.put("email", Email);
 
             }
             catch (Exception e){

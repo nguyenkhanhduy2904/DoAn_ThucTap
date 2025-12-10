@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.squareup.picasso.Picasso;
+
 import java.text.DecimalFormat;
 
 import models.MonAn;
@@ -92,9 +94,17 @@ public class Chi_tiet_mon extends AppCompatActivity {
 
             // 2. Giá tiền (Định dạng cho đẹp)
             DecimalFormat formatter = new DecimalFormat("###,###,###");
-            tvPrice.setText(formatter.format(currentFood.getGiaMonAn()));}}
+            tvPrice.setText(formatter.format(currentFood.getGiaMonAn()));
+            Picasso.get().load(currentFood.getUrlHinhAnhMonAn()).resize(500,300).centerCrop().into(imgFood);
+
+
+
+        }}
+
+
 
 //            // 3. Hiển thị ảnh từ URL (Dùng Glide)
+
 //            Glide.with(this)
 //                    .load(currentFood.getUrlHinhAnhMonAn()) // Link ảnh https://...
 //                    .placeholder(R.drawable.logo) // Ảnh chờ khi đang tải (tạo 1 ảnh tạm)

@@ -109,6 +109,10 @@ public class UserService {
         if(newDataDTO.getGioiTinh()!=null && !newDataDTO.getGioiTinh().isBlank() && !Objects.equals(user.getGioiTinh(), newDataDTO.getGioiTinh())){
             user.setGioiTinh(newDataDTO.getGioiTinh());
         }
+        if(newDataDTO.getEmail()!=null && !newDataDTO.getEmail().isBlank() && !Objects.equals(user.getEmail(), newDataDTO.getEmail())){
+            user.setEmail(newDataDTO.getEmail());
+        }
+
         userRepository.save(user);
 
 
