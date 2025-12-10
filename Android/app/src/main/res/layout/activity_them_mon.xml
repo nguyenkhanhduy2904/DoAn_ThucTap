@@ -221,46 +221,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:id="@+id/rbVN"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Việt Nam"
-                        android:textSize="16sp"/>
-                    <RadioButton
-                        android:id="@+id/rbTL"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Thái Lan"
-                        android:textSize="16sp"/>
-                </LinearLayout>
+                android:orientation="vertical"> <RadioButton
+                android:id="@+id/rbVN"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Việt Nam"
+                android:textSize="16sp"/>
 
-                <LinearLayout
+                <RadioButton
+                    android:id="@+id/rbTL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RadioButton
-                        android:id="@+id/rbHQ"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Hàn Quốc"
-                        android:textSize="16sp"/>
-                    <RadioButton
-                        android:id="@+id/rbTQ"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="Trung Quốc"
-                        android:textSize="16sp"/>
-                </LinearLayout>
+                    android:text="Thái Lan"
+                    android:textSize="16sp"/>
+
+                <RadioButton
+                    android:id="@+id/rbHQ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hàn Quốc"
+                    android:textSize="16sp"/>
+
+                <RadioButton
+                    android:id="@+id/rbTQ"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trung Quốc"
+                    android:textSize="16sp"/>
+
             </RadioGroup>
 
             <TextView

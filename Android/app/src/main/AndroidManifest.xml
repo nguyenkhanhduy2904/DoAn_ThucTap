@@ -28,6 +28,7 @@
         <activity
             android:name=".ThemMon"
             android:exported="true" />
+
         <activity
             android:name=".Them_Voucher"
             android:exported="false" />
