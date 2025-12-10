@@ -62,11 +62,9 @@ public class ThemMon extends AppCompatActivity {
     ImageView imgPreview;
     EditText etxtFoodName, etxtFoodDesc, etxtPrice;
 //<<<<<<< HEAD
-//    RadioGroup rbgQuocGia;
     RadioButton rbVN, rbTL, rbHQ, rbTQ, rbConMon, rbHetMon;
 //=======
     RadioGroup rbgQuocGia,rgStatus,rgDiscount;
-//    RadioButton rbVN, rbTL, rbHQ, rbTQ, rb_con,rb_het;
 //>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
     Button btnCancel, btnSave;
     TextView tv_start_date,tv_end_date;
@@ -104,9 +102,6 @@ public class ThemMon extends AppCompatActivity {
                             Toast.makeText(this, "Hình quá lớn! Tối đa 10MB.", Toast.LENGTH_SHORT).show();
                             return;
                         }
-
-
-
 
                         imgPreview.setImageURI(uri);
                         imgPreview.setTag(uri);
@@ -207,7 +202,7 @@ public class ThemMon extends AppCompatActivity {
             } else if (rbHQ.isChecked()) {
                 quocGiaChon = EQuocGia.HanQuoc;
             } else if (rbTQ.isChecked()) {
-                quocGiaChon = EQuocGia.VietNam;  // If you add this enum later
+                quocGiaChon = EQuocGia.TrungQuoc;  // If you add this enum later
             } else {
                 Toast.makeText(this, "Hãy chọn quốc gia!", Toast.LENGTH_SHORT).show();
                 return;
