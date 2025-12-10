@@ -5,7 +5,8 @@ import com.example.ttcn_dangnhap.R;
 public enum EQuocGia {
     VietNam(R.drawable.twemoji_flag_vietnam),
     ThaiLan(R.drawable.twemoji_flag_thailand),
-    HanQuoc(R.drawable.twemoji_flag_south_korea);
+    HanQuoc(R.drawable.twemoji_flag_south_korea),
+    TrungQuoc(R.drawable.twemoji_flag_china);
 
     private final int drawableId;
 
