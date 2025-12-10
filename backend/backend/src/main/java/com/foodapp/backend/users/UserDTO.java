@@ -8,11 +8,12 @@ public class UserDTO {
     private String diaChi;
     private String gioiTinh;
     private String trangThai;
+    private String email;
 
     public UserDTO() {
     }
 
-    public UserDTO(Integer id,String tenHienThi, String sdt, String role, String diaChi, String gioiTinh, String trangThai) {
+    public UserDTO(Integer id,String tenHienThi, String sdt, String role, String diaChi, String gioiTinh, String trangThai, String email) {
         this.id = id;
         this.tenHienThi = tenHienThi;
         this.sdt = sdt;
@@ -20,6 +21,7 @@ public class UserDTO {
         this.diaChi = diaChi;
         this.gioiTinh = gioiTinh;
         this.trangThai = trangThai;
+        this.email = email;
     }
 
     public String getTenHienThi() {
@@ -76,6 +78,14 @@ public class UserDTO {
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

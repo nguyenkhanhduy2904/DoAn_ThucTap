@@ -30,12 +30,14 @@ public class User {
     private String gioiTinh;
     @Column(name = "TrangThai")
     private String trangThai;
+    @Column(name = "email")
+    private String email;
 
 
     public User() {
     }
 
-    public User(Integer id, String tenDangNhap, String MatKhauHashed, String role, String sdt, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
+    public User(Integer id, String tenDangNhap, String MatKhauHashed, String role, String sdt, String diaChi, String tenHienThi, String gioiTinh, String trangThai, String email) {
         this.id = id;
         this.tenDangNhap = tenDangNhap;
         this.matKhauHashed = MatKhauHashed;
@@ -46,9 +48,10 @@ public class User {
         this.tenHienThi = tenHienThi;
         this.gioiTinh = gioiTinh;
         this.trangThai = trangThai;
+        this.email = email;
     }
 
-    public User(String tenDangNhap, String MatKhauHashed, String role, String sdt, String diaChi, String tenHienThi, String gioiTinh, String trangThai) {
+    public User(String tenDangNhap, String MatKhauHashed, String role, String sdt, String diaChi, String tenHienThi, String gioiTinh, String trangThai, String email) {
         this.tenDangNhap = tenDangNhap;
         this.matKhauHashed = MatKhauHashed;
         this.role = role;
@@ -57,6 +60,7 @@ public class User {
         this.tenHienThi = tenHienThi;
         this.gioiTinh = gioiTinh;
         this.trangThai = trangThai;
+        this.email = email;
     }
 
     public Integer getId() {
@@ -130,6 +134,14 @@ public class User {
 
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

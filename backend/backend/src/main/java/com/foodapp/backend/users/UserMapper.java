@@ -9,7 +9,8 @@ public class UserMapper {
                 user.getRole(),
                 user.getDiaChi(),
                 user.getGioiTinh(),
-                user.getTrangThai()
+                user.getTrangThai(),
+                user.getEmail()
         );
         return dto;
     }
