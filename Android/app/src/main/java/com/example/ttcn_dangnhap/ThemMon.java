@@ -1,8 +1,10 @@
 package com.example.ttcn_dangnhap;
 
 //<<<<<<< HEAD
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.OpenableColumns;
 import android.util.Log;
 //=======
 import android.app.DatePickerDialog;
@@ -92,15 +94,26 @@ public class ThemMon extends AppCompatActivity {
                 new ActivityResultContracts.GetContent(),
                 uri -> {
                     if (uri != null) {
-//<<<<<<< HEAD
+
+                        //check file size
+                        long fileSize = getFileSize(uri);
+
+                        long maxSize = 10 * 1024 * 1024; // 10MB limit
+
+                        if (fileSize > maxSize) {
+                            Toast.makeText(this, "Hình quá lớn! Tối đa 10MB.", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+
+
+
                         imgPreview.setImageURI(uri);
-                        imgPreview.setTag(uri);   // store URI for later upload
-////=======
-//                        img.setImageURI(uri); // Display selected image
-//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
+                        imgPreview.setTag(uri);
                     }
                 }
         );
+
 
 
         addControls();
@@ -109,16 +122,14 @@ public class ThemMon extends AppCompatActivity {
 
 
     void addControls(){
-//<<<<<<< HEAD
+
         imgZone = findViewById(R.id.btn_upload_image);
         imgPreview = findViewById(R.id.img);
-//=======
-//        btn_upload_image = findViewById(R.id.btn_upload_image);
+
         layout_percent = findViewById(R.id.layout_percent);
         layout_nbd = findViewById(R.id.layout_nbd);
         layout_nkt = findViewById(R.id.layout_nkt);
-//        img = findViewById(R.id.img);
-//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
+
         etxtFoodName = findViewById(R.id.etxtFoodName);
         etxtFoodDesc = findViewById(R.id.etxtDesc);
         etxtPrice = findViewById(R.id.etxtPrice);
@@ -129,18 +140,15 @@ public class ThemMon extends AppCompatActivity {
         rbTL = findViewById(R.id.rbTL);
         rbHQ = findViewById(R.id.rbHQ);
         rbTQ = findViewById(R.id.rbTQ);
-//<<<<<<< HEAD
+
         rbConMon = findViewById(R.id.rb_con);
         rbHetMon = findViewById(R.id.rb_het);
-//        rbDB = findViewById(R.id.rbDacBiet);
-//        rbBT = findViewById(R.id.rbBinhThuong);
 
-//=======
         tv_start_date=findViewById(R.id.tv_start_date);
         tv_end_date=findViewById(R.id.tv_end_date);
         tv_start_date.setText(Format_Date.formatDate(calendar.getTime()));
         tv_end_date.setText(Format_Date.formatDate(calendar.getTime()));
-//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
+
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
     }
@@ -205,7 +213,6 @@ public class ThemMon extends AppCompatActivity {
                 return;
             }
 
-//<<<<<<< HEAD
             if(rbConMon.isChecked()){
                 TrangThai = "Available";
             } else if (rbHetMon.isChecked()) {
@@ -226,20 +233,9 @@ public class ThemMon extends AppCompatActivity {
 
             uploadImage(selectedImgUri);
 
-
-
-
-
-
-
-
-//
-//=======
-//            String urlUploadImg ="http://10.0.2.2:8080/api/v1/upload/image";
-//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
         });
     }
-//<<<<<<< HEAD
+
 
     private void BuildMonAnJsonAndSend(){
 
@@ -387,8 +383,22 @@ public class ThemMon extends AppCompatActivity {
         return buffer.toByteArray();
     }
 
+    private long getFileSize(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        long size = -1;
 
-//=======
+        if (cursor != null) {
+            int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+            cursor.moveToFirst();
+            size = cursor.getLong(sizeIndex);
+            cursor.close();
+        }
+
+        return size; // size in bytes
+    }
+
+
+
     public void XulyChonNgay(View v, TextView tv) {
         DatePickerDialog dlg = new DatePickerDialog(ThemMon.this,
                 (datePicker, i, i1, i2) -> {
@@ -409,5 +419,5 @@ public class ThemMon extends AppCompatActivity {
         layout_nbd.setVisibility(visibility);
         layout_nkt.setVisibility(visibility);
     }
-//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
+
 }
