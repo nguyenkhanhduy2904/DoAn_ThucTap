@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +21,8 @@ import okio.Buffer;
 
 
 public class CustomCartListAdapter extends BaseAdapter {
+
+    private OnItemChangeListener<CartItem> itemChangeListener;
 
     Context context;
     List<CartItem> lsCartItem;
@@ -51,6 +54,8 @@ public class CustomCartListAdapter extends BaseAdapter {
         return i;
     }
 
+
+
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.item_cart, null);
@@ -63,6 +68,8 @@ public class CustomCartListAdapter extends BaseAdapter {
         Button btnPlus = convertView.findViewById(R.id.btnPlus);
         Button btnMinus = convertView.findViewById(R.id.btnMinus);
 
+        ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
+
 
         CartItem cartItem = lsCartItem.get(pos);
 
@@ -74,6 +81,17 @@ public class CustomCartListAdapter extends BaseAdapter {
         SharedPreferences sp = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         int userid = sp.getInt("userid", -1);
 
+        btnDelete.setOnClickListener(view -> {
+            CartItem existingCartItem = cartDAO.getItemForUser(userid, cartItem.getMonanid());
+            if(existingCartItem!=null){
+                cartDAO.delete(existingCartItem.getId());
+                lsCartItem.remove(cartItem);
+                notifyItemChanged();
+                notifyDataSetChanged();
+
+            }
+        });
+
         btnPlus.setOnClickListener(view -> {
             CartItem existingCartItem = cartDAO.getItemForUser(userid, cartItem.getMonanid());
             if (existingCartItem != null) {
@@ -84,7 +102,7 @@ public class CustomCartListAdapter extends BaseAdapter {
 
 
                 cartDAO.update(existingCartItem);
-                
+
                 cartItem.setSoLuong(quantity);
                 cartItem.setGiaTongMon(totalPrice);
 
@@ -93,6 +111,7 @@ public class CustomCartListAdapter extends BaseAdapter {
 
 
                 btnMinus.setEnabled(true);
+                notifyItemChanged();
             }
         });
 
@@ -121,11 +140,19 @@ public class CustomCartListAdapter extends BaseAdapter {
                 if (quantity <= 1) {
                     btnMinus.setEnabled(false);
                 }
+                notifyItemChanged();
             }
         });
-
-
-
         return convertView;
+    }
+
+    public void setOnItemChangeListener(OnItemChangeListener<CartItem> listener) {
+        this.itemChangeListener = listener;
+    }
+
+    private void notifyItemChanged() {
+        if (itemChangeListener != null) {
+            itemChangeListener.onItemChanged(lsCartItem);
+        }
     }
 }
