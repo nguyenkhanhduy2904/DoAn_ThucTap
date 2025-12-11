@@ -27,7 +27,10 @@ public class OrderService {
         if (order.getIdKhachHang() == null) {
             throw new IllegalStateException("Ma Khach Hang cannot be null");
         }
-
+        
+        if (order.getThoiGianTao() == null) {
+            order.setThoiGianTao(new java.util.Date());
+        }
         // Link order to its items
         if (order.getItems() != null) {
             for (OrderItem item : order.getItems()) {

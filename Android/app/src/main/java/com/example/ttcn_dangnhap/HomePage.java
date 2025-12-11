@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -41,7 +42,7 @@ public class HomePage extends AppCompatActivity {
     List<MonAn> lsAllMonAn;
     ListView lsView;
     CustomFoodListAdapter customFoodListAdapter;
-
+    ImageView cart;
     //nav bar button
     LinearLayout ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount;
     ImageButton  ibtnMenu;
@@ -215,7 +216,7 @@ public class HomePage extends AppCompatActivity {
         customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, listDisplayMonAn);
         lsView.setAdapter(customFoodListAdapter);
         setListViewHeight(lsView);
-
+        cart= findViewById(R.id.cart);
         //set image button cho thanh nav
         View navBar = findViewById(R.id.navBar);
         ibtnHome = navBar.findViewById(R.id.ibtnHome);
@@ -294,7 +295,21 @@ public class HomePage extends AppCompatActivity {
             setListViewHeight(lsView);
 
         });
+        lnBestSell.setOnClickListener(view -> {
+            // 1. Xóa danh sách đang hiển thị (đang bị lọc theo quốc gia khác)
+            listDisplayMonAn.clear();
 
+            // 2. Thêm tất cả món ăn từ nguồn gốc (lsAllMonAn) vào lại
+            listDisplayMonAn.addAll(lsAllMonAn);
+
+            // 3. Cập nhật giao diện
+            customFoodListAdapter.notifyDataSetChanged();
+            setListViewHeight(lsView);
+        });
+        cart.setOnClickListener(view -> {
+            Intent intent = new Intent(HomePage.this, Cart.class);
+            startActivity(intent);
+        });
 
 
 

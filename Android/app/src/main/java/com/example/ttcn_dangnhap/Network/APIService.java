@@ -4,6 +4,8 @@ import com.google.gson.JsonObject;
 
 import models.APIResponse;
 import models.ImageUpload;
+import models.OrderDTO;
+import models.OrderItemDTO;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -17,4 +19,6 @@ public interface APIService {
             @Part MultipartBody.Part file,
             @Part("type") RequestBody type
     );
+    @POST("orders")
+    Call<APIResponse<OrderDTO>> addOrder(@Body OrderDTO order);
 }

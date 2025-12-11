@@ -3,9 +3,11 @@ package com.example.ttcn_dangnhap;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,10 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.ttcn_dangnhap.util.CartUtil;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 
+import models.CartItem;
 import models.MonAn;
 
 public class Chi_tiet_mon extends AppCompatActivity {
@@ -27,6 +31,7 @@ public class Chi_tiet_mon extends AppCompatActivity {
     int quantity = 1;
     long tongtien = 0;
     MonAn currentFood;
+    EditText etNote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,7 @@ public class Chi_tiet_mon extends AppCompatActivity {
         imgFood=findViewById(R.id.imgFood);
         btnBack=findViewById(R.id.btnBack);
         btnCart=findViewById(R.id.btnCart);
+        etNote = findViewById(R.id.etNote);
     }
 
     private void addEvents() {
@@ -71,9 +77,38 @@ public class Chi_tiet_mon extends AppCompatActivity {
                 updatePriceUI();
             }
         });
-        btnAddToCart.setOnClickListener(view -> {
+        btnCart.setOnClickListener(view -> {
             Intent intent = new Intent(Chi_tiet_mon.this, Cart.class);
             startActivity(intent);
+        });
+        btnAddToCart.setOnClickListener(view -> {
+            if (currentFood != null) {
+                // Kiểm tra món này đã có trong giỏ chưa
+                String noteContent = etNote.getText().toString().trim();
+                boolean exists = false;
+                for (CartItem item : CartUtil.mangGioHang) {
+                    if (item.getMonAn().getIdMonAn() == currentFood.getIdMonAn()) {
+                        // Nếu đã có, cộng dồn số lượng
+                        item.setQuantity(item.getQuantity() + quantity);
+                        if(!noteContent.isEmpty()){
+                            item.setNote(noteContent);
+                        }
+                        exists = true;
+                        break;
+                    }
+                }
+
+                // Nếu chưa có, thêm mới (Ghi chú đang để rỗng, bạn có thể thêm EditText nhập ghi chú ở màn hình này nếu muốn)
+                if (!exists) {
+                    CartUtil.mangGioHang.add(new CartItem(currentFood, quantity, noteContent));
+                }
+
+                Toast.makeText(Chi_tiet_mon.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
+
+                // Chuyển sang màn hình Cart
+                Intent intent = new Intent(Chi_tiet_mon.this, Cart.class);
+                startActivity(intent);
+            }
         });
     }
     private void updatePriceUI() {
