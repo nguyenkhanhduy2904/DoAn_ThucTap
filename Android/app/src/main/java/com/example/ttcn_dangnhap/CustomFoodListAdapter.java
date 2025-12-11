@@ -59,16 +59,9 @@ public class CustomFoodListAdapter extends BaseAdapter {
         Picasso.get().load(monAn.getUrlHinhAnhMonAn()).resize(150,150).centerCrop().into(ivFoodImg);
         txtFoodName.setText(monAn.getTenMonAn());
         txtDescription.setText(monAn.getMotaMonAn());
-        txtPrice.setText(String.valueOf(monAn.getGiaMonAn()));
+        java.text.DecimalFormat decimalFormat = new java.text.DecimalFormat("###,###,###");
+        txtPrice.setText(decimalFormat.format(monAn.getGiaMonAn()) + "đ");
         ivFlag.setImageResource(monAn.getQuocGia().getDrawableId());
-
-
-
-
-
-
-
-
 
 
         return convertView;
