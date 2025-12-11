@@ -97,17 +97,20 @@ public class Login extends AppCompatActivity {
 
                                 JSONObject data = response.getJSONObject("data");
                                 String role = data.getString("role");
+                                int userid = data.getInt("id");
                                 SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("is_logged_in", true); // Lưu trạng thái đã đăng nhập
                                 editor.putString("user_role", role);     // Lưu quyền (ADMIN/CUSTOMER) để sau này dùng
                                 editor.putString("username", tenDangNhap); // Lưu tên đăng nhập (nếu cần hiển thị ở Infor)
+                                editor.putInt("userid", userid );
                                 editor.apply(); // Xác nhận lưu
 
                                 if (role.equals("CUSTOMER")) {
                                     ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
                                         Intent intent = new Intent(Login.this, HomePage.class);
                                         startActivity(intent);
+
                                         finish();
                                     });
                                 }

@@ -21,6 +21,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ttcn_dangnhap.Adapter.CustomFoodListAdapter;
 import com.example.ttcn_dangnhap.Network.APICallback;
 
 import org.json.JSONArray;
@@ -29,6 +30,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import models.Cart.CartDAO;
+import models.Cart.CartDbHelper;
 import models.MonAn;
 import models.EQuocGia;
 
@@ -44,10 +47,15 @@ public class HomePage extends AppCompatActivity {
 
     //nav bar button
     LinearLayout ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount;
-    ImageButton  ibtnMenu;
+    ImageButton  ibtnMenu, ibtnCart;
 
     //linear layout flag btn
     LinearLayout lnBestSell,lnVN, lnTL, lnHQ, lnTQ;
+
+    CartDbHelper cartDbHelper;
+    CartDAO cartDAO;
+
+
 
 
 
@@ -64,6 +72,11 @@ public class HomePage extends AppCompatActivity {
             return insets;
         });
 
+        //sqlite
+        cartDbHelper = new CartDbHelper(HomePage.this);
+        cartDAO = new CartDAO(cartDbHelper);
+
+        //
         lsAllMonAn = new ArrayList<>();
         listDisplayMonAn = new ArrayList<>();
 
@@ -99,43 +112,7 @@ public class HomePage extends AppCompatActivity {
 
     }
 
-//    private List<MonAn> getListMonAn() {
-//        List<MonAn> lsMonAn = new ArrayList<>();
-//
-//        lsMonAn.add(new MonAn(
-//                1,
-//                "Phở Bò",
-//                "Phở bò truyền thống Việt Nam",
-//                50000L,
-//                "https://cdn.tgdd.vn/Files/2022/01/25/1412805/cach-nau-pho-bo-nam-dinh-chuan-vi-thom-ngon-nhu-hang-quan-202201250230038502.jpg",
-//                EQuocGia.VietNam,
-//                true
-//        ));
-//
-//        lsMonAn.add(new MonAn(
-//                2,
-//                "Sushi",
-//                "Sushi tươi ngon Nhật Bản",
-//                120000L,
-//                "https://www.justonecookbook.com/wp-content/uploads/2020/01/Sushi-Rolls-Maki-Sushi-%E2%80%93-Hosomaki-1106-II.jpg",
-//                EQuocGia.ThaiLan,
-//                true
-//        ));
-//
-//        lsMonAn.add(new MonAn(
-//                3,
-//                "Kimchi",
-//                "Kimchi cay Hàn Quốc",
-//                40000L,
-//                "https://delishglobe.com/wp-content/uploads/2024/12/Kimchi-Fermented-Vegetables.png",
-//                EQuocGia.HanQuoc,
-//                true
-//        ));
-//
-//        // Add more items if needed
-//
-//        return lsMonAn;
-//    }//tao 1 list tam thoi de test
+
 
     private void GETAllItem(APICallback<List<MonAn>> callback){
         String url = "http://10.0.2.2:8080/api/v1/monan";
@@ -212,7 +189,7 @@ public class HomePage extends AppCompatActivity {
 
     void addControls(){
         lsView = findViewById(R.id.lsViewItem);
-        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, listDisplayMonAn);
+        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, listDisplayMonAn, cartDAO);
         lsView.setAdapter(customFoodListAdapter);
         setListViewHeight(lsView);
 
@@ -223,6 +200,7 @@ public class HomePage extends AppCompatActivity {
         ibtnOrder = navBar.findViewById(R.id.ibtnOrder);
         ibtnAccount = navBar.findViewById(R.id.ibtnAccount);
         ibtnMenu = navBar.findViewById(R.id.ibtnMenu);
+        ibtnCart = findViewById(R.id.ibtnCart);
 
         //set linear layout flag
         lnVN = findViewById(R.id.layoutVietNam);
@@ -322,6 +300,13 @@ public class HomePage extends AppCompatActivity {
 
             Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
         });
+
+        ibtnCart.setOnClickListener(view -> {
+            Intent intent = new Intent(HomePage.this, Cart.class);
+            startActivity(intent);
+        });
+
+
         lsView.setOnItemClickListener((adapterView, view, i, l) -> {
             MonAn monAnDuocChon = lsAllMonAn.get(i);
             Intent intent = new Intent(HomePage.this, Chi_tiet_mon.class);
@@ -329,7 +314,6 @@ public class HomePage extends AppCompatActivity {
             startActivity(intent);
         });
     }
-
 
 
     void setListViewHeight(ListView lsView){
@@ -352,7 +336,9 @@ public class HomePage extends AppCompatActivity {
     }
 
 
-
-
-
+    @Override
+    protected void onDestroy() {
+        cartDbHelper.close();
+        super.onDestroy();
+    }
 }
