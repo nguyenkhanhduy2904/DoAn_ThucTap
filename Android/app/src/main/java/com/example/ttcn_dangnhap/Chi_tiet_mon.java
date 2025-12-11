@@ -71,6 +71,10 @@ public class Chi_tiet_mon extends AppCompatActivity {
                 updatePriceUI();
             }
         });
+        btnAddToCart.setOnClickListener(view -> {
+            Intent intent = new Intent(Chi_tiet_mon.this, Cart.class);
+            startActivity(intent);
+        });
     }
     private void updatePriceUI() {
         tvSl.setText(String.valueOf(quantity));
@@ -81,18 +85,13 @@ public class Chi_tiet_mon extends AppCompatActivity {
     }
     private void getIntentData() {
         Intent intent = getIntent();
-        // Kiểm tra xem có dữ liệu gửi sang không
+
         if (intent != null && intent.hasExtra("monAn")) {
-            // Nhận đối tượng MonAn (ép kiểu về MonAn)
             currentFood = (MonAn) intent.getSerializableExtra("monAn");
 
-            // --- HIỂN THỊ DỮ LIỆU LÊN GIAO DIỆN ---
-
-            // 1. Tên và Mô tả
             tvFoodName.setText(currentFood.getTenMonAn());
             tvDescription.setText(currentFood.getMotaMonAn());
 
-            // 2. Giá tiền (Định dạng cho đẹp)
             DecimalFormat formatter = new DecimalFormat("###,###,###");
             tvPrice.setText(formatter.format(currentFood.getGiaMonAn()));
             Picasso.get().load(currentFood.getUrlHinhAnhMonAn()).resize(500,300).centerCrop().into(imgFood);
@@ -103,12 +102,5 @@ public class Chi_tiet_mon extends AppCompatActivity {
 
 
 
-//            // 3. Hiển thị ảnh từ URL (Dùng Glide)
 
-//            Glide.with(this)
-//                    .load(currentFood.getUrlHinhAnhMonAn()) // Link ảnh https://...
-//                    .placeholder(R.drawable.logo) // Ảnh chờ khi đang tải (tạo 1 ảnh tạm)
-//                    .error(R.drawable.logo) // Ảnh lỗi nếu link chết
-//                    .into(imgFood);
-//        }
 }
