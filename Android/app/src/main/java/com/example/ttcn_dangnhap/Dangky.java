@@ -1,5 +1,6 @@
 package com.example.ttcn_dangnhap;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.widget.EditText;
@@ -153,8 +154,14 @@ public class Dangky extends AppCompatActivity {
                             String status = response.getString("status");
                             String message = response.getString("message");
                             if(status.equals("success")){
-                                Toast.makeText(Dangky.this, "Create Account Success", Toast.LENGTH_LONG).show();
-                                //intent chuyen activity
+                                ThongBao.showThongBao(Dangky.this,"Create Account Success",message,() -> {
+                                    Intent intent = new Intent(Dangky.this,HomePage.class);
+                                    startActivity(intent);
+                                    finish();
+                                });
+                                android.content.SharedPreferences settings = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                                android.content.SharedPreferences.Editor editor = settings.edit();
+                                editor.putBoolean("is_logged_in", true);
 
                             }else{
                                 Toast.makeText(Dangky.this, "Create Account failed: " + message, Toast.LENGTH_LONG).show();

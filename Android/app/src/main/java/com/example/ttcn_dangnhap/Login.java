@@ -108,12 +108,14 @@ public class Login extends AppCompatActivity {
                                     ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
                                         Intent intent = new Intent(Login.this, HomePage.class);
                                         startActivity(intent);
+                                        finish();
                                     });
                                 }
                                 else if (role.equals("ADMIN")) {
                                     ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
                                         Intent intent = new Intent(Login.this, Voucher_admin.class);
                                         startActivity(intent);
+                                        finish();
                                     });
                                 }
                                 else {

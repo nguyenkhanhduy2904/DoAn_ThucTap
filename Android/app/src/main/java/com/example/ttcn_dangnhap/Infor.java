@@ -62,7 +62,6 @@ public class Infor extends AppCompatActivity {
         btnGoToRegister.setOnClickListener(view -> {
             Intent intent = new Intent(Infor.this,Dangky.class);
             startActivity(intent);
-            isLoggedIn = true;
         });
         ibtnHome.setOnClickListener(view -> {
             Intent intent = new Intent(Infor.this,HomePage.class);
