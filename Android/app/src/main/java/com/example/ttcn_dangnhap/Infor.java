@@ -73,7 +73,9 @@ public class Infor extends AppCompatActivity {
             editor.putBoolean(KEY_IS_LOGGED_IN, false);
             editor.apply();
             Toast.makeText(Infor.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
-            checkLoginState();
+            Intent intent = new Intent(Infor.this, Login.class);
+            startActivity(intent);
+            finish();
         });
     }
     private void checkLoginState() {

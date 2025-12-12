@@ -174,6 +174,23 @@ public class Login extends AppCompatActivity {
         txtSignup = findViewById(R.id.txt_dky);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        boolean isLoggedIn = sharedPreferences.getBoolean("is_logged_in", false);
+        if (isLoggedIn) {
+            String role = sharedPreferences.getString("user_role", "CUSTOMER");
 
+            if (role.equals("CUSTOMER")) {
+                Intent intent = new Intent(Login.this, HomePage.class);
+                startActivity(intent);
+            } else if (role.equals("ADMIN")) {
+                Intent intent = new Intent(Login.this, QuanLyMon.class);
+                startActivity(intent);
+            }
 
+            finish();
+        }
+    }
 }
