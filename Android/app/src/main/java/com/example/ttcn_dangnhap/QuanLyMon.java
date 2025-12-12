@@ -168,6 +168,17 @@ public class QuanLyMon extends AppCompatActivity {
             setListViewHeight(lv_danh_sach_mon_an);
 
         });
+        layoutBestSell.setOnClickListener(view -> {
+            // 1. Xóa danh sách đang hiển thị (đang bị lọc theo quốc gia khác)
+            listDisplayMonAn.clear();
+
+            // 2. Thêm tất cả món ăn từ nguồn gốc (lsAllMonAn) vào lại
+            listDisplayMonAn.addAll(lsAllMonAn);
+
+            // 3. Cập nhật giao diện
+            customFoodListAdapter.notifyDataSetChanged();
+            setListViewHeight(lv_danh_sach_mon_an);
+        });
     }
     private void GETAllItem(APICallback<List<MonAn>> callback){
         String url = "http://10.0.2.2:8080/api/v1/monan";
