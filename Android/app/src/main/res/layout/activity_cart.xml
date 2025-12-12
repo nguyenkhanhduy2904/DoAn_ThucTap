@@ -7,12 +7,13 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:src="@drawable/icon_rollback"
+        android:background="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,8 +30,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/btnBack" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCart"
+    <ListView
+        android:id="@+id/lsViewCart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -124,7 +125,7 @@
                 android:id="@+id/tvDiscountValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Money"
+                android:hint="0"
                 android:text=""
                 android:textColor="#000000"
                 android:textSize="16sp"

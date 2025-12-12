@@ -1,6 +1,7 @@
-package com.example.ttcn_dangnhap;
+package com.example.ttcn_dangnhap.Adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,15 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.ttcn_dangnhap.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import models.Cart.CartDAO;
+import models.Cart.CartItem;
 import models.MonAn;
 
 public class CustomFoodListAdapter extends BaseAdapter {
@@ -20,11 +26,13 @@ public class CustomFoodListAdapter extends BaseAdapter {
     Context context;
     List<MonAn> lsMonAn;
     LayoutInflater inflater;
+    CartDAO cartDAO;
 
-    public CustomFoodListAdapter(Context ctx, List<MonAn> lsMonAn){
+    public CustomFoodListAdapter(Context ctx, List<MonAn> lsMonAn, CartDAO cartDAO){
         this.context = ctx;
         this.lsMonAn = lsMonAn;
         inflater = LayoutInflater.from(ctx);
+        this.cartDAO = cartDAO;
 
     }
 
@@ -62,6 +70,44 @@ public class CustomFoodListAdapter extends BaseAdapter {
         java.text.DecimalFormat decimalFormat = new java.text.DecimalFormat("###,###,###");
         txtPrice.setText(decimalFormat.format(monAn.getGiaMonAn()) + "đ");
         ivFlag.setImageResource(monAn.getQuocGia().getDrawableId());
+
+
+        ibtnAdd.setOnClickListener(view -> {
+            int foodid = monAn.getIdMonAn();
+
+            SharedPreferences sp = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            int userid = sp.getInt("userid", -1);
+
+            if(userid ==-1){
+                Toast.makeText(context, "User not logged in!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+
+            CartItem existingCartItem = cartDAO.getItemForUser(userid, foodid);
+
+            if(existingCartItem!=null){
+                existingCartItem.setSoLuong(existingCartItem.getSoLuong()+1);
+                existingCartItem.setGiaTongMon(existingCartItem.getGiaTungMon()*existingCartItem.getSoLuong());
+                cartDAO.update(existingCartItem);
+            }
+            else{
+                CartItem newItem = new CartItem();
+                newItem.setUserid(userid);
+                newItem.setMonanid(foodid);
+                newItem.setTenMon(monAn.getTenMonAn());
+                newItem.setSoLuong(1);
+                newItem.setGiaTungMon(monAn.getGiaMonAn());
+                newItem.setGiaTongMon(monAn.getGiaMonAn());
+                cartDAO.addItem(newItem);
+
+            }
+
+            Toast.makeText(context, "Added to cart!", Toast.LENGTH_SHORT).show();
+
+
+
+        });
 
 
         return convertView;
