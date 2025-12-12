@@ -1,6 +1,7 @@
 package com.example.ttcn_dangnhap;
 
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.view.View;
 import android.content.SharedPreferences;
@@ -71,9 +72,19 @@ public class Infor extends AppCompatActivity {
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean(KEY_IS_LOGGED_IN, false);
+            editor.remove("userid");
             editor.apply();
+
+            Intent intent = new Intent(Infor.this, Login.class);
+            startActivity(intent);
+            finish();
+
             Toast.makeText(Infor.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
             checkLoginState();
+
+
+
+
         });
     }
     private void checkLoginState() {
