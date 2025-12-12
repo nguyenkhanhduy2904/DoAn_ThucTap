@@ -1,6 +1,7 @@
 package com.example.ttcn_dangnhap;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -34,11 +35,13 @@ import models.EQuocGia;
 import models.MonAn;
 
 public class QuanLyMon extends AppCompatActivity {
-    Button btn_them_mon;
+    Button btn_them_mon,btnLogout;
     LinearLayout layoutVietNam, layoutThaiLand, layoutSKorea, layoutChina, layoutBestSell;
     ListView lv_danh_sach_mon_an;
     List<MonAn> lsAllMonAn, listDisplayMonAn;
     CustomFoodListAdapter customFoodListAdapter;
+    private static final String PREFS_NAME = "UserPrefs";
+    private static final String KEY_IS_LOGGED_IN = "is_logged_in"
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +90,7 @@ public class QuanLyMon extends AppCompatActivity {
 
     private void addControls() {
         btn_them_mon = findViewById(R.id.btn_them_mon);
+        btnLogout=findViewById(R.id.btnLogout);
         layoutBestSell = findViewById(R.id.layoutBestSell);
         layoutVietNam = findViewById(R.id.layoutVietNam);
         layoutThaiLand = findViewById(R.id.layoutThaiLand);
@@ -151,6 +155,20 @@ public class QuanLyMon extends AppCompatActivity {
             listDisplayMonAn.addAll(resultList);
             customFoodListAdapter.notifyDataSetChanged();
             setListViewHeight(lv_danh_sach_mon_an);
+
+        });
+        btnLogout.setOnClickListener(view -> {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(KEY_IS_LOGGED_IN, false);
+            editor.remove("userid");
+            editor.apply();
+
+            Intent intent = new Intent(QuanLyMon.this, Login.class);
+            startActivity(intent);
+            finish();
+
+            Toast.makeText(Infor.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
 
         });
         layoutChina.setOnClickListener(view -> {
@@ -261,4 +279,5 @@ public class QuanLyMon extends AppCompatActivity {
         lsView.setLayoutParams(params);
         lsView.requestLayout();
     }
+
 }
