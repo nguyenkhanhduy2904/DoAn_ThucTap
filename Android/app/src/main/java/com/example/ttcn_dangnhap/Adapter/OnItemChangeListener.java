@@ -1,7 +1,8 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import java.util.List;
 
 public interface OnItemChangeListener <T>{
-    void onItemChanged(List<T> updatedList);
+    void onItemChanged(List<T>updatedList);
 }
+

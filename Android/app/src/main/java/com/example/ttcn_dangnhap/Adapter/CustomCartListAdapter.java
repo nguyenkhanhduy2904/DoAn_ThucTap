@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ttcn_dangnhap.R;
+import com.example.ttcn_dangnhap.adapter.OnItemChangeListener;
 
 import java.util.List;
 

@@ -22,7 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ttcn_dangnhap.Adapter.CustomFoodListAdapter;
+import com.example.ttcn_dangnhap.adapter.CustomFoodListAdapter;
 import com.example.ttcn_dangnhap.Network.APICallback;
 
 import org.json.JSONArray;
@@ -190,10 +190,9 @@ public class HomePage extends AppCompatActivity {
 
     void addControls(){
         lsView = findViewById(R.id.lsViewItem);
-        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, listDisplayMonAn, cartDAO);
+        customFoodListAdapter = new CustomFoodListAdapter(HomePage.this, listDisplayMonAn, cartDAO,false);
         lsView.setAdapter(customFoodListAdapter);
         setListViewHeight(lsView);
-        cart= findViewById(R.id.cart);
         //set image button cho thanh nav
         View navBar = findViewById(R.id.navBar);
         ibtnHome = navBar.findViewById(R.id.ibtnHome);
@@ -284,10 +283,7 @@ public class HomePage extends AppCompatActivity {
             customFoodListAdapter.notifyDataSetChanged();
             setListViewHeight(lsView);
         });
-        cart.setOnClickListener(view -> {
-            Intent intent = new Intent(HomePage.this, Cart.class);
-            startActivity(intent);
-        });
+
 
 
 

@@ -13,6 +13,7 @@ import android.view.View;
 //>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -60,6 +61,7 @@ public class ThemMon extends AppCompatActivity {
     private ActivityResultLauncher<String> pickImageLauncher;
     LinearLayout imgZone,layout_percent,layout_nbd,layout_nkt;
     ImageView imgPreview;
+    ImageButton ibtnBack;
     EditText etxtFoodName, etxtFoodDesc, etxtPrice;
 //<<<<<<< HEAD
     RadioButton rbVN, rbTL, rbHQ, rbTQ, rbConMon, rbHetMon;
@@ -120,7 +122,7 @@ public class ThemMon extends AppCompatActivity {
 
         imgZone = findViewById(R.id.btn_upload_image);
         imgPreview = findViewById(R.id.img);
-
+        ibtnBack= findViewById(R.id.ibtnBack);
         layout_percent = findViewById(R.id.layout_percent);
         layout_nbd = findViewById(R.id.layout_nbd);
         layout_nkt = findViewById(R.id.layout_nkt);
@@ -152,7 +154,7 @@ public class ThemMon extends AppCompatActivity {
         imgZone.setOnClickListener(view -> {
             pickImageLauncher.launch("image/*");  // Opens gallery
         });
-
+        ibtnBack.setOnClickListener(view -> finish());
         btnCancel.setOnClickListener(view -> {
             finish();
         });
@@ -263,7 +265,7 @@ public class ThemMon extends AppCompatActivity {
                         if(status.equals("success")){
                             Toast.makeText(ThemMon.this, "Create New Food Success", Toast.LENGTH_LONG).show();
                             //intent chuyen activity
-
+                            finish();
                         }else{
                             Toast.makeText(ThemMon.this, "Create Food failed:"+ message, Toast.LENGTH_LONG).show();
                         }

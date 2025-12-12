@@ -21,8 +21,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ttcn_dangnhap.Adapter.CustomFoodListAdapter;
 import com.example.ttcn_dangnhap.Network.APICallback;
+import com.example.ttcn_dangnhap.adapter.CustomFoodListAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -53,6 +53,13 @@ public class QuanLyMon extends AppCompatActivity {
         listDisplayMonAn = new ArrayList<>();
         addControls();
         addEvents();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         GETAllItem(new APICallback<List<MonAn>>() {
             @Override
             public void onSuccess(List<MonAn> result) {
@@ -76,8 +83,6 @@ public class QuanLyMon extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void addControls() {
@@ -88,6 +93,8 @@ public class QuanLyMon extends AppCompatActivity {
         layoutSKorea = findViewById(R.id.layoutSKorea);
         layoutChina = findViewById(R.id.layoutChina);
         lv_danh_sach_mon_an = findViewById(R.id.lv_danh_sach_mon_an);
+        customFoodListAdapter = new CustomFoodListAdapter(this, listDisplayMonAn, null, true);
+        lv_danh_sach_mon_an.setAdapter(customFoodListAdapter);
     }
 
     private void addEvents() {
