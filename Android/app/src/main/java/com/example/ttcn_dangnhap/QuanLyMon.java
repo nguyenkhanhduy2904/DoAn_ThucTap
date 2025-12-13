@@ -38,16 +38,25 @@ import models.EQuocGia;
 import models.MonAn;
 
 public class QuanLyMon extends AppCompatActivity {
+//<<<<<<< HEAD
     ImageButton ibtnLogout;
     Button btn_them_mon;
+//=======
+//    Button btn_them_mon,btnLogout;
+//>>>>>>> 565edf5e6b13b3821d52b44f6d0c273890daba86
     LinearLayout layoutVietNam, layoutThaiLand, layoutSKorea, layoutChina, layoutBestSell;
     ListView lv_danh_sach_mon_an;
     List<MonAn> lsAllMonAn, listDisplayMonAn;
     CustomFoodListAdapter customFoodListAdapter;
+//<<<<<<< HEAD
 
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
 
+//=======
+//    private static final String PREFS_NAME = "UserPrefs";
+//    private static final String KEY_IS_LOGGED_IN = "is_logged_in"
+//>>>>>>> 565edf5e6b13b3821d52b44f6d0c273890daba86
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +105,7 @@ public class QuanLyMon extends AppCompatActivity {
 
     private void addControls() {
         btn_them_mon = findViewById(R.id.btn_them_mon);
+//        btnLogout=findViewById(R.id.btnLogout);
         layoutBestSell = findViewById(R.id.layoutBestSell);
         layoutVietNam = findViewById(R.id.layoutVietNam);
         layoutThaiLand = findViewById(R.id.layoutThaiLand);
@@ -163,6 +173,20 @@ public class QuanLyMon extends AppCompatActivity {
             setListViewHeight(lv_danh_sach_mon_an);
 
         });
+//        btnLogout.setOnClickListener(view -> {
+//            SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putBoolean(KEY_IS_LOGGED_IN, false);
+//            editor.remove("userid");
+//            editor.apply();
+//
+//            Intent intent = new Intent(QuanLyMon.this, Login.class);
+//            startActivity(intent);
+//            finish();
+//
+//            Toast.makeText(Infor.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
+//
+//        });
         layoutChina.setOnClickListener(view -> {
             List<MonAn> resultList = new ArrayList<>();
             for(int i=0; i<lsAllMonAn.size(); i++){
@@ -286,4 +310,5 @@ public class QuanLyMon extends AppCompatActivity {
         lsView.setLayoutParams(params);
         lsView.requestLayout();
     }
+
 }
