@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.ttcn_dangnhap.Cart;
+
 import java.util.ArrayList;
 import java.util.List;
 public class CartDAO {
@@ -81,6 +83,32 @@ public class CartDAO {
 
         cursor.close();
         return null;
+    }
+
+    public List<CartItem> getAllItemWithThisUserAndMonAnId(int userId, int monAnId){
+        List<CartItem> result = new ArrayList<>();
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM cart_items WHERE user_id = ? AND monan_id = ?",
+                new String[]{String.valueOf(userId), String.valueOf(monAnId)}
+        );
+
+        while (cursor.moveToNext()) {
+            CartItem item = new CartItem();
+            item.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
+            item.setUserid(cursor.getInt(cursor.getColumnIndexOrThrow("user_id")));
+            item.setTenMon(cursor.getString(cursor.getColumnIndexOrThrow("ten_mon")));
+            item.setSoLuong(cursor.getInt(cursor.getColumnIndexOrThrow("so_luong")));
+            item.setGhiChu(cursor.getString(cursor.getColumnIndexOrThrow("ghi_chu")));
+            item.setGiaTungMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tung_mon")));
+            item.setGiaTongMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tong_mon")));
+            item.setMonanid(cursor.getInt(cursor.getColumnIndexOrThrow("monan_id")));
+            result.add(item);
+        }
+        cursor.close();
+        return result;
     }
 
 //    public void update(int userId, int monAnId, int newQty, long newTotal) {

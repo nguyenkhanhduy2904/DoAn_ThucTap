@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.adapter;
+package com.example.ttcn_dangnhap.Adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -87,13 +87,26 @@ public class CustomFoodListAdapter extends BaseAdapter {
                 }
 
 
-                CartItem existingCartItem = cartDAO.getItemForUser(userid, foodid);
 
-                if (existingCartItem != null) {
-                    existingCartItem.setSoLuong(existingCartItem.getSoLuong() + 1);
-                    existingCartItem.setGiaTongMon(existingCartItem.getGiaTungMon() * existingCartItem.getSoLuong());
-                    cartDAO.update(existingCartItem);
-                } else {
+
+                List<CartItem> cartItems = cartDAO.getAllItemWithThisUserAndMonAnId(userid, foodid);
+
+                CartItem noNoteCartTtem = null;
+                for(int i =0; i< cartItems.size();i++){
+                    CartItem item = cartItems.get(i);
+                    if(item.getGhiChu()==null || item.getGhiChu().isBlank()){
+                        noNoteCartTtem = item;
+                        break;
+                    }
+                }
+
+                if(noNoteCartTtem!=null){
+                    noNoteCartTtem.setSoLuong(noNoteCartTtem.getSoLuong()+1);
+                    noNoteCartTtem.setGiaTongMon(noNoteCartTtem.getGiaTungMon() * noNoteCartTtem.getSoLuong());
+                    cartDAO.update(noNoteCartTtem);
+                }
+                else
+                {
                     CartItem newItem = new CartItem();
                     newItem.setUserid(userid);
                     newItem.setMonanid(foodid);

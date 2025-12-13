@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttcn_dangnhap.adapter.CustomCartListAdapter;
+import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;

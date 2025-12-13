@@ -17,8 +17,8 @@ public class Order {
     @Column(name = "ID")
     private Integer id;
 
-    @Column(name = "TenKhachHang")
-    private String tenKhachHang;
+    @Column(name = "TenNguoiNhan")
+    private String tenNguoiNhan;
 
     @Column(name = "DiaChi")
     private String diaChi;
@@ -52,9 +52,9 @@ public class Order {
         this.items = new ArrayList<>();
     }
 
-    public Order(String tenKhachHang, String diaChi, String sdt, Date thoiGianTao,
+    public Order(String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao,
                  String trangThai, BigDecimal tongTien, Integer idKhachHang, List<OrderItem> items) {
-        this.tenKhachHang = tenKhachHang;
+        this.tenNguoiNhan = tenNguoiNhan;
         this.diaChi = diaChi;
         this.sdt = sdt;
         this.thoiGianTao = thoiGianTao;
@@ -64,9 +64,9 @@ public class Order {
         this.items = items != null ? items : new ArrayList<>();
     }
 
-    public Order(Integer id, String tenKhachHang, String diaChi, String sdt, Date thoiGianTao, String trangThai, BigDecimal tongTien, Integer idKhachHang, List<OrderItem> items) {
+    public Order(Integer id, String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThai, BigDecimal tongTien, Integer idKhachHang, List<OrderItem> items) {
         this.id = id;
-        this.tenKhachHang = tenKhachHang;
+        this.tenNguoiNhan = tenNguoiNhan;
         this.diaChi = diaChi;
         this.sdt = sdt;
         this.thoiGianTao = thoiGianTao;
@@ -84,12 +84,12 @@ public class Order {
         this.id = id;
     }
 
-    public String getTenKhachHang() {
-        return tenKhachHang;
+    public String getTenNguoiNhan() {
+        return tenNguoiNhan;
     }
 
-    public void setTenKhachHang(String tenKhachHang) {
-        this.tenKhachHang = tenKhachHang;
+    public void setTenNguoiNhan(String tenNguoiNhan) {
+        this.tenNguoiNhan = tenNguoiNhan;
     }
 
     public String getDiaChi() {
@@ -152,7 +152,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", tenKhachHang='" + tenKhachHang + '\'' +
+                ", tenKhachHang='" + tenNguoiNhan + '\'' +
                 ", diaChi='" + diaChi + '\'' +
                 ", sdt='" + sdt + '\'' +
                 ", thoiGianTao=" + thoiGianTao +

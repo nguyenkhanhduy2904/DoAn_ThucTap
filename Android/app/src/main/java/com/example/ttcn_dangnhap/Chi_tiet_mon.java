@@ -1,6 +1,8 @@
 package com.example.ttcn_dangnhap;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,8 +21,11 @@ import com.example.ttcn_dangnhap.util.CartUtil;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
-import models.CartItem;
+import models.Cart.CartDAO;
+import models.Cart.CartDbHelper;
+import models.Cart.CartItem;
 import models.MonAn;
 
 public class Chi_tiet_mon extends AppCompatActivity {
@@ -32,6 +37,10 @@ public class Chi_tiet_mon extends AppCompatActivity {
     long tongtien = 0;
     MonAn currentFood;
     EditText etNote;
+    int userid;
+
+    CartDbHelper cartDbHelper;
+    CartDAO cartDAO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,12 +51,28 @@ public class Chi_tiet_mon extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        SharedPreferences sp = this.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        userid = sp.getInt("userid", -1);
+
+
+        cartDbHelper = new CartDbHelper(this);
+        cartDAO = new CartDAO(cartDbHelper);
+
+
         addControls();
         getIntentData();
         if  (currentFood != null) {
             updatePriceUI();
         }
         addEvents();
+//        if(currentFood==null){
+//            Toast.makeText(this, "null current food", Toast.LENGTH_LONG).show();
+//        }
+//        else {
+//            Toast.makeText(this, currentFood.toString(), Toast.LENGTH_LONG).show();
+//        }
+
+
     }
 
     private void addControls() {
@@ -83,25 +108,106 @@ public class Chi_tiet_mon extends AppCompatActivity {
         });
         btnAddToCart.setOnClickListener(view -> {
             if (currentFood != null) {
-                // Kiểm tra món này đã có trong giỏ chưa
-                String noteContent = etNote.getText().toString().trim();
-                boolean exists = false;
-                for (CartItem item : CartUtil.mangGioHang) {
-                    if (item.getMonAn().getIdMonAn() == currentFood.getIdMonAn()) {
-                        // Nếu đã có, cộng dồn số lượng
-                        item.setQuantity(item.getQuantity() + quantity);
-                        if(!noteContent.isEmpty()){
-                            item.setNote(noteContent);
-                        }
-                        exists = true;
+//                // Kiểm tra món này đã có trong giỏ chưa
+//                String noteContent = etNote.getText().toString().trim();
+//                boolean exists = false;
+//                for (CartItem item : CartUtil.mangGioHang) {
+//                    if (item.getMonAn().getIdMonAn() == currentFood.getIdMonAn()) {
+//                        // Nếu đã có, cộng dồn số lượng
+//                        item.setQuantity(item.getQuantity() + quantity);
+//                        if(!noteContent.isEmpty()){
+//                            item.setNote(noteContent);
+//                        }
+//                        exists = true;
+//                        break;
+//                    }
+//                }
+//
+//                // Nếu chưa có, thêm mới (Ghi chú đang để rỗng, bạn có thể thêm EditText nhập ghi chú ở màn hình này nếu muốn)
+//                if (!exists) {
+//                    CartUtil.mangGioHang.add(new CartItem(currentFood, quantity, noteContent));
+//                }
+
+                int foodid = currentFood.getIdMonAn();
+                if (userid == -1) {
+                    Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                String thisOrderGhiChu = etNote.getText().toString().trim();
+
+                List<CartItem> cartItems = cartDAO.getAllItemWithThisUserAndMonAnId(userid, foodid);
+
+                CartItem noNoteCartTtem = null;
+                for(int i =0; i< cartItems.size();i++){
+                    CartItem item = cartItems.get(i);
+                    if(item.getGhiChu()==null || item.getGhiChu().isBlank()){
+                        noNoteCartTtem = item;
                         break;
                     }
                 }
 
-                // Nếu chưa có, thêm mới (Ghi chú đang để rỗng, bạn có thể thêm EditText nhập ghi chú ở màn hình này nếu muốn)
-                if (!exists) {
-                    CartUtil.mangGioHang.add(new CartItem(currentFood, quantity, noteContent));
+                if((thisOrderGhiChu == null || thisOrderGhiChu.isBlank())
+                        &&(noNoteCartTtem!=null)){
+                    noNoteCartTtem.setSoLuong(noNoteCartTtem.getSoLuong()+1);
+                    noNoteCartTtem.setGiaTongMon(noNoteCartTtem.getGiaTungMon()* noNoteCartTtem.getSoLuong());
+                    cartDAO.update(noNoteCartTtem);
+
                 }
+                else {
+                    models.Cart.CartItem newItem = new CartItem();
+                    newItem.setUserid(userid);
+                    newItem.setMonanid(foodid);
+                    newItem.setTenMon(currentFood.getTenMonAn());
+                    newItem.setSoLuong(quantity);
+                    newItem.setGiaTungMon(currentFood.getGiaMonAn());
+                    newItem.setGiaTongMon(currentFood.getGiaMonAn());
+                    newItem.setGhiChu(etNote.getText().toString().trim());
+                    cartDAO.addItem(newItem);
+                }
+
+
+
+
+
+
+
+//                if (existingCartItem != null) {
+//                    String ghiChuExisted = existingCartItem.getGhiChu();
+//
+//                    if((ghiChuExisted == null || ghiChuExisted.isBlank())
+//                            &&(thisOrderGhiChu==null || thisOrderGhiChu.isBlank())){
+//
+//                        existingCartItem.setSoLuong(existingCartItem.getSoLuong() + 1);
+//                        existingCartItem.setGiaTongMon(existingCartItem.getGiaTungMon() * existingCartItem.getSoLuong());
+//                        cartDAO.update(existingCartItem);
+//                    }
+//                    else {
+//                        models.Cart.CartItem newItem = new CartItem();
+//                        newItem.setUserid(userid);
+//                        newItem.setMonanid(foodid);
+//                        newItem.setTenMon(currentFood.getTenMonAn());
+//                        newItem.setSoLuong(quantity);
+//                        newItem.setGiaTungMon(currentFood.getGiaMonAn());
+//                        newItem.setGiaTongMon(currentFood.getGiaMonAn());
+//                        newItem.setGhiChu(etNote.getText().toString().trim());
+//                        cartDAO.addItem(newItem);
+//                    }
+//
+//                } else {
+//                    models.Cart.CartItem newItem = new CartItem();
+//                    newItem.setUserid(userid);
+//                    newItem.setMonanid(foodid);
+//                    newItem.setTenMon(currentFood.getTenMonAn());
+//                    newItem.setSoLuong(quantity);
+//                    newItem.setGiaTungMon(currentFood.getGiaMonAn());
+//                    newItem.setGiaTongMon(currentFood.getGiaMonAn());
+//                    newItem.setGhiChu(etNote.getText().toString().trim());
+//                    cartDAO.addItem(newItem);
+//                }
+
+
 
                 Toast.makeText(Chi_tiet_mon.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
 
