@@ -29,11 +29,11 @@ public class OrderItem {
     @Column(name = "GiaTongMon")
     private BigDecimal giaTongMon;
 
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_ID")
     @JsonBackReference
     private Order order;
-
     @Column(name = "monan_ID")
     private Integer monanid;
 

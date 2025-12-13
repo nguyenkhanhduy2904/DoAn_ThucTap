@@ -1,11 +1,15 @@
 package com.example.ttcn_dangnhap;
 
+//import static com.example.ttcn_dangnhap.Infor.PREFS_NAME;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -34,11 +38,16 @@ import models.EQuocGia;
 import models.MonAn;
 
 public class QuanLyMon extends AppCompatActivity {
+    ImageButton ibtnLogout;
     Button btn_them_mon;
     LinearLayout layoutVietNam, layoutThaiLand, layoutSKorea, layoutChina, layoutBestSell;
     ListView lv_danh_sach_mon_an;
     List<MonAn> lsAllMonAn, listDisplayMonAn;
     CustomFoodListAdapter customFoodListAdapter;
+
+    private static final String PREFS_NAME = "UserPrefs";
+    private static final String KEY_IS_LOGGED_IN = "is_logged_in";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +104,7 @@ public class QuanLyMon extends AppCompatActivity {
         lv_danh_sach_mon_an = findViewById(R.id.lv_danh_sach_mon_an);
         customFoodListAdapter = new CustomFoodListAdapter(this, listDisplayMonAn, null, true);
         lv_danh_sach_mon_an.setAdapter(customFoodListAdapter);
+        ibtnLogout = findViewById(R.id.ibtn_logout);
     }
 
     private void addEvents() {
@@ -178,6 +188,21 @@ public class QuanLyMon extends AppCompatActivity {
             // 3. Cập nhật giao diện
             customFoodListAdapter.notifyDataSetChanged();
             setListViewHeight(lv_danh_sach_mon_an);
+        });
+
+        ibtnLogout.setOnClickListener(view -> {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putBoolean(KEY_IS_LOGGED_IN, false);
+            editor.remove("userid");
+            editor.apply();
+
+            Intent intent = new Intent(QuanLyMon.this, Login.class);
+            startActivity(intent);
+            finish();
+
+            Toast.makeText(QuanLyMon.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
+//            checkLoginState();
         });
     }
     private void GETAllItem(APICallback<List<MonAn>> callback){
