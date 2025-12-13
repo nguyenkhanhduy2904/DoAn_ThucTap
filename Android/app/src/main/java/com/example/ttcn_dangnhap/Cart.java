@@ -27,11 +27,12 @@ import java.util.List;
 import models.Cart.CartDAO;
 import models.Cart.CartDbHelper;
 import models.Cart.CartItem;
+import models.MonAn;
 
 public class Cart extends AppCompatActivity {
 
     List<CartItem> lsCartItem;
-    ListView lsView;
+    ListView lsViewCart;
     CustomCartListAdapter adapter;
 
     CartDbHelper cartDbHelper;
@@ -42,7 +43,6 @@ public class Cart extends AppCompatActivity {
     TextView txtPrice;
 
     MaterialButton btnConfirm;
-
     int userid;
 
 
@@ -79,9 +79,9 @@ public class Cart extends AppCompatActivity {
 
 
     void addControls(){
-        lsView= findViewById(R.id.lsViewCart);
+        lsViewCart= findViewById(R.id.lsViewCart);
         adapter = new CustomCartListAdapter(Cart.this, lsCartItem, cartDAO);
-        lsView.setAdapter(adapter);
+        lsViewCart.setAdapter(adapter);
 
         ibtnBack = findViewById(R.id.btnBack);
 
@@ -101,7 +101,16 @@ public class Cart extends AppCompatActivity {
             totalPrice = totalPrice + cartItem.getGiaTongMon();
         }
         txtPrice.setText(String.valueOf(totalPrice));
-
+        lsViewCart.setOnItemClickListener((adapterView, view, i, l) -> {
+            CartItem item = lsCartItem.get(i);
+            MonAn monAn = new MonAn();
+            monAn.setIdMonAn(item.getMonanid());
+            monAn.setTenMonAn(item.getTenMon());
+            monAn.setGiaMonAn(item.getGiaTungMon());
+            Intent intent = new Intent(Cart.this, Chi_tiet_mon.class);
+            intent.putExtra("monAn", monAn);
+            startActivity(intent);
+        });
 
 
         adapter.setOnItemChangeListener(updatedList -> {

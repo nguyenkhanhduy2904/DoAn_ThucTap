@@ -25,6 +25,9 @@ public class MonAn implements Serializable {
         this.trangThai = trangThai;
     }
 
+    public MonAn() {
+    }
+
     public int getIdMonAn() {
         return idMonAn;
     }
