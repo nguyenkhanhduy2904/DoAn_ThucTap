@@ -83,7 +83,7 @@ public class CustomCartListAdapter extends BaseAdapter {
         int userid = sp.getInt("userid", -1);
 
         btnDelete.setOnClickListener(view -> {
-            CartItem existingCartItem = cartDAO.getItemForUser(userid, cartItem.getMonAn().getIdMonAn());
+            CartItem existingCartItem = cartDAO.getItemForUser(userid, cartItem.getMonanid());
             if(existingCartItem!=null){
                 cartDAO.delete(existingCartItem.getId());
                 lsCartItem.remove(cartItem);
