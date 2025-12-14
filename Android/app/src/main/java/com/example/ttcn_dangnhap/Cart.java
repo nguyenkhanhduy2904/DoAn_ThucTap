@@ -16,12 +16,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
+import com.example.ttcn_dangnhap.adapter.CustomCartListAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import models.Cart.CartDAO;
@@ -100,7 +101,8 @@ public class Cart extends AppCompatActivity {
             CartItem cartItem = lsCartItem.get(i);
             totalPrice = totalPrice + cartItem.getGiaTongMon();
         }
-        txtPrice.setText(String.valueOf(totalPrice));
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        txtPrice.setText(formatter.format(String.valueOf(totalPrice)));
         lsViewCart.setOnItemClickListener((adapterView, view, i, l) -> {
             CartItem item = lsCartItem.get(i);
             MonAn monAn = new MonAn();
@@ -124,30 +126,33 @@ public class Cart extends AppCompatActivity {
 
         btnConfirm.setOnClickListener(view -> {
 //            String url = "http://10.0.2.2:8080/api/v1/orders";
-
-            JSONArray cartArray = new JSONArray();
-            for(int i =0; i< lsCartItem.size(); i++){
-                try{
-                    CartItem item = lsCartItem.get(i);
-                    JSONObject jsonItem = new JSONObject();
-                    jsonItem.put("tenMon",item.getTenMon() );
-                    jsonItem.put("soLuong", item.getSoLuong());
-                    jsonItem.put("ghiChu", item.getGhiChu());
-                    jsonItem.put("giaTungMon", item.getGiaTungMon());
-                    jsonItem.put("giaTongMon", item.getGiaTongMon());
-                    jsonItem.put("monanid", item.getMonanid());
-
-                    cartArray.put(jsonItem);
-
-//                    Intent intent = new Intent(Cart.this, );
-                }
-                catch (Exception e){
-                    Toast.makeText(Cart.this, e.getMessage(),Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-
-            }
-
+//            JSONArray cartArray = new JSONArray();
+//            for(int i =0; i< lsCartItem.size(); i++){
+//                try{
+//                    CartItem item = lsCartItem.get(i);
+//                    JSONObject jsonItem = new JSONObject();
+//                    jsonItem.put("tenMon",item.getTenMon() );
+//                    jsonItem.put("soLuong", item.getSoLuong());
+//                    jsonItem.put("ghiChu", item.getGhiChu());
+//                    jsonItem.put("giaTungMon", item.getGiaTungMon());
+//                    jsonItem.put("giaTongMon", item.getGiaTongMon());
+//                    jsonItem.put("monanid", item.getMonanid());
+//
+//                    cartArray.put(jsonItem);
+//
+////                    Intent intent = new Intent(Cart.this, );
+//                }
+//                catch (Exception e){
+//                    Toast.makeText(Cart.this, e.getMessage(),Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
+//
+//            }
+            String totalPriceStr = txtPrice.getText().toString();
+            Intent intent = new Intent(Cart.this, ThanhToan.class);
+            intent.putExtra("TOTAL_PRICE", totalPriceStr);
+            intent.putExtra("CART_LIST", (java.io.Serializable) lsCartItem);
+            startActivity(intent);
         });
 
     }

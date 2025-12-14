@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

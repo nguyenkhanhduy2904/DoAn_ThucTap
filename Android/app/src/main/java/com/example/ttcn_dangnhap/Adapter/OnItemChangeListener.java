@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import java.util.List;
 

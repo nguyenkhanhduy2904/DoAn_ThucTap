@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ttcn_dangnhap.R;
-import com.example.ttcn_dangnhap.Adapter.OnItemChangeListener;
+import com.example.ttcn_dangnhap.adapter.OnItemChangeListener;
 
 import java.util.List;
 
@@ -83,7 +83,7 @@ public class CustomCartListAdapter extends BaseAdapter {
         int userid = sp.getInt("userid", -1);
 
         btnDelete.setOnClickListener(view -> {
-            CartItem existingCartItem = cartDAO.getItemForUser(userid, cartItem.getMonanid());
+            CartItem existingCartItem = cartDAO.getItemForUser(userid, cartItem.getMonAn().getIdMonAn());
             if(existingCartItem!=null){
                 cartDAO.delete(existingCartItem.getId());
                 lsCartItem.remove(cartItem);

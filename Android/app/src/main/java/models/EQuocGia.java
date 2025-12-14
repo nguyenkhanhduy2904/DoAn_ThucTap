@@ -2,7 +2,9 @@ package models;
 
 import com.example.ttcn_dangnhap.R;
 
-public enum EQuocGia {
+import java.io.Serializable;
+
+public enum EQuocGia implements Serializable {
     VietNam(R.drawable.twemoji_flag_vietnam),
     ThaiLan(R.drawable.twemoji_flag_thailand),
     HanQuoc(R.drawable.twemoji_flag_south_korea),
