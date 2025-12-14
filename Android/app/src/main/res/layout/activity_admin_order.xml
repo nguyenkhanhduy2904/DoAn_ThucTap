@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".AdminOrder">
+
+    <ImageView
+        android:id="@+id/imgLogo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/logo"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#D32F2F"/>
+
+    <TextView
+        android:id="@+id/tvBrandName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Golden\nChopsticks"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/imgLogo"
+        app:layout_constraintTop_toTopOf="@id/imgLogo"
+        app:layout_bottom_toBottomOf="@id/imgLogo"/>
+
+    <FrameLayout
+        android:id="@+id/frameNoti"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgLogo"
+        app:layout_bottom_toBottomOf="@id/imgLogo">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/icon_thong_bao"
+            app:tint="@android:color/black"/>
+
+        <View
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:background="@drawable/bg_rounded_teal"
+            android:backgroundTint="@color/red_badge"
+            android:layout_gravity="top|end"/>
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvHeaderTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Danh sách đơn hàng"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@id/imgLogo"
+        app:layout_constraintTop_toBottomOf="@id/imgLogo"/>
+
+    <LinearLayout
+        android:id="@+id/layoutTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:weightSum="4"
+        app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCho"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Chờ"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="5dp"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="15sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnXacNhan"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Xác nhận"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="5dp"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="15sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSanSang"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Sẵn sàng"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="5dp"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="8sp"
+            app:autoSizeMaxTextSize="15sp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDaGiao"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Đã giao"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            app:autoSizeMinTextSize="10sp"
+            app:autoSizeMaxTextSize="15sp"/>
+    </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrderList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#F2F2F2"
+        android:padding="10dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/layoutTabs"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/layout_admin_order"/>
+
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:background="@color/design_default_color_secondary"
+        android:weightSum="5"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/icon_don_hang"
+                    app:tint="@android:color/black"/>
+                <View
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:background="@drawable/bg_rounded_teal"
+                    android:backgroundTint="#FF0000"
+                    android:layout_gravity="top|end"/>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đơn hàng"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_uu_dai"
+                app:tint="@android:color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ưu Đãi"
+                android:textSize="11sp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:src="@drawable/icon_user"
+                app:tint="@android:color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Qlý User"
+                android:textSize="11sp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_dieu_chinh"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Điều chỉnh"
+                android:textSize="11sp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/icon_thong_ke"
+                app:tint="@android:color/black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thống kê"
+                android:textSize="11sp"
+                android:textColor="@android:color/black"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
