@@ -104,7 +104,42 @@
         android:layout_marginTop="10dp"
         app:layout_constraintTop_toBottomOf="@id/divider2"
         app:layout_constraintEnd_toEndOf="parent"/>
+    <LinearLayout
+        android:id="@+id/layoutActionPending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTotalPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:text="Từ chối"
+            android:background="@color/white"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Xác nhận"
+            android:background="@color/white"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+    </LinearLayout>
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnChangeStatus"
         android:layout_width="wrap_content"
@@ -114,6 +149,7 @@
         android:textAllCaps="false"
         android:textColor="@android:color/black"
         android:textStyle="bold"
+        android:visibility="gone"
         android:paddingHorizontal="20dp"
         android:layout_marginTop="30dp"
         app:layout_constraintTop_toBottomOf="@id/tvTotalPrice"

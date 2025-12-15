@@ -15,11 +15,11 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import models.CartItem;
+import models.Cart.CartItem;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
     Context context;
-    List<CartItem> cartList;
+    List<models.Cart.CartItem> cartList;
 
     // Interface để gửi tín hiệu cập nhật tổng tiền về Activity
     public interface OnCartChangeListener {
@@ -28,7 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     OnCartChangeListener listener;
 
-    public CartAdapter(Context context, List<CartItem> cartList, OnCartChangeListener listener) {
+    public CartAdapter(Context context, List<models.Cart.CartItem> cartList, OnCartChangeListener listener) {
         this.context = context;
         this.cartList = cartList;
         this.listener = listener;
@@ -46,32 +46,32 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         CartItem item = cartList.get(position);
 
         // Set dữ liệu
-        holder.tvFoodName.setText(item.getMonAn().getTenMonAn());
-        holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+        holder.tvFoodName.setText(item.getTenMon());
+        holder.tvQuantity.setText(String.valueOf(item.getSoLuong()));
 
         // Xử lý ghi chú (nếu null hoặc rỗng thì ẩn hoặc hiện text mặc định)
-        if(item.getNote() == null || item.getNote().isEmpty()) {
+        if(item.getGhiChu() == null || item.getGhiChu().isEmpty()) {
             holder.tvNoteContent.setText("Không có ghi chú");
         } else {
-            holder.tvNoteContent.setText(item.getNote());
+            holder.tvNoteContent.setText(item.getGhiChu());
         }
 
         // Tính giá và Format
-        long price = item.getMonAn().getGiaMonAn() * item.getQuantity();
+        long price = item.getGiaTungMon() * item.getSoLuong();
         DecimalFormat formatter = new DecimalFormat("###,###,###");
         holder.tvPrice.setText(formatter.format(price));
 
         // Load ảnh bằng Picasso
-        Picasso.get().load(item.getMonAn().getUrlHinhAnhMonAn())
-                .placeholder(R.drawable.ic_launcher_background) // Thay bằng ảnh mặc định của bạn nếu có
-                .error(R.drawable.ic_launcher_background)
-                .fit().centerCrop()
-                .into(holder.imgFood);
+//        Picasso.get().load(item..getUrlHinhAnhMonAn())
+//                .placeholder(R.drawable.ic_launcher_background) // Thay bằng ảnh mặc định của bạn nếu có
+//                .error(R.drawable.ic_launcher_background)
+//                .fit().centerCrop()
+//                .into(holder.imgFood);
 
         // Sự kiện nút Tăng (+)
         holder.btnPlus.setOnClickListener(v -> {
-            int newQuantity = item.getQuantity() + 1;
-            item.setQuantity(newQuantity);
+            int newQuantity = item.getSoLuong() + 1;
+            item.setSoLuong(newQuantity);
             // Cập nhật lại item hiện tại
             notifyItemChanged(holder.getAdapterPosition());
             // Gọi Activity tính lại tổng tiền
@@ -80,9 +80,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         // Sự kiện nút Giảm (-)
         holder.btnMinus.setOnClickListener(v -> {
-            if (item.getQuantity() > 1) {
-                int newQuantity = item.getQuantity() - 1;
-                item.setQuantity(newQuantity);
+            if (item.getSoLuong() > 1) {
+                int newQuantity = item.getSoLuong() - 1;
+                item.setSoLuong(newQuantity);
                 notifyItemChanged(holder.getAdapterPosition());
                 listener.onCartChanged();
             }

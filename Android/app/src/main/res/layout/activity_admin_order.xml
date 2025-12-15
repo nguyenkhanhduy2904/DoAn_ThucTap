@@ -47,12 +47,12 @@
             android:src="@drawable/icon_thong_bao"
             app:tint="@android:color/black"/>
 
-        <View
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:background="@drawable/bg_rounded_teal"
-            android:backgroundTint="@color/red_badge"
-            android:layout_gravity="top|end"/>
+<!--        <View-->
+<!--            android:layout_width="10dp"-->
+<!--            android:layout_height="10dp"-->
+<!--            android:background="@drawable/bg_rounded_teal"-->
+<!--            android:backgroundTint="@color/red_badge"-->
+<!--            android:layout_gravity="top|end"/>-->
     </FrameLayout>
 
     <TextView
@@ -182,12 +182,12 @@
                     android:layout_height="24dp"
                     android:src="@drawable/icon_don_hang"
                     app:tint="@android:color/black"/>
-                <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
-                    android:background="@drawable/bg_rounded_teal"
-                    android:backgroundTint="#FF0000"
-                    android:layout_gravity="top|end"/>
+<!--                <View-->
+<!--                    android:layout_width="8dp"-->
+<!--                    android:layout_height="8dp"-->
+<!--                    android:background="@drawable/bg_rounded_teal"-->
+<!--                    android:backgroundTint="#FF0000"-->
+<!--                    android:layout_gravity="top|end"/>-->
             </FrameLayout>
 
             <TextView
