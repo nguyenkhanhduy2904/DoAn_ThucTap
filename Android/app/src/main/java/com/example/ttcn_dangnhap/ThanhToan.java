@@ -1,6 +1,7 @@
 package com.example.ttcn_dangnhap;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +40,9 @@ public class ThanhToan extends AppCompatActivity {
     TextView tvUserName, tvUserPhone, tvAddress;
     RadioButton rbCOD, rbVNPay;
     CustomCartListAdapter adapter;
+
+    SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,7 @@ public class ThanhToan extends AppCompatActivity {
         addControls();
         getDataFromIntent();
         addEvents();
+        setupDefaultData();
     }
 
     private void addEvents() {
@@ -80,7 +85,18 @@ public class ThanhToan extends AppCompatActivity {
         tvAddress=findViewById(R.id.tvAddress);
         rbCOD=findViewById(R.id.rbCOD);
         rbVNPay=findViewById(R.id.rbVNPay);
+
         imgBack=findViewById(R.id.btnBack);
+
+        sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+    }
+
+    void setupDefaultData(){
+        tvUserName.setText(sharedPreferences.getString("username", ""));
+        tvUserPhone.setText(sharedPreferences.getString("userPhone", ""));
+        tvAddress.setText(sharedPreferences.getString("userAddress", ""));
+
     }
     void getDataFromIntent() {
         Intent intent = getIntent();

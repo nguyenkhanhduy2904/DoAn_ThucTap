@@ -1,6 +1,8 @@
 package models.Cart;
 
-public class CartItem {
+import java.io.Serializable;
+
+public class CartItem implements Serializable {
     private int id;
     private String tenMon;
     private int soLuong;

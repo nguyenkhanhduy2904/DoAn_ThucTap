@@ -73,6 +73,10 @@ public class Infor extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putBoolean(KEY_IS_LOGGED_IN, false);
             editor.remove("userid");
+            editor.remove("user_role");
+            editor.remove("userAddress");
+            editor.remove("userPhone");
+            editor.remove("username");
             editor.apply();
 
             Intent intent = new Intent(Infor.this, Login.class);

@@ -16,12 +16,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -131,6 +133,17 @@ public class Cart extends AppCompatActivity {
         });
 
         btnConfirm.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ThanhToan.class);
+            intent.putExtra("CART_LIST", (Serializable) lsCartItem);
+            String totalPriceStr = txtPrice.getText().toString().trim();
+            intent.putExtra("TOTAL_PRICE", totalPriceStr);
+
+            startActivity(intent);
+
+            });
+
+
+
 //            String url = "http://10.0.2.2:8080/api/v1/orders";
 //            JSONArray cartArray = new JSONArray();
 //            for(int i =0; i< lsCartItem.size(); i++){
@@ -154,12 +167,12 @@ public class Cart extends AppCompatActivity {
 //                }
 //
 //            }
-            String totalPriceStr = txtPrice.getText().toString();
-            Intent intent = new Intent(Cart.this, ThanhToan.class);
-            intent.putExtra("TOTAL_PRICE", totalPriceStr);
-            intent.putExtra("CART_LIST", (java.io.Serializable) lsCartItem);
-            startActivity(intent);
-        });
+//            String totalPriceStr = txtPrice.getText().toString();
+//            Intent intent = new Intent(Cart.this, ThanhToan.class);
+//            intent.putExtra("TOTAL_PRICE", totalPriceStr);
+//            intent.putExtra("CART_LIST", (java.io.Serializable) lsCartItem);
+//            startActivity(intent);
+
 
     }
 }
