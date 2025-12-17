@@ -24,7 +24,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttcn_dangnhap.adapter.CustomCartListAdapter;
+import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
 
 import java.util.List;
 

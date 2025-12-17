@@ -16,7 +16,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttcn_dangnhap.adapter.CustomCartListAdapter;
+import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
@@ -102,7 +102,13 @@ public class Cart extends AppCompatActivity {
             totalPrice = totalPrice + cartItem.getGiaTongMon();
         }
         DecimalFormat formatter = new DecimalFormat("###,###,###");
-        txtPrice.setText(formatter.format(String.valueOf(totalPrice)));
+
+
+
+
+
+
+        txtPrice.setText(formatter.format(totalPrice));
         lsViewCart.setOnItemClickListener((adapterView, view, i, l) -> {
             CartItem item = lsCartItem.get(i);
             MonAn monAn = new MonAn();
@@ -121,7 +127,7 @@ public class Cart extends AppCompatActivity {
                 CartItem cartItem = lsCartItem.get(i);
                 totalPriceReCalc = totalPriceReCalc + cartItem.getGiaTongMon();
             }
-            txtPrice.setText(String.valueOf(totalPriceReCalc));
+            txtPrice.setText(formatter.format(totalPriceReCalc));
         });
 
         btnConfirm.setOnClickListener(view -> {
