@@ -26,10 +26,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
+import com.example.ttcn_dangnhap.Network.APIClient;
+import com.example.ttcn_dangnhap.Network.VNPayAPI;
 
 import java.util.List;
 
 import models.Cart.CartItem;
+import models.VNPayResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ThanhToan extends AppCompatActivity {
     TextView tvTongTienThanhToan;
@@ -71,6 +77,29 @@ public class ThanhToan extends AppCompatActivity {
             if (rbCOD.isChecked())
             {
 
+            }
+            if (rbVNPay.isChecked())
+            {
+                long sotien = Long.parseLong(tvTongTienThanhToan.getText().toString().replace("đ","").trim());
+                VNPayAPI api = APIClient.getClient().create(VNPayAPI.class);
+                api.createPayment(sotien).enqueue(new Callback<VNPayResponse>() {
+                    @Override
+                    public void onResponse(Call<VNPayResponse> call, Response<VNPayResponse> response) {
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(ThanhToan.this, VNPayWeb.class);
+                            intent.putExtra("PAY_URL",response.body().getPaymentUrl());
+                            startActivity(intent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<VNPayResponse> call, Throwable t) {
+                        Toast.makeText(ThanhToan.this,
+                                "Không kết nối được server",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
