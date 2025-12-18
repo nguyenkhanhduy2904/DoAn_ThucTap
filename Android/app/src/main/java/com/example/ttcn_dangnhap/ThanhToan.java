@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -25,7 +26,14 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -40,6 +48,11 @@ public class ThanhToan extends AppCompatActivity {
     TextView tvUserName, tvUserPhone, tvAddress;
     RadioButton rbCOD, rbVNPay;
     CustomCartListAdapter adapter;
+
+    String TrangThaiDonHang = "Pending";
+    String TrangThaiThanhToan = "Pending";
+
+    String PaymentMethod = "";
 
     SharedPreferences sharedPreferences;
 
@@ -70,8 +83,14 @@ public class ThanhToan extends AppCompatActivity {
             //long totalAmount = parseAmount(tvTongTienThanhToan.getText().toString());
             if (rbCOD.isChecked())
             {
-
+                PaymentMethod = "COD";
             }
+            else if (rbVNPay.isChecked())
+            {
+                PaymentMethod = "VNPay";
+            }
+
+            buildMessage();
         });
     }
 
@@ -89,6 +108,96 @@ public class ThanhToan extends AppCompatActivity {
         imgBack=findViewById(R.id.btnBack);
 
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+
+    }
+
+    void buildMessage(){
+
+        JSONArray cartList = new JSONArray();
+
+        for(int i = 0; i < listThanhToan.size(); i++){
+            try{
+                    CartItem item = listThanhToan.get(i);
+                    JSONObject jsonItem = new JSONObject();
+                    jsonItem.put("tenMon",item.getTenMon() );
+                    jsonItem.put("soLuong", item.getSoLuong());
+                    jsonItem.put("ghiChu", item.getGhiChu());
+                    jsonItem.put("giaTungMon", item.getGiaTungMon());
+                    jsonItem.put("giaTongMon", item.getGiaTongMon());
+                    jsonItem.put("monanid", item.getMonanid());
+                    cartList.put(jsonItem);
+                }
+            catch (Exception e){
+                    Toast.makeText(ThanhToan.this, e.getMessage(),Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+            }
+        }
+
+        JSONObject orderMessage = new JSONObject();
+        try{
+            JSONObject orderInfo = new JSONObject();
+            orderInfo.put("tenKhachHang",tvUserName.getText().toString().trim());
+            orderInfo.put("diaChi", tvAddress.getText().toString().trim());
+            orderInfo.put("sdt", tvUserPhone.getText().toString().trim());
+            orderInfo.put("phuongThucThanhToan", PaymentMethod);
+            orderInfo.put("trangThaiDonHang", TrangThaiDonHang);
+            orderInfo.put("trangThaiThanhToan", TrangThaiThanhToan);
+            orderInfo.put("thoiGianTao", System.currentTimeMillis());
+            orderInfo.put("tongTien", tvTongTienThanhToan.getText().toString().trim());
+            orderInfo.put("idKhachHang", sharedPreferences.getInt("userid",-1));
+            orderInfo.put("items", cartList);
+        }
+        catch (Exception e){
+            Toast.makeText(ThanhToan.this,"error build order info"+ e.getMessage(),Toast.LENGTH_LONG).show();
+            e.printStackTrace();
+        }
+
+        String url = "http://10.0.2.2:8080/api/v1/orders";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                url,
+                orderMessage,
+                reponse-> {
+                    try{
+                        String status = reponse.getString("status");
+                        String message = reponse.getString("message");
+
+                        if (status.equals("success")) {
+                            Toast.makeText(ThanhToan.this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Toast.makeText(ThanhToan.this, "Đặt hàng thất bại: " + message, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    catch (Exception e){
+                        Toast.makeText(ThanhToan.this, "eroor2:"+e.getMessage(),Toast.LENGTH_LONG).show();
+                        e.printStackTrace();
+                    }
+                },
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String errorJson = new String(error.networkResponse.data, "UTF-8");
+                            JSONObject obj = new JSONObject(errorJson);
+
+//                            String status = obj.getString("status");
+                            String message = obj.getString("message");
+
+                            Toast.makeText(this, "eorrro3 "+message, Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(this, "Error parsing error response", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        Toast.makeText(this, "Connection Error", Toast.LENGTH_LONG).show();
+                    }
+                }
+        );
+
+        queue.add(request);
+
 
     }
 
