@@ -33,6 +33,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
+import com.example.ttcn_dangnhap.Network.APIClient;
+import com.example.ttcn_dangnhap.Network.VNPayAPI;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +46,10 @@ import java.util.Locale;
 import models.Cart.CartDAO;
 import models.Cart.CartDbHelper;
 import models.Cart.CartItem;
+import models.VNPayResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ThanhToan extends AppCompatActivity {
     TextView tvTongTienThanhToan;
@@ -100,9 +106,30 @@ public class ThanhToan extends AppCompatActivity {
             {
                 PaymentMethod = "COD";
             }
-            else if (rbVNPay.isChecked())
+//<<<<<<< HEAD
+            else if (rbVNPay.isChecked())// need check again( it crash when choose vnpay)
             {
                 PaymentMethod = "VNPay";
+                long sotien = Long.parseLong(tvTongTienThanhToan.getText().toString().replace("đ","").trim());
+                VNPayAPI api = APIClient.getClient().create(VNPayAPI.class);
+                api.createPayment(sotien).enqueue(new Callback<VNPayResponse>() {
+                    @Override
+                    public void onResponse(Call<VNPayResponse> call, Response<VNPayResponse> response) {
+                        if (response.isSuccessful()) {
+                            Intent intent = new Intent(ThanhToan.this, VNPayWeb.class);
+                            intent.putExtra("PAY_URL",response.body().getPaymentUrl());
+                            startActivity(intent);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<VNPayResponse> call, Throwable t) {
+                        Toast.makeText(ThanhToan.this,
+                                "Không kết nối được server",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             if(tvAddress.getText().toString().trim().isBlank()){
@@ -119,6 +146,12 @@ public class ThanhToan extends AppCompatActivity {
             }
 
             buildMessage();
+//=======
+//            if (rbVNPay.isChecked())
+//            {
+//
+//            }
+//>>>>>>> eb2ebbfe8439fe5b1de1f7ab3ca68ea40f7af63c
         });
     }
 
