@@ -164,6 +164,7 @@ public class Chi_tiet_mon extends AppCompatActivity {
                     newItem.setGiaTungMon(currentFood.getGiaMonAn());
                     newItem.setGiaTongMon(currentFood.getGiaMonAn());
                     newItem.setGhiChu(etNote.getText().toString().trim());
+                    newItem.setUrl(currentFood.getUrlHinhAnhMonAn());
                     cartDAO.addItem(newItem);
                 }
 

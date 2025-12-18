@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 
 public class CartDbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "cart.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public CartDbHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -25,7 +25,8 @@ public class CartDbHelper extends SQLiteOpenHelper {
                         "ghi_chu TEXT," +
                         "gia_tung_mon INTEGER," +
                         "gia_tong_mon INTEGER," +
-                        "monan_id INTEGER" +
+                        "monan_id INTEGER," +
+                        "url TEXT"+
                         ")"
         );
     }

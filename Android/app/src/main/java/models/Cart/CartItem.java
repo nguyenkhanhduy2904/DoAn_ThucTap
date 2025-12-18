@@ -11,11 +11,12 @@ public class CartItem implements Serializable {
     private long giaTongMon;
     private int monanid;
     private int userid;
+    private String url;
 
     public CartItem() {
     }
 
-    public CartItem(int id, String tenMon, int soLuong, String ghiChu, long giaTungMon, long giaTongMon, int monanid, int userid) {
+    public CartItem(int id, String tenMon, int soLuong, String ghiChu, long giaTungMon, long giaTongMon, int monanid, int userid, String url) {
         this.id = id;
         this.tenMon = tenMon;
         this.soLuong = soLuong;
@@ -24,6 +25,7 @@ public class CartItem implements Serializable {
         this.giaTongMon = giaTongMon;
         this.monanid = monanid;
         this.userid = userid;
+        this.url = url;
     }
 
     public int getId() {
@@ -88,5 +90,13 @@ public class CartItem implements Serializable {
 
     public void setUserid(int userid) {
         this.userid = userid;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }

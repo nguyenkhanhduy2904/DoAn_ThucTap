@@ -2,7 +2,9 @@ package com.example.ttcn_dangnhap;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.PixelCopy;
 import android.view.View;
@@ -35,8 +37,12 @@ import com.example.ttcn_dangnhap.Adapter.CustomCartListAdapter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import models.Cart.CartDAO;
+import models.Cart.CartDbHelper;
 import models.Cart.CartItem;
 
 public class ThanhToan extends AppCompatActivity {
@@ -56,6 +62,11 @@ public class ThanhToan extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
 
+    CartDbHelper cartDbHelper;
+    CartDAO cartDAO;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +77,10 @@ public class ThanhToan extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        cartDbHelper = new CartDbHelper(this);
+        cartDAO = new CartDAO(cartDbHelper);
+
         addControls();
         getDataFromIntent();
         addEvents();
@@ -88,6 +103,19 @@ public class ThanhToan extends AppCompatActivity {
             else if (rbVNPay.isChecked())
             {
                 PaymentMethod = "VNPay";
+            }
+
+            if(tvAddress.getText().toString().trim().isBlank()){
+                Toast.makeText(this, "Vui lòng nhập địa chỉ nhận hàng!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(tvUserName.getText().toString().trim().isBlank()){
+                Toast.makeText(this, "Vui lòng nhập tên người nhận!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(tvUserPhone.getText().toString().trim().isBlank()){
+                Toast.makeText(this, "Vui lòng nhập số điện thoại người nhận!", Toast.LENGTH_SHORT).show();
+                return;
             }
 
             buildMessage();
@@ -113,6 +141,11 @@ public class ThanhToan extends AppCompatActivity {
 
     void buildMessage(){
 
+
+
+
+
+
         JSONArray cartList = new JSONArray();
 
         for(int i = 0; i < listThanhToan.size(); i++){
@@ -135,17 +168,22 @@ public class ThanhToan extends AppCompatActivity {
 
         JSONObject orderMessage = new JSONObject();
         try{
-            JSONObject orderInfo = new JSONObject();
-            orderInfo.put("tenKhachHang",tvUserName.getText().toString().trim());
-            orderInfo.put("diaChi", tvAddress.getText().toString().trim());
-            orderInfo.put("sdt", tvUserPhone.getText().toString().trim());
-            orderInfo.put("phuongThucThanhToan", PaymentMethod);
-            orderInfo.put("trangThaiDonHang", TrangThaiDonHang);
-            orderInfo.put("trangThaiThanhToan", TrangThaiThanhToan);
-            orderInfo.put("thoiGianTao", System.currentTimeMillis());
-            orderInfo.put("tongTien", tvTongTienThanhToan.getText().toString().trim());
-            orderInfo.put("idKhachHang", sharedPreferences.getInt("userid",-1));
-            orderInfo.put("items", cartList);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+            orderMessage.put("thoiGianTao", sdf.format(new Date())); // ISO string
+            orderMessage.put("tongTien", Integer.parseInt(tvTongTienThanhToan.getText().toString().replaceAll("[^0-9]", "")));
+            orderMessage.put("tenNguoiNhan",tvUserName.getText().toString().trim());
+            orderMessage.put("diaChi", tvAddress.getText().toString().trim());
+            orderMessage.put("sdt", tvUserPhone.getText().toString().trim());
+            orderMessage.put("phuongThucThanhToan", PaymentMethod);
+            orderMessage.put("trangThaiDonHang", TrangThaiDonHang);
+            orderMessage.put("trangThaiThanhToan", TrangThaiThanhToan);
+            orderMessage.put("idKhachHang", sharedPreferences.getInt("userid",-1));
+            orderMessage.put("items", cartList);
+
+            Toast.makeText(ThanhToan.this, "dia chi is: "+tvAddress.getText().toString().trim(),Toast.LENGTH_LONG).show();
+            Log.d("FE_JSON", orderMessage.toString());
+
         }
         catch (Exception e){
             Toast.makeText(ThanhToan.this,"error build order info"+ e.getMessage(),Toast.LENGTH_LONG).show();
@@ -167,6 +205,8 @@ public class ThanhToan extends AppCompatActivity {
 
                         if (status.equals("success")) {
                             Toast.makeText(ThanhToan.this, "Đặt hàng thành công!", Toast.LENGTH_SHORT).show();
+                            Intent resultIntent = new Intent();
+                            setResult(RESULT_OK, resultIntent);//tra intent ve cho cart de xoa cart item
                             finish();
                         } else {
                             Toast.makeText(ThanhToan.this, "Đặt hàng thất bại: " + message, Toast.LENGTH_SHORT).show();

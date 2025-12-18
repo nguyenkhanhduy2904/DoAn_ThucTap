@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.ttcn_dangnhap.R;
 import com.example.ttcn_dangnhap.Adapter.OnItemChangeListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -78,6 +79,10 @@ public class CustomCartListAdapter extends BaseAdapter {
         txtNote.setText(cartItem.getGhiChu());
         txtPrice.setText(String.valueOf(cartItem.getGiaTongMon()));
         txtQuantity.setText(String.valueOf(cartItem.getSoLuong()));
+
+
+        Picasso.get().load(cartItem.getUrl()).resize(150,150).centerCrop().into(imgFood);
+
 
         SharedPreferences sp = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         int userid = sp.getInt("userid", -1);

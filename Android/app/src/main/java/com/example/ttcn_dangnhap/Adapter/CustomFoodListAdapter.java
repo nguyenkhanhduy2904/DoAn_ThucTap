@@ -114,7 +114,9 @@ public class CustomFoodListAdapter extends BaseAdapter {
                     newItem.setSoLuong(1);
                     newItem.setGiaTungMon(monAn.getGiaMonAn());
                     newItem.setGiaTongMon(monAn.getGiaMonAn());
+                    newItem.setUrl(monAn.getUrlHinhAnhMonAn());
                     cartDAO.addItem(newItem);
+
 
                 }
 

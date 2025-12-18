@@ -24,9 +24,9 @@ public class OrderService {
     }
 
     public Order addOrder(Order order) {
-        if (order.getIdKhachHang() == null) {
-            throw new IllegalStateException("Ma Khach Hang cannot be null");
-        }
+//        if (order.getIdKhachHang() == null) {
+//            throw new IllegalStateException("Ma Khach Hang cannot be null");
+//        }
         
         if (order.getThoiGianTao() == null) {
             order.setThoiGianTao(new java.util.Date());

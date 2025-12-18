@@ -27,6 +27,7 @@ public class CartDAO {
         values.put("gia_tung_mon", item.getGiaTungMon());
         values.put("gia_tong_mon", item.getGiaTongMon());
         values.put("monan_id", item.getMonanid());
+        values.put("url", item.getUrl());
 
         return db.insert("cart_items", null, values);
     }
@@ -52,6 +53,7 @@ public class CartDAO {
                 item.setGiaTungMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tung_mon")));
                 item.setGiaTongMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tong_mon")));
                 item.setMonanid(cursor.getInt(cursor.getColumnIndexOrThrow("monan_id")));
+                item.setUrl(cursor.getString(cursor.getColumnIndexOrThrow("url")));
                 list.add(item);
             } while (cursor.moveToNext());
         }
@@ -77,6 +79,7 @@ public class CartDAO {
             item.setGiaTungMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tung_mon")));
             item.setGiaTongMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tong_mon")));
             item.setMonanid(cursor.getInt(cursor.getColumnIndexOrThrow("monan_id")));
+            item.setUrl(cursor.getString(cursor.getColumnIndexOrThrow("url")));
             cursor.close();
             return item;
         }
@@ -105,6 +108,7 @@ public class CartDAO {
             item.setGiaTungMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tung_mon")));
             item.setGiaTongMon(cursor.getLong(cursor.getColumnIndexOrThrow("gia_tong_mon")));
             item.setMonanid(cursor.getInt(cursor.getColumnIndexOrThrow("monan_id")));
+            item.setUrl(cursor.getString(cursor.getColumnIndexOrThrow("url")));
             result.add(item);
         }
         cursor.close();

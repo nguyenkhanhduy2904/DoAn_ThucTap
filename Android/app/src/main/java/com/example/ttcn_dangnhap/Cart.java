@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -49,6 +50,7 @@ public class Cart extends AppCompatActivity {
     int userid;
 
 
+    private static final int REQUEST_CODE_FOR_CART_UPDATE = 100;//request code cho cart, new ThanhToan thanh cong thi xoa toan bo cart di
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,42 +139,28 @@ public class Cart extends AppCompatActivity {
             intent.putExtra("CART_LIST", (Serializable) lsCartItem);
             String totalPriceStr = txtPrice.getText().toString().trim();
             intent.putExtra("TOTAL_PRICE", totalPriceStr);
-
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_FOR_CART_UPDATE);
 
             });
 
 
 
-//            String url = "http://10.0.2.2:8080/api/v1/orders";
-//            JSONArray cartArray = new JSONArray();
-//            for(int i =0; i< lsCartItem.size(); i++){
-//                try{
-//                    CartItem item = lsCartItem.get(i);
-//                    JSONObject jsonItem = new JSONObject();
-//                    jsonItem.put("tenMon",item.getTenMon() );
-//                    jsonItem.put("soLuong", item.getSoLuong());
-//                    jsonItem.put("ghiChu", item.getGhiChu());
-//                    jsonItem.put("giaTungMon", item.getGiaTungMon());
-//                    jsonItem.put("giaTongMon", item.getGiaTongMon());
-//                    jsonItem.put("monanid", item.getMonanid());
-//
-//                    cartArray.put(jsonItem);
-//
-////                    Intent intent = new Intent(Cart.this, );
-//                }
-//                catch (Exception e){
-//                    Toast.makeText(Cart.this, e.getMessage(),Toast.LENGTH_LONG).show();
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//            String totalPriceStr = txtPrice.getText().toString();
-//            Intent intent = new Intent(Cart.this, ThanhToan.class);
-//            intent.putExtra("TOTAL_PRICE", totalPriceStr);
-//            intent.putExtra("CART_LIST", (java.io.Serializable) lsCartItem);
-//            startActivity(intent);
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_FOR_CART_UPDATE && resultCode == RESULT_OK){
+            //ThanhToan thanh cong, xoa toan bo cart di
+            cartDAO.clearCart(userid);
+            lsCartItem.clear();
+            adapter.notifyDataSetChanged();
+            txtPrice.setText("0");
+//            Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
+
+        }
     }
 }
