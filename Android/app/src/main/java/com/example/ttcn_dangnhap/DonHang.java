@@ -78,13 +78,8 @@ public class DonHang extends AppCompatActivity {
                     }
                 }
 
-                // Mode 2: USER_TRACKING
-                OrderAdapter trackingAdapter = new OrderAdapter(DonHang.this, trackingList, 2, null);
-                rvOrders.setAdapter(trackingAdapter);
+                //co 2 list roi thi set adapter or sth? idk
 
-                // Mode 3: USER_HISTORY
-                OrderAdapter historyAdapter = new OrderAdapter(DonHang.this, historyList, 3, null);
-                rvHistory.setAdapter(historyAdapter);
             }
 
             @Override

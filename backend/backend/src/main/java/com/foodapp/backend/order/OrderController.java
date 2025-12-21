@@ -98,4 +98,61 @@ public class OrderController {
         }
     }
 
+
+        @PutMapping(path = "/update-order-status/{orderid}")
+        public ResponseEntity<APIResponse<Void>> updateTrangThaiDonHang(@PathVariable("orderid") Integer orderid,
+                                                             @RequestParam String status){
+            try {
+                orderService.updateTrangThaiDonHang(orderid, status);
+
+                APIResponse<Void> response = new APIResponse<>(
+                        "success",
+                        200,
+                        "Update success",
+                        null
+                );
+
+                return ResponseEntity.ok(response);
+            }
+            catch (IllegalStateException e) {
+
+                APIResponse<Void> response = new APIResponse<>(
+                        "Update failed",
+                        404,
+                        e.getMessage(),
+                        null
+                );
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        }
+
+        @PutMapping(path = "/update-payment-status/{orderid}")
+        public ResponseEntity<APIResponse<Void>> updateTrangThaiThanhToan(@PathVariable("orderid") Integer orderid,
+                                                                        @RequestParam String status){
+            try {
+                orderService.updateTrangThaiThanhToan(orderid, status);
+
+                APIResponse<Void> response = new APIResponse<>(
+                        "success",
+                        200,
+                        "Update success",
+                        null
+                );
+
+                return ResponseEntity.ok(response);
+            }
+            catch (IllegalStateException e) {
+
+                APIResponse<Void> response = new APIResponse<>(
+                        "Update failed",
+                        404,
+                        e.getMessage(),
+                        null
+                );
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+            }
+        }
+
 }

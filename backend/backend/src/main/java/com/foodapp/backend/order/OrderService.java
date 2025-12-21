@@ -1,5 +1,6 @@
 package com.foodapp.backend.order;
 
+import com.foodapp.backend.MonAn.MonAn;
 import com.foodapp.backend.orderItem.OrderItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,5 +44,23 @@ public class OrderService {
 
     public List<Order> getAllOrderByUserid(Integer userid) {
         return orderRepository.findAllByUserIdWithItems(userid);
+    }
+
+    public void updateTrangThaiDonHang(Integer orderid, String status) {
+        Order existedOrder = orderRepository.findById(orderid)
+                .orElseThrow(() -> new IllegalStateException("Order with id: " + orderid + " doesn't exist"));
+
+       existedOrder.setTrangThaiDonHang(status);
+
+        orderRepository.save(existedOrder);
+    }
+
+    public void updateTrangThaiThanhToan(Integer orderid, String status) {
+        Order existedOrder = orderRepository.findById(orderid)
+                .orElseThrow(() -> new IllegalStateException("Order with id: " + orderid + " doesn't exist"));
+
+        existedOrder.setTrangThaiThanhToan(status);
+
+        orderRepository.save(existedOrder);
     }
 }

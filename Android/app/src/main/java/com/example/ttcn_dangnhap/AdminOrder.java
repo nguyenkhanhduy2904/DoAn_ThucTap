@@ -13,11 +13,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Network.APIClient;
 import com.example.ttcn_dangnhap.Network.APIService;
 import com.example.ttcn_dangnhap.Adapter.OrderAdapter;
+import com.example.ttcn_dangnhap.Network.APICallback;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -25,11 +28,16 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.lang.reflect.Type;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import models.APIResponse;
 import models.OrderDTO;
+import models.OrderItemDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,6 +58,18 @@ public class AdminOrder extends AppCompatActivity {
         });
         addControls();
         addEvents();
+        loadAllOrders(new APICallback<List<OrderDTO>>() {
+            @Override
+            public void onSuccess(List<OrderDTO> result) {
+                allOrders = result;
+                // chia tat ca cac don trong list thanh cac List<> nho hon theo trang thai
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addControls() {
@@ -64,7 +84,7 @@ public class AdminOrder extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadAllOrders();
+//        loadAllOrders();
     }
 
     private void addEvents() {
@@ -73,26 +93,152 @@ public class AdminOrder extends AppCompatActivity {
         btnSanSang.setOnClickListener(v -> filterList("Delivering"));
         btnDaGiao.setOnClickListener(v -> filterList("Finish"));
     }
-    private void loadAllOrders() {
-        APIService apiService = APIClient.getClient().create(APIService.class);
+//    private void loadAllOrders() {
+//        APIService apiService = APIClient.getClient().create(APIService.class);
+//
+//        apiService.getAllOrders().enqueue(new Callback<APIResponse<List<OrderDTO>>>() {
+//            @Override
+//            public void onResponse(Call<APIResponse<List<OrderDTO>>> call, Response<APIResponse<List<OrderDTO>>> response) {
+//                if (response.isSuccessful() && response.body() != null) {
+//                    allOrders = response.body().getData();
+//                    if (allOrders == null) allOrders = new ArrayList<>();
+//                    filterList("Pending");
+//                } else {
+//                    Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<APIResponse<List<OrderDTO>>> call, Throwable t) {
+//                Toast.makeText(AdminOrder.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
-        apiService.getAllOrders().enqueue(new Callback<APIResponse<List<OrderDTO>>>() {
-            @Override
-            public void onResponse(Call<APIResponse<List<OrderDTO>>> call, Response<APIResponse<List<OrderDTO>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    allOrders = response.body().getData();
-                    if (allOrders == null) allOrders = new ArrayList<>();
-                    filterList("Pending");
-                } else {
-                    Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show();
+
+    public void loadAllOrders(APICallback< List<OrderDTO>> callback){
+
+        String url = "http://10.0.2.2:8080/api/v1/orders";
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                response -> {
+                    try{
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+
+                        if(status.equals("success")){
+                            JSONArray dataArray = response.getJSONArray("data");
+                            List<OrderDTO> orderList = new ArrayList<>();
+                            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
+                            for(int i =0; i< dataArray.length(); i++){
+
+                                JSONObject orderObj = dataArray.getJSONObject(i);
+                                String dateStr = orderObj.getString("thoiGianTao");
+                                String tongTienStr = orderObj.getString("tongTien");
+
+                                Date thoiGianTao = null;
+                                BigDecimal tongTien = null;
+
+
+                                try{
+                                    thoiGianTao = sdf.parse(dateStr);
+                                    tongTien = new BigDecimal(tongTienStr);
+                                }catch (Exception e){
+                                    Toast.makeText(this, "Lỗi chuyển đổi dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+
+                                OrderDTO order = new OrderDTO(
+                                        orderObj.getInt("id"),
+                                        orderObj.getString("tenNguoiNhan"),
+                                        orderObj.getString("diaChi"),
+                                        orderObj.getString("sdt"),
+                                        thoiGianTao,
+                                        orderObj.getString("trangThaiDonHang"),
+                                        orderObj.getString("trangThaiThanhToan"),
+                                        tongTien,
+                                        orderObj.getInt("idKhachHang"),
+                                        null // Chưa xử lý danh sách món ăn ở đây
+                                );
+
+
+                                JSONArray itemList = orderObj.getJSONArray("items");
+                                List<OrderItemDTO> orderItems = new ArrayList<>();
+                                for(int j=0; j< itemList.length(); j++){
+                                    JSONObject itemObj = dataArray.getJSONObject(j);
+                                    String giaTungMonStr = itemObj.getString("giaTungMon");
+                                    String giaTongMonStr = itemObj.getString("giaTongMon");
+                                    BigDecimal giaTungMon = null;
+                                    BigDecimal giaTongMon = null;
+
+
+                                    try{
+                                        giaTungMon = new BigDecimal(giaTungMonStr);
+                                        giaTongMon = new BigDecimal(giaTongMonStr);
+                                    }
+                                    catch (Exception e){
+                                        Toast.makeText(this, "Lỗi chuyển đổi dữ liệu món ăn: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    OrderItemDTO item = new OrderItemDTO(
+                                            itemObj.getString("tenMon"),
+                                            itemObj.getInt("soLuong"),
+                                            itemObj.getString("ghiChu"),
+                                            giaTungMon,
+                                            giaTongMon,
+                                            itemObj.getInt("monanid")
+                                    );
+
+                                    orderItems.add(item);
+
+
+                                }
+                                order.setItems(orderItems);
+                                orderList.add(order);
+
+                            }
+                            callback.onSuccess(orderList);
+
+                        }
+                        else{
+                            callback.onError("GET order data failed: " +message);
+                        }
+
+                    }catch (Exception e){
+                        Toast.makeText(this, "Lỗi phân tích dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                },
+                error -> {
+                    if (error.networkResponse != null && error.networkResponse.data != null) {
+                        try {
+                            String errorJson = new String(error.networkResponse.data, "UTF-8");
+                            JSONObject obj = new JSONObject(errorJson);
+
+                            callback.onError(obj.getString("message"));
+
+                        } catch (Exception e) {
+                            callback.onError("Error parsing error response: " + e.getMessage());
+                        }
+                    } else {
+                        callback.onError("Connection error");
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<APIResponse<List<OrderDTO>>> call, Throwable t) {
-                Toast.makeText(AdminOrder.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        );
+        requestQueue.add(request);
+
+
     }
+
+
+
     private void filterList(String status) {
         List<OrderDTO> filtered = new ArrayList<>();
         if (allOrders != null) {
@@ -106,12 +252,13 @@ public class AdminOrder extends AppCompatActivity {
         rvOrderList.setAdapter(adapter);
     }
     private void updateOrderStatus(int orderId, String newStatus) {
-        String url = "http://10.0.2.2:8080/api/v1/orders/" + orderId + "/status?status=" + newStatus;
+        String url = "http://10.0.2.2:8080/api/v1/orders/update-order-status/" + orderId + "?status=" + newStatus;
+
 
         StringRequest request = new StringRequest(Request.Method.PUT, url,
                 response -> {
                     Toast.makeText(this, "Đã cập nhật: " + newStatus, Toast.LENGTH_SHORT).show();
-                    loadAllOrders();
+//                    loadAllOrders();
                 },
                 error -> Toast.makeText(this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show()
         );
