@@ -34,7 +34,7 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "{orderid}")
+    @GetMapping(path = "/orderid/{orderid}")
     public ResponseEntity<APIResponse<Order>> getOrderByid(@PathVariable("orderid") Integer orderid){
         try{
             return ResponseEntity.ok(new APIResponse<Order>(
@@ -54,6 +54,29 @@ public class OrderController {
             ));
         }
     }
+
+    @GetMapping(path = "/userid/{userid}")
+    public ResponseEntity<APIResponse<List<Order>>> getAllOrderByUserid(@PathVariable("userid") Integer userid){
+        try{
+            return ResponseEntity.ok(new APIResponse<List<Order>>(
+                    "success",
+                    200,
+                    "Fetch success",
+                    orderService.getAllOrderByUserid(userid)
+            ));
+        }
+
+        catch (IllegalStateException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new APIResponse<>(
+                    "error",
+                    404,
+                    e.getMessage(),
+                    null
+            ));
+        }
+    }
+
+
 
     @PostMapping
     public ResponseEntity<APIResponse<Order>> addOrder(@RequestBody Order order){

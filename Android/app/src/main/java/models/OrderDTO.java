@@ -6,7 +6,7 @@ import java.util.List;
 public class OrderDTO {
     // Tên biến phải GIỐNG HỆT tên field trong Backend (Order.java)
     private Integer id;
-    private String tenKhachHang;
+    private String tenNguoiNhan;
     private String diaChi;
     private String sdt;
     private Date thoiGianTao;
@@ -18,9 +18,9 @@ public class OrderDTO {
     // Quan trọng: Danh sách món ăn gửi kèm
     private List<OrderItemDTO> items;
 
-    public OrderDTO(Integer id, String tenKhachHang, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, List<OrderItemDTO> items) {
+    public OrderDTO(Integer id, String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, List<OrderItemDTO> items) {
         this.id = id;
-        this.tenKhachHang = tenKhachHang;
+        this.tenNguoiNhan = tenNguoiNhan;
         this.diaChi = diaChi;
         this.sdt = sdt;
         this.thoiGianTao = thoiGianTao;
@@ -31,8 +31,8 @@ public class OrderDTO {
         this.items = items;
     }
 
-    public OrderDTO(String tenKhachHang, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, List<OrderItemDTO> items) {
-        this.tenKhachHang = tenKhachHang;
+    public OrderDTO(String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, List<OrderItemDTO> items) {
+        this.tenNguoiNhan = tenNguoiNhan;
         this.diaChi = diaChi;
         this.sdt = sdt;
         this.thoiGianTao = thoiGianTao;
@@ -51,12 +51,12 @@ public class OrderDTO {
         this.id = id;
     }
 
-    public String getTenKhachHang() {
-        return tenKhachHang;
+    public String getTenNguoiNhan() {
+        return tenNguoiNhan;
     }
 
-    public void setTenKhachHang(String tenKhachHang) {
-        this.tenKhachHang = tenKhachHang;
+    public void setTenNguoiNhan(String tenNguoiNhan) {
+        this.tenNguoiNhan = tenNguoiNhan;
     }
 
     public String getDiaChi() {

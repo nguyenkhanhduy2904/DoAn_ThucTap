@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.adapter;
+package com.example.ttcn_dangnhap.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -82,7 +82,7 @@ public class OrderAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private void bindAdmin(AdminViewHolder holder, OrderDTO order) {
         holder.tvOrderId.setText("Mã đơn hàng: #" + order.getId());
-        holder.tvCustomerName.setText("Khách: " + order.getTenKhachHang());
+        holder.tvCustomerName.setText("Khách: " + order.getTenNguoiNhan());
         holder.tvTotalPrice.setText(order.getTongTien() + "đ");
         holder.rvItems.setLayoutManager(new LinearLayoutManager(context));
         holder.rvItems.setAdapter(new OrderDetailAdapter(context, order.getItems()));

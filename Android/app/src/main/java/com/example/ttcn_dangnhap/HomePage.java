@@ -301,7 +301,12 @@ public class HomePage extends AppCompatActivity {
         });
         ibtnOrder.setOnClickListener(view -> {
 
-            Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this,DonHang.class);
+            startActivity(intent);
+            finish();
+
+
         });
         ibtnAccount.setOnClickListener(view -> {
             Intent intent = new Intent(HomePage.this,Infor.class);

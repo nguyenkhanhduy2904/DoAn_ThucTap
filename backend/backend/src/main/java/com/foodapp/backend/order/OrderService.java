@@ -41,4 +41,7 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    public List<Order> getAllOrderByUserid(Integer userid) {
+        return orderRepository.findAllByUserIdWithItems(userid);
+    }
 }

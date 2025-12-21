@@ -14,4 +14,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     // Fetch all orders with their items
     @Query("SELECT DISTINCT o FROM Order o JOIN FETCH o.items")
     List<Order> findAllWithItems();
+
+    @Query("SELECT o FROM Order o LEFT JOIN FETCH o.items WHERE o.idKhachHang = :userid")
+    List<Order> findAllByUserIdWithItems(@Param("userid") Integer userid);
 }
