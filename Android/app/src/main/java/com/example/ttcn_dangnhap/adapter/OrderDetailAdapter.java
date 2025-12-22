@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ttcn_dangnhap.Adapter.CartAdapter;
 import com.example.ttcn_dangnhap.R;
 
 import java.util.List;

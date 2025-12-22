@@ -2,8 +2,12 @@ package com.example.ttcn_dangnhap;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
@@ -20,9 +23,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Network.APICallback;
-import com.example.ttcn_dangnhap.Network.APIClient;
-import com.example.ttcn_dangnhap.Network.APIService;
-import com.example.ttcn_dangnhap.Adapter.OrderAdapter;
+import com.example.ttcn_dangnhap.adapter.OrderAdapter2;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,16 +35,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import models.APIResponse;
 import models.OrderDTO;
 import models.OrderItemDTO;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DonHang extends AppCompatActivity {
     TextView tabTracking, tabHistory;
-    RecyclerView rvOrders, rvHistory;
+//    RecyclerView rvOrders, rvHistory;
+
+
+    ListView lvOrders;
+    OrderAdapter2 orderAdapter2;
+
+
     List<OrderDTO> trackingList = new ArrayList<>();
     List<OrderDTO> historyList = new ArrayList<>();
     SharedPreferences sharedPreferences;
@@ -75,9 +78,13 @@ public class DonHang extends AppCompatActivity {
                         historyList.add(order);
                     } else if(status.equals("Pending") || status.equals("Confirmed") || status.equals("In Transit")){
                         trackingList.add(order);
-
                     }
                 }
+                orderAdapter2.notifyDataSetChanged();
+
+
+
+                Log.d("DonHang", "Loaded " + trackingList.size() + " tracking orders and " + historyList.size() + " history orders.");
 
                 //co 2 list roi thi set adapter or sth? idk
 
@@ -92,24 +99,39 @@ public class DonHang extends AppCompatActivity {
 
     private void addEvents() {
         tabTracking.setOnClickListener(v -> {
-            rvOrders.setVisibility(View.VISIBLE);
-            rvHistory.setVisibility(View.GONE);
+//            rvOrders.setVisibility(View.VISIBLE);
+//            rvHistory.setVisibility(View.GONE);
             tabTracking.setBackgroundColor(0xFF69E0D4);
             tabHistory.setBackgroundColor(0xFFB2DFDB);
+
+            orderAdapter2 = new OrderAdapter2(this, trackingList, lvOrders);
+            lvOrders.setAdapter(orderAdapter2);
+
         });
 
         tabHistory.setOnClickListener(v -> {
-            rvOrders.setVisibility(View.GONE);
-            rvHistory.setVisibility(View.VISIBLE);
+//            rvOrders.setVisibility(View.GONE);
+//            rvHistory.setVisibility(View.VISIBLE);
             tabTracking.setBackgroundColor(0xFFB2DFDB);
             tabHistory.setBackgroundColor(0xFF69E0D4);
+
+            orderAdapter2 = new OrderAdapter2(this, historyList, lvOrders);
+            lvOrders.setAdapter(orderAdapter2);
         });
     }
 
     private void addControls() {
         tabTracking = findViewById(R.id.tabTracking);
         tabHistory = findViewById(R.id.tabHistory);
-        rvOrders = findViewById(R.id.rvOrders);
+        lvOrders = findViewById(R.id.lvOrders);
+        // After you have loaded the trackingList
+        orderAdapter2 = new OrderAdapter2(this, trackingList, lvOrders);
+        lvOrders.setAdapter(orderAdapter2);
+
+// Then set the height of the outer ListView
+//        setListViewHeight(lvOrders);
+
+//        rvOrders = findViewById(R.id.rvOrders);
 //        rvHistory = findViewById(R.id.rvHistory);
 
 //        rvOrders.setLayoutManager(new LinearLayoutManager(this));
@@ -223,7 +245,7 @@ public class DonHang extends AppCompatActivity {
                                 JSONArray itemList = orderObj.getJSONArray("items");
                                 List<OrderItemDTO> orderItems = new ArrayList<>();
                                 for(int j=0; j< itemList.length(); j++){
-                                    JSONObject itemObj = dataArray.getJSONObject(j);
+                                    JSONObject itemObj = itemList.getJSONObject(j);
                                     String giaTungMonStr = itemObj.getString("giaTungMon");
                                     String giaTongMonStr = itemObj.getString("giaTongMon");
                                     BigDecimal giaTungMon = null;
@@ -290,5 +312,26 @@ public class DonHang extends AppCompatActivity {
         );
 
         requestQueue.add(request);
+    }
+
+
+    public static void setListViewHeight(ListView listView) {
+        ListAdapter adapter = listView.getAdapter();
+        if (adapter == null) return;
+
+        int totalHeight = 0;
+        for (int i = 0; i < adapter.getCount(); i++) {
+            View listItem = adapter.getView(i, null, listView);
+            listItem.measure(
+                    View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            );
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
     }
 }

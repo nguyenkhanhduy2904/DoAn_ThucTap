@@ -78,23 +78,26 @@
             android:textColor="#555555"/>
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvOrders"
+    <ListView
+        android:layout_margin="10dp"
+        android:id="@+id/lvOrders"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="visible"
+        android:dividerHeight="20dp"
+        android:divider="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/layoutTabs"
         app:layout_constraintBottom_toTopOf="@id/navBar"
-        tools:listitem="@layout/layout_theo_doi"/>
+        tools:listitem="@layout/layout_order_tracking"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvHistory"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/layoutTabs"
-        app:layout_constraintBottom_toTopOf="@id/navBar"
-        tools:listitem="@layout/layout_lich_su"/>
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rvHistory"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/layoutTabs"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/navBar"-->
+<!--        tools:listitem="@layout/layout_lich_su"/>-->
 
     <include
         android:id="@+id/navBar"

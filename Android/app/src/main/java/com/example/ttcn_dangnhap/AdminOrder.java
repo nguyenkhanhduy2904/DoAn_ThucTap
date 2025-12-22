@@ -17,17 +17,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ttcn_dangnhap.Network.APIClient;
-import com.example.ttcn_dangnhap.Network.APIService;
-import com.example.ttcn_dangnhap.Adapter.OrderAdapter;
+import com.example.ttcn_dangnhap.adapter.OrderAdapter;
 import com.example.ttcn_dangnhap.Network.APICallback;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,12 +30,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import models.APIResponse;
 import models.OrderDTO;
 import models.OrderItemDTO;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class AdminOrder extends AppCompatActivity {
     AppCompatButton btnCho, btnXacNhan, btnSanSang, btnDaGiao;

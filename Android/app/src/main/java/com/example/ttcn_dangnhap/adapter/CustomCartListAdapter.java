@@ -1,4 +1,4 @@
-package com.example.ttcn_dangnhap.Adapter;
+package com.example.ttcn_dangnhap.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,14 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.ttcn_dangnhap.R;
-import com.example.ttcn_dangnhap.Adapter.OnItemChangeListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import models.Cart.CartDAO;
 import models.Cart.CartItem;
-import okio.Buffer;
 
 
 public class CustomCartListAdapter extends BaseAdapter {
