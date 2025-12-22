@@ -75,6 +75,7 @@ public class DonHang extends AppCompatActivity {
                         historyList.add(order);
                     } else if(status.equals("Pending") || status.equals("Confirmed") || status.equals("In Transit")){
                         trackingList.add(order);
+
                     }
                 }
 
