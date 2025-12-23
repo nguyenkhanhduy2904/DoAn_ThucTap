@@ -1,9 +1,10 @@
 package models;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class OrderDTO {
+public class OrderDTO implements Serializable {
     // Tên biến phải GIỐNG HỆT tên field trong Backend (Order.java)
     private Integer id;
     private String tenNguoiNhan;
@@ -13,12 +14,13 @@ public class OrderDTO {
     private String trangThaiDonHang;
     private String trangThaiThanhToan;
     private BigDecimal tongTien;
-    private Integer idKhachHang; // Khớp với "idKhachHang" trong backend
+    private Integer idKhachHang;
+    private String phuongThucThanhToan;// Khớp với "idKhachHang" trong backend
 
     // Quan trọng: Danh sách món ăn gửi kèm
     private List<OrderItemDTO> items;
 
-    public OrderDTO(Integer id, String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, List<OrderItemDTO> items) {
+    public OrderDTO(Integer id, String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, String phuongThucThanhToan, List<OrderItemDTO> items) {
         this.id = id;
         this.tenNguoiNhan = tenNguoiNhan;
         this.diaChi = diaChi;
@@ -28,10 +30,11 @@ public class OrderDTO {
         this.trangThaiThanhToan = trangThaiThanhToan;
         this.tongTien = tongTien;
         this.idKhachHang = idKhachHang;
+        this.phuongThucThanhToan = phuongThucThanhToan;
         this.items = items;
     }
 
-    public OrderDTO(String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, List<OrderItemDTO> items) {
+    public OrderDTO(String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, String trangThaiThanhToan, BigDecimal tongTien, Integer idKhachHang, String phuongThucThanhToan, List<OrderItemDTO> items) {
         this.tenNguoiNhan = tenNguoiNhan;
         this.diaChi = diaChi;
         this.sdt = sdt;
@@ -40,6 +43,7 @@ public class OrderDTO {
         this.trangThaiThanhToan = trangThaiThanhToan;
         this.tongTien = tongTien;
         this.idKhachHang = idKhachHang;
+        this.phuongThucThanhToan = phuongThucThanhToan;
         this.items = items;
     }
 
@@ -123,5 +127,11 @@ public class OrderDTO {
         this.items = items;
     }
 
+    public String getPhuongThucThanhToan() {
+        return phuongThucThanhToan;
+    }
 
+    public void setPhuongThucThanhToan(String phuongThucThanhToan) {
+        this.phuongThucThanhToan = phuongThucThanhToan;
+    }
 }

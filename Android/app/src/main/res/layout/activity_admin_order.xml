@@ -9,6 +9,8 @@
     android:id="@+id/main"
     tools:context=".AdminOrder">
 
+
+
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="40dp"
@@ -75,11 +77,11 @@
         android:orientation="horizontal"
         android:paddingHorizontal="15dp"
         android:layout_marginTop="20dp"
-        android:weightSum="4"
+        android:weightSum="5"
         app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCho"
+            android:id="@+id/btnPending"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
@@ -89,52 +91,15 @@
             android:textColor="#333"
             android:backgroundTint="@color/design_default_color_secondary"
             android:stateListAnimator="@null"
-            android:layout_marginEnd="5dp"
             android:maxLines="1"
             app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeMaxTextSize="15sp"/>
-
+            />
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnXacNhan"
+            android:id="@+id/btnConfirm"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="Xác nhận"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:backgroundTint="@color/design_default_color_secondary"
-            android:stateListAnimator="@null"
-            android:layout_marginEnd="5dp"
-            android:maxLines="1"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeMaxTextSize="15sp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSanSang"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="Sẵn sàng"
-            android:textAllCaps="false"
-            android:textStyle="bold"
-            android:textColor="#333"
-            android:backgroundTint="@color/design_default_color_secondary"
-            android:stateListAnimator="@null"
-            android:layout_marginEnd="5dp"
-            android:maxLines="1"
-            app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="8sp"
-            app:autoSizeMaxTextSize="15sp"/>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnDaGiao"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="Đã giao"
+            android:text="Xac Nhan"
             android:textAllCaps="false"
             android:textStyle="bold"
             android:textColor="#333"
@@ -142,21 +107,64 @@
             android:stateListAnimator="@null"
             android:maxLines="1"
             app:autoSizeTextType="uniform"
-            app:autoSizeMinTextSize="10sp"
-            app:autoSizeMaxTextSize="15sp"/>
+           />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnDelivering"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Dang Giao"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnFinish"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Hoan Thanh"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCanceled"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="Huy"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:textColor="#333"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:stateListAnimator="@null"
+            android:maxLines="1"
+            app:autoSizeTextType="uniform"
+            />
     </LinearLayout>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvOrderList"
+
+
+
+    <ListView
+        android:layout_margin="10dp"
+        android:id="@+id/lvOrders"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#F2F2F2"
-        android:padding="10dp"
-        android:clipToPadding="false"
+        android:dividerHeight="20dp"
+        android:divider="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/layoutTabs"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/layout_admin_order"/>
+        tools:listitem="@layout/layout_order_staffview"/>
+
 
     <LinearLayout
         android:id="@+id/bottomNav"

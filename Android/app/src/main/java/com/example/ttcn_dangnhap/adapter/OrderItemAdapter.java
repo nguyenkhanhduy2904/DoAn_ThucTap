@@ -43,20 +43,28 @@ public class OrderItemAdapter extends BaseAdapter {
 
     @Override
     public View getView(int pos, View convertView, ViewGroup parent) {
-        convertView = inflater.inflate(R.layout.layout_order_item, null);
-        TextView tvFoodName = convertView.findViewById(R.id.tvTenmon);
-        TextView tvQuantity = convertView.findViewById(R.id.tvSoluong);
-        TextView tvNote = convertView.findViewById(R.id.tvGhiChu);
+        {
+
+            convertView = inflater.inflate(R.layout.layout_order_item, null);
+            TextView tvFoodName = convertView.findViewById(R.id.tvTenmon);
+            TextView tvQuantity = convertView.findViewById(R.id.tvSoluong);
+            TextView tvNote = convertView.findViewById(R.id.tvGhiChu);
 
 
-        tvFoodName.setText(orderItemList.get(pos).getTenMon());
-        tvQuantity.setText("x" + orderItemList.get(pos).getSoLuong());
-        String ghiChu = orderItemList.get(pos).getGhiChu();
-        if (ghiChu != null && !ghiChu.isEmpty()) {
-            tvNote.setText(ghiChu);
+            tvFoodName.setText(orderItemList.get(pos).getTenMon());
+            tvQuantity.setText("x" + orderItemList.get(pos).getSoLuong());
+            String ghiChu = orderItemList.get(pos).getGhiChu();
+            if (ghiChu.equals("null")) {
+                tvNote.setText("Không có ghi chú");
+            } else {
+                if (ghiChu != null && !ghiChu.isEmpty()) {
+                    tvNote.setText(ghiChu);
+                }
+            }
+
+
+            return convertView;
         }
-
-        return convertView;
 
     }
 }

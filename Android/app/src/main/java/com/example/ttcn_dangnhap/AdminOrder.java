@@ -1,6 +1,9 @@
 package com.example.ttcn_dangnhap;
 
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -9,8 +12,6 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.adapter.OrderAdapter;
 import com.example.ttcn_dangnhap.Network.APICallback;
+import com.example.ttcn_dangnhap.adapter.OrderStaffviewAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,9 +36,21 @@ import models.OrderDTO;
 import models.OrderItemDTO;
 
 public class AdminOrder extends AppCompatActivity {
-    AppCompatButton btnCho, btnXacNhan, btnSanSang, btnDaGiao;
-    RecyclerView rvOrderList;
+    AppCompatButton btnPending, btnConfirmed, btnDelivering, btnFinished;
+    ListView lvOrders;
+    OrderStaffviewAdapter orderAdapter;
     List<OrderDTO> allOrders = new ArrayList<>();
+    List<OrderDTO> pendingOrders = new ArrayList<>();
+    List<OrderDTO> confirmOrders = new ArrayList<>();
+    List<OrderDTO> deliveringOrders = new ArrayList<>();
+    List<OrderDTO> finishedOrders = new ArrayList<>();
+    List<OrderDTO> canceledOrders = new ArrayList<>();
+
+    List<OrderDTO> currentViewOrders = new ArrayList<>();
+
+    String currentFilterStatus = "Pending"; // track which tab is active
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +66,36 @@ public class AdminOrder extends AppCompatActivity {
         loadAllOrders(new APICallback<List<OrderDTO>>() {
             @Override
             public void onSuccess(List<OrderDTO> result) {
-                allOrders = result;
-                // chia tat ca cac don trong list thanh cac List<> nho hon theo trang thai
+                allOrders.clear();
+                allOrders.addAll(result);
+                orderAdapter.notifyDataSetChanged(); // <--- update adapter
+
+                for(int i =0; i<allOrders.size(); i++){
+                    OrderDTO orderDTO = allOrders.get(i);
+                    String orderStatus = orderDTO.getTrangThaiDonHang();
+
+                    switch (orderStatus){
+                        case "Pending":
+                            pendingOrders.add(orderDTO);
+                            break;
+                        case "Confirmed":
+                            confirmOrders.add(orderDTO);
+                            break;
+                        case "Delivering":
+                            deliveringOrders.add(orderDTO);
+                            break;
+                        case "Finished":
+                            finishedOrders.add(orderDTO);
+                            break;
+
+                        case "Cancelled":
+                            canceledOrders.add(orderDTO);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
             }
 
             @Override
@@ -64,12 +106,87 @@ public class AdminOrder extends AppCompatActivity {
     }
 
     private void addControls() {
-        btnCho=findViewById(R.id.btnCho);
-        btnSanSang=findViewById(R.id.btnSanSang);
-        btnXacNhan=findViewById(R.id.btnXacNhan);
-        btnDaGiao=findViewById(R.id.btnDaGiao);
-        rvOrderList = findViewById(R.id.rvOrderList);
-        rvOrderList.setLayoutManager(new LinearLayoutManager(this));
+        btnPending = findViewById(R.id.btnPending);
+        btnDelivering = findViewById(R.id.btnDelivering);
+        btnConfirmed = findViewById(R.id.btnConfirm);
+        btnFinished = findViewById(R.id.btnFinish);
+        lvOrders = findViewById(R.id.lvOrders);
+
+        orderAdapter = new OrderStaffviewAdapter(this, currentViewOrders);
+
+        orderAdapter = new OrderStaffviewAdapter(this, currentViewOrders);
+        orderAdapter.setStatusChangeCallback(new APICallback<OrderDTO>() {
+            @Override
+            public void onSuccess(OrderDTO updatedOrder) {
+                // Remove from old lists
+                pendingOrders.remove(updatedOrder);
+                confirmOrders.remove(updatedOrder);
+                deliveringOrders.remove(updatedOrder);
+                finishedOrders.remove(updatedOrder);
+                canceledOrders.remove(updatedOrder);
+
+                // Update allOrders
+                for (int i = 0; i < allOrders.size(); i++) {
+                    if (allOrders.get(i).getId() == updatedOrder.getId()) {
+                        allOrders.set(i, updatedOrder);
+                        break;
+                    }
+                }
+
+                // Add to new status list
+                switch (updatedOrder.getTrangThaiDonHang()) {
+                    case "Pending": pendingOrders.add(updatedOrder); break;
+                    case "Confirmed": confirmOrders.add(updatedOrder); break;
+                    case "Delivering": deliveringOrders.add(updatedOrder); break;
+                    case "Finished": finishedOrders.add(updatedOrder); break;
+                    case "Cancelled": canceledOrders.add(updatedOrder); break;
+                }
+
+                // Refresh current view
+                switchTab(currentFilterStatus);
+            }
+
+            @Override
+            public void onError(String errorMessage) {
+                Toast.makeText(AdminOrder.this, "Error: " + errorMessage, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        lvOrders.setAdapter(orderAdapter);
+
+        // Load initial orders
+//        loadAllOrders(new APICallback<List<OrderDTO>>() {
+//            @Override
+//            public void onSuccess(List<OrderDTO> result) {
+//                allOrders.clear();
+//                allOrders.addAll(result);
+//
+//                // Clear filtered lists
+//                pendingOrders.clear();
+//                confirmOrders.clear();
+//                deliveringOrders.clear();
+//                finishedOrders.clear();
+//                canceledOrders.clear();
+//
+//                // Populate filtered lists
+//                for (OrderDTO order : allOrders) {
+//                    switch (order.getTrangThaiDonHang()) {
+//                        case "Pending": pendingOrders.add(order); break;
+//                        case "Confirmed": confirmOrders.add(order); break;
+//                        case "Delivering": deliveringOrders.add(order); break;
+//                        case "Finished": finishedOrders.add(order); break;
+//                        case "Cancelled": canceledOrders.add(order); break;
+//                    }
+//                }
+//
+//                orderAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onError(String errorMessage) {
+//                Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu: " + errorMessage, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     @Override
@@ -78,32 +195,29 @@ public class AdminOrder extends AppCompatActivity {
 //        loadAllOrders();
     }
 
-    private void addEvents() {
-        btnCho.setOnClickListener(v -> filterList("Pending"));
-        btnXacNhan.setOnClickListener(v -> filterList("Confirm"));
-        btnSanSang.setOnClickListener(v -> filterList("Delivering"));
-        btnDaGiao.setOnClickListener(v -> filterList("Finish"));
+    private void switchTab(String status) {
+        currentFilterStatus = status;
+        currentViewOrders.clear();
+
+        switch (status) {
+            case "Pending": currentViewOrders.addAll(pendingOrders); break;
+            case "Confirmed": currentViewOrders.addAll(confirmOrders); break;
+            case "Delivering": currentViewOrders.addAll(deliveringOrders); break;
+            case "Finished": currentViewOrders.addAll(finishedOrders); break;
+            case "Cancelled": currentViewOrders.addAll(canceledOrders); break;
+        }
+
+        orderAdapter.notifyDataSetChanged();
     }
-//    private void loadAllOrders() {
-//        APIService apiService = APIClient.getClient().create(APIService.class);
-//
-//        apiService.getAllOrders().enqueue(new Callback<APIResponse<List<OrderDTO>>>() {
-//            @Override
-//            public void onResponse(Call<APIResponse<List<OrderDTO>>> call, Response<APIResponse<List<OrderDTO>>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    allOrders = response.body().getData();
-//                    if (allOrders == null) allOrders = new ArrayList<>();
-//                    filterList("Pending");
-//                } else {
-//                    Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<APIResponse<List<OrderDTO>>> call, Throwable t) {
-//                Toast.makeText(AdminOrder.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
+
+
+    private void addEvents() {
+        btnPending.setOnClickListener(v -> switchTab("Pending"));
+        btnConfirmed.setOnClickListener(v -> switchTab("Confirmed"));
+        btnDelivering.setOnClickListener(v -> switchTab("Delivering"));
+        btnFinished.setOnClickListener(v -> switchTab("Finished"));
+    }
+
 
 
     public void loadAllOrders(APICallback< List<OrderDTO>> callback){
@@ -154,6 +268,7 @@ public class AdminOrder extends AppCompatActivity {
                                         orderObj.getString("trangThaiThanhToan"),
                                         tongTien,
                                         orderObj.getInt("idKhachHang"),
+                                        orderObj.getString("phuongThucThanhToan"),
                                         null // Chưa xử lý danh sách món ăn ở đây
                                 );
 
@@ -161,7 +276,7 @@ public class AdminOrder extends AppCompatActivity {
                                 JSONArray itemList = orderObj.getJSONArray("items");
                                 List<OrderItemDTO> orderItems = new ArrayList<>();
                                 for(int j=0; j< itemList.length(); j++){
-                                    JSONObject itemObj = dataArray.getJSONObject(j);
+                                    JSONObject itemObj = itemList.getJSONObject(j);
                                     String giaTungMonStr = itemObj.getString("giaTungMon");
                                     String giaTongMonStr = itemObj.getString("giaTongMon");
                                     BigDecimal giaTungMon = null;
@@ -240,7 +355,7 @@ public class AdminOrder extends AppCompatActivity {
             }
         }
         OrderAdapter adapter = new OrderAdapter(this, filtered, 1, this::updateOrderStatus);
-        rvOrderList.setAdapter(adapter);
+//        rvOrderList.setAdapter(adapter);
     }
     private void updateOrderStatus(int orderId, String newStatus) {
         String url = "http://10.0.2.2:8080/api/v1/orders/update-order-status/" + orderId + "?status=" + newStatus;
@@ -255,4 +370,25 @@ public class AdminOrder extends AppCompatActivity {
         );
         Volley.newRequestQueue(this).add(request);
     }
+
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        android.widget.ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) return;
+
+        int totalHeight = 0;
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(
+                    View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST),
+                    View.MeasureSpec.UNSPECIFIED
+            );
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
 }

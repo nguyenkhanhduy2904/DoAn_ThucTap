@@ -123,7 +123,8 @@ public class Login extends AppCompatActivity {
                                 }
                                 else if (role.equals("ADMIN")) {
                                     ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
-                                        Intent intent = new Intent(Login.this, QuanLyMon.class);
+//                                        Intent intent = new Intent(Login.this, QuanLyMon.class);
+                                        Intent intent = new Intent(this, AdminOrder.class);
                                         startActivity(intent);
                                         finish();
                                     });

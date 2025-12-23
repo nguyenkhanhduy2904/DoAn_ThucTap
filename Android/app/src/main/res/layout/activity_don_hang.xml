@@ -90,14 +90,7 @@
         app:layout_constraintBottom_toTopOf="@id/navBar"
         tools:listitem="@layout/layout_order_tracking"/>
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:id="@+id/rvHistory"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:visibility="gone"-->
-<!--        app:layout_constraintTop_toBottomOf="@id/layoutTabs"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/navBar"-->
-<!--        tools:listitem="@layout/layout_lich_su"/>-->
+
 
     <include
         android:id="@+id/navBar"

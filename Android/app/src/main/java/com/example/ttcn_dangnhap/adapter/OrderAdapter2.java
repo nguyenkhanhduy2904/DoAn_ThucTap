@@ -1,6 +1,7 @@
 package com.example.ttcn_dangnhap.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,14 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.ttcn_dangnhap.Network.APICallback;
+import com.example.ttcn_dangnhap.OrderDetail;
 import com.example.ttcn_dangnhap.R;
 
 import java.text.SimpleDateFormat;
@@ -25,12 +33,17 @@ public class OrderAdapter2 extends BaseAdapter {
     List<OrderDTO> orderList;
     LayoutInflater inflater;
     ListView outerListView;
+    private APICallback<OrderDTO> statusChangeCallback;
 
     public OrderAdapter2(Context context, List<OrderDTO> orderList, ListView outerListView) {
         this.context = context;
         this.orderList = orderList;
         this.outerListView = outerListView;
         this.inflater = LayoutInflater.from(context);
+    }
+
+    public void setStatusChangeCallback(APICallback<OrderDTO> callback) {
+        this.statusChangeCallback = callback;
     }
 
 
@@ -57,36 +70,42 @@ public class OrderAdapter2 extends BaseAdapter {
         TextView tvOrderStatus = convertView.findViewById(R.id.txtOrderStatus);
         TextView tvTotalPrice = convertView.findViewById(R.id.txtTotalPrice);
         TextView tvPaymentStatus = convertView.findViewById(R.id.txtPaymentStatus);
-        TextView tvOrderTime = convertView.findViewById(R.id.txtOrderTime);
+//        TextView tvOrderTime = convertView.findViewById(R.id.txtOrderTime);
 //        ListView lvOrderItems = convertView.findViewById(R.id.lvOrderItems);
 
         Button btnCancel = convertView.findViewById(R.id.btnCancel);
         Button btnNextAction = convertView.findViewById(R.id.btnNextAction);
+        btnNextAction.setText("Xem chi tiết");
 
 
         OrderDTO order = orderList.get(pos);
 
-        Date orderTime = order.getThoiGianTao();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String orderTimeStr = sdf.format(orderTime);
+//        Date orderTime = order.getThoiGianTao();
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+//        String orderTimeStr = sdf.format(orderTime);
 
         tvOrderId.setText("Order ID: " + order.getId());
         tvOrderStatus.setText(order.getTrangThaiDonHang());
         tvTotalPrice.setText(order.getTongTien() + " VND");
         tvPaymentStatus.setText(order.getTrangThaiThanhToan());
-        tvOrderTime.setText(orderTimeStr);
+
+        if(order.getTrangThaiDonHang().equals("Finished")||order.getTrangThaiDonHang().equals("Cancelled")||order.getTrangThaiDonHang().equals("Refused")){
+            btnCancel.setVisibility(View.GONE);
+        }
 
 
-//        OrderItemAdapter itemAdapter = new OrderItemAdapter(context, orderList.get(pos).getItems());
-//        lvOrderItems.setAdapter(itemAdapter);
-//
-//        // Measure inner list
-//        setListViewHeightBasedOnChildren(lvOrderItems);
-//
-//        // Measure outer list only after last row
-//        if (pos == getCount() - 1 && outerListView != null) {
-//            outerListView.post(() -> setListViewHeight(outerListView));
-//        }
+        btnNextAction.setOnClickListener(view -> {
+            Intent intent = new Intent(context, OrderDetail.class);
+            intent.putExtra("orderItems", (java.io.Serializable) order.getItems());
+            intent.putExtra("order", order);
+            context.startActivity(intent);
+
+        });
+        btnCancel.setOnClickListener(view -> {
+
+            changeOrderStatus("Cancelled", order.getId(), order);
+
+        });
 
         return convertView;
 
@@ -95,6 +114,42 @@ public class OrderAdapter2 extends BaseAdapter {
 
 
     }
+
+    void changeOrderStatus(String newStatus, int orderId, OrderDTO order) {
+        String url = "http://10.0.2.2:8080/api/v1/orders/update-order-status/" + orderId
+                + "?status=" + newStatus;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                response -> {
+                    Toast.makeText(context, "Status updated: " + newStatus, Toast.LENGTH_SHORT).show();
+
+                    // update the local order object
+                    order.setTrangThaiDonHang(newStatus);
+
+                    // notify Activity
+                    if (statusChangeCallback != null) {
+                        statusChangeCallback.onSuccess(order);
+                    }
+
+                },
+                error -> Toast.makeText(context, "Error updating status", Toast.LENGTH_SHORT).show()
+        );
+
+        requestQueue.add(request);
+    }
+
+    public void updateData(List<OrderDTO> newList) {
+        this.orderList.clear();
+        this.orderList.addAll(newList);
+        notifyDataSetChanged();
+    }
+
+
+
     public static void setListViewHeight(ListView listView) {
         ListAdapter adapter = listView.getAdapter();
         if (adapter == null) return;

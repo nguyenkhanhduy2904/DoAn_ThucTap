@@ -42,6 +42,8 @@ public class Order {
 
     @Column(name = "users_ID")
     private Integer idKhachHang;
+    @Column(name = "PhuongThucThanhToan")
+    private String phuongThucThanhToan;
 
 
 
@@ -57,31 +59,7 @@ public class Order {
         this.items = new ArrayList<>();
     }
 
-    public Order(String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao,
-                 String trangThaiDonHang, BigDecimal tongTien, Integer idKhachHang, List<OrderItem> items, String trangThaiThanhToan) {
-        this.tenNguoiNhan = tenNguoiNhan;
-        this.diaChi = diaChi;
-        this.sdt = sdt;
-        this.thoiGianTao = thoiGianTao;
-        this.trangThaiDonHang = trangThaiDonHang;
-        this.tongTien = tongTien;
-        this.idKhachHang = idKhachHang;
-        this.items = items != null ? items : new ArrayList<>();
-        this.trangThaiThanhToan = trangThaiThanhToan;
-    }
 
-    public Order(Integer id, String tenNguoiNhan, String diaChi, String sdt, Date thoiGianTao, String trangThaiDonHang, BigDecimal tongTien, Integer idKhachHang, List<OrderItem> items, String trangThaiThanhToan) {
-        this.id = id;
-        this.tenNguoiNhan = tenNguoiNhan;
-        this.diaChi = diaChi;
-        this.sdt = sdt;
-        this.thoiGianTao = thoiGianTao;
-        this.trangThaiDonHang = trangThaiDonHang;
-        this.tongTien = tongTien;
-        this.idKhachHang = idKhachHang;
-        this.items = items != null ? items : new ArrayList<>();
-        this.trangThaiThanhToan = trangThaiThanhToan;
-    }
 
     public Integer getId() {
         return id;
@@ -161,6 +139,14 @@ public class Order {
 
     public void setTrangThaiThanhToan(String trangThaiThanhToan) {
         this.trangThaiThanhToan = trangThaiThanhToan;
+    }
+
+    public String getPhuongThucThanhToan() {
+        return phuongThucThanhToan;
+    }
+
+    public void setPhuongThucThanhToan(String phuongThucThanhToan) {
+        this.phuongThucThanhToan = phuongThucThanhToan;
     }
 
     @Override

@@ -38,25 +38,21 @@ import models.EQuocGia;
 import models.MonAn;
 
 public class QuanLyMon extends AppCompatActivity {
-//<<<<<<< HEAD
+
     ImageButton ibtnLogout;
     Button btn_them_mon;
-//=======
-//    Button btn_them_mon,btnLogout;
-//>>>>>>> 565edf5e6b13b3821d52b44f6d0c273890daba86
+    LinearLayout lOrders, lInfor;
+
     LinearLayout layoutVietNam, layoutThaiLand, layoutSKorea, layoutChina, layoutBestSell;
     ListView lv_danh_sach_mon_an;
     List<MonAn> lsAllMonAn, listDisplayMonAn;
     CustomFoodListAdapter customFoodListAdapter;
-//<<<<<<< HEAD
+
 
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
 
-//=======
-//    private static final String PREFS_NAME = "UserPrefs";
-//    private static final String KEY_IS_LOGGED_IN = "is_logged_in"
-//>>>>>>> 565edf5e6b13b3821d52b44f6d0c273890daba86
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
