@@ -8,6 +8,7 @@ import models.APIResponse;
 import models.ImageUpload;
 import models.OrderDTO;
 import models.OrderItemDTO;
+import models.UserDTO;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -31,5 +32,12 @@ public interface APIService {
     Call<APIResponse<OrderDTO>> updateOrderStatus(
             @Path("id") int orderId,
             @Query("status") String status
+    );
+    @GET("user/{userid}")
+    Call<APIResponse<UserDTO>> getUserDetail(@Path("userid") int userid);
+    @PUT("user/{userid}")
+    Call<APIResponse<Void>> updateUser(
+            @Path("userid") int userid,
+            @Body UserDTO request
     );
 }
