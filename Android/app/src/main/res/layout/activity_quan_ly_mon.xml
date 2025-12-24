@@ -72,29 +72,13 @@
 
         <LinearLayout
             android:layout_width="350dp"
-            android:layout_height="45dp"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/cr10bd9d9d9"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="1dp"
+            android:layout_marginBottom="1dp"
             android:gravity="center_vertical"
             android:layout_gravity="center_horizontal"
             android:paddingHorizontal="10dp">
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                app:srcCompat="@android:drawable/ic_menu_search"
-                app:tint="#757575"/>
 
-            <EditText
-                android:id="@+id/etxtSearch"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@null"
-                android:hint="Tìm kiếm món ăn"
-                android:layout_marginStart="10dp"
-                android:textSize="14sp"
-                android:inputType="text"/>
         </LinearLayout>
 
         <Button
