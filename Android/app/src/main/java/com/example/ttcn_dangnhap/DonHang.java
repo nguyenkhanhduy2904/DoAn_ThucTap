@@ -3,6 +3,8 @@ package com.example.ttcn_dangnhap;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +57,14 @@ public class DonHang extends AppCompatActivity {
     List<OrderDTO> historyList = new ArrayList<>();
 
     List<OrderDTO> currentViewList = new ArrayList<>();
+    String currentTab = "TRACKING"; // or HISTORY
+
+
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable autoReloadRunnable;
+    private static final long REFRESH_INTERVAL = 5000;
+
+
 
     SharedPreferences sharedPreferences;
     @Override
@@ -68,61 +78,91 @@ public class DonHang extends AppCompatActivity {
             return insets;
         });
         addControls();
-        addEvents();
-//        loadUserOrders();
 
-
-        loadThisUserOrders(new APICallback<List<OrderDTO>>() {
+        autoReloadRunnable = new Runnable() {
             @Override
-            public void onSuccess(List<OrderDTO> result) {
-                trackingList.clear();
-                historyList.clear();
+            public void run() {
+                loadThisUserOrders(new APICallback<List<OrderDTO>>() {
+                    @Override
+                    public void onSuccess(List<OrderDTO> result) {
 
-                for (OrderDTO order : result) {
-                    String status = order.getTrangThaiDonHang();
-                    // Phân loại vào 2 tab dựa trên status
-                    if (status.equals("Finished") || status.equals("Cancelled") || status.equals("Refused")) {
-                        historyList.add(order);
-                    } else if(status.equals("Pending") || status.equals("Confirmed") || status.equals("Delivering")){
-                        trackingList.add(order);
+                        trackingList.clear();
+                        historyList.clear();
+
+                        for (OrderDTO order : result) {
+                            String status = order.getTrangThaiDonHang();
+
+                            if (status.equals("Finished")
+                                    || status.equals("Cancelled")
+                                    || status.equals("Refused")) {
+                                historyList.add(order);
+                            } else {
+                                trackingList.add(order);
+                            }
+                        }
+
+                        // Update what user is currently seeing
+                        currentViewList.clear();
+                        if (currentTab.equals("TRACKING")) {
+                            currentViewList.addAll(trackingList);
+                        } else {
+                            currentViewList.addAll(historyList);
+                        }
+
+                        orderAdapter2.notifyDataSetChanged();
+                        Toast.makeText(DonHang.this, "timer running", Toast.LENGTH_SHORT).show();
+
                     }
-                }
-                orderAdapter2.notifyDataSetChanged();
 
+                    @Override
+                    public void onError(String errorMessage) {
+                        Log.e("DonHang", errorMessage);
+                    }
+                });
 
-
-                Log.d("DonHang", "Loaded " + trackingList.size() + " tracking orders and " + historyList.size() + " history orders.");
-
-                //co 2 list roi thi set adapter or sth? idk
-
+                // Schedule next run
+                handler.postDelayed(this, REFRESH_INTERVAL);
             }
+        };
 
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(DonHang.this, "Lỗi tải đơn hàng: " + errorMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+
+        addEvents();
+
+
+        handler.post(autoReloadRunnable);
+
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(autoReloadRunnable);
+    }
+
 
     private void addEvents() {
         tabTracking.setOnClickListener(v -> {
 
+            currentTab = "TRACKING";
+
             tabTracking.setBackgroundColor(0xFF69E0D4);
             tabHistory.setBackgroundColor(0xFFB2DFDB);
 
-            orderAdapter2 = new OrderAdapter2(this, trackingList, lvOrders);
-            lvOrders.setAdapter(orderAdapter2);
+            currentViewList.clear();
+            currentViewList.addAll(trackingList);
+            orderAdapter2.notifyDataSetChanged();
 
         });
 
         tabHistory.setOnClickListener(v -> {
-//            rvOrders.setVisibility(View.GONE);
-//            rvHistory.setVisibility(View.VISIBLE);
+            currentTab = "HISTORY";
+
             tabTracking.setBackgroundColor(0xFFB2DFDB);
             tabHistory.setBackgroundColor(0xFF69E0D4);
 
-            orderAdapter2 = new OrderAdapter2(this, historyList, lvOrders);
-            lvOrders.setAdapter(orderAdapter2);
+            currentViewList.clear();
+            currentViewList.addAll(historyList);
+            orderAdapter2.notifyDataSetChanged();
         });
         ibtnHome.setOnClickListener(view -> {
             Intent intent = new Intent(this, HomePage.class);
@@ -153,22 +193,16 @@ public class DonHang extends AppCompatActivity {
         tabHistory = findViewById(R.id.tabHistory);
         lvOrders = findViewById(R.id.lvOrders);
         // After you have loaded the trackingList
-        orderAdapter2 = new OrderAdapter2(this, trackingList, lvOrders);
+        orderAdapter2 = new OrderAdapter2(this, currentViewList, lvOrders);
         lvOrders.setAdapter(orderAdapter2);
 
         orderAdapter2.setStatusChangeCallback(new APICallback<OrderDTO>() {
             @Override
             public void onSuccess(OrderDTO result) {
-                // Remove from tracking list
                 trackingList.remove(result);
-
-                // Add to history list
                 historyList.add(result);
 
-                // Remove from current visible list (important)
-                orderAdapter2.updateData(trackingList);
-
-                // Refresh ListView
+                currentViewList.remove(result);
                 orderAdapter2.notifyDataSetChanged();
 
                 Toast.makeText(DonHang.this, "Đã hủy đơn hàng", Toast.LENGTH_SHORT).show();
@@ -279,13 +313,12 @@ public class DonHang extends AppCompatActivity {
                                     );
 
                                     orderItems.add(item);
-
-
                                 }
                                 order.setItems(orderItems);
                                 orderList.add(order);
 
                             }
+                            orderList.sort((o1,o2)-> o2.getThoiGianTao().compareTo(o1.getThoiGianTao()));
                             callback.onSuccess(orderList);
 
                         }

@@ -177,6 +177,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
+            android:id="@+id/nav_don_hang"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -208,24 +209,7 @@
                 android:textColor="@color/black"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_uu_dai"
-                app:tint="@android:color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ưu Đãi"
-                android:textSize="11sp"
-                android:textColor="@android:color/black"/>
-        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="0dp"
@@ -282,6 +266,7 @@
                 android:textSize="11sp"
                 android:textColor="@android:color/black"/>
         </LinearLayout>
+
 
     </LinearLayout>
 

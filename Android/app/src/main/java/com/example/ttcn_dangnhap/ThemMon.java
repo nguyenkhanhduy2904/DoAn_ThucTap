@@ -63,11 +63,11 @@ public class ThemMon extends AppCompatActivity {
     ImageView imgPreview;
     ImageButton ibtnBack;
     EditText etxtFoodName, etxtFoodDesc, etxtPrice;
-//<<<<<<< HEAD
+
     RadioButton rbVN, rbTL, rbHQ, rbTQ, rbConMon, rbHetMon;
-//=======
+
     RadioGroup rbgQuocGia,rgStatus,rgDiscount;
-//>>>>>>> e4d666c02482781d6b6512eeb65b553a58ff273c
+
     Button btnCancel, btnSave;
     TextView tv_start_date,tv_end_date;
     final Calendar calendar = Calendar.getInstance();

@@ -1,8 +1,13 @@
 package com.example.ttcn_dangnhap;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -38,6 +43,10 @@ import models.OrderItemDTO;
 public class AdminOrder extends AppCompatActivity {
     AppCompatButton btnPending, btnConfirmed, btnDelivering, btnFinished;
     ListView lvOrders;
+
+    LinearLayout lOrders, lInfor, ldieuchinh;
+
+
     OrderStaffviewAdapter orderAdapter;
     List<OrderDTO> allOrders = new ArrayList<>();
     List<OrderDTO> pendingOrders = new ArrayList<>();
@@ -50,6 +59,9 @@ public class AdminOrder extends AppCompatActivity {
 
     String currentFilterStatus = "Pending"; // track which tab is active
 
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable autoReloadRunnable;
+    private static final long REFRESH_INTERVAL = 5000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,47 +74,74 @@ public class AdminOrder extends AppCompatActivity {
             return insets;
         });
         addControls();
-        addEvents();
-        loadAllOrders(new APICallback<List<OrderDTO>>() {
+
+        autoReloadRunnable = new Runnable() {
             @Override
-            public void onSuccess(List<OrderDTO> result) {
-                allOrders.clear();
-                allOrders.addAll(result);
-                orderAdapter.notifyDataSetChanged(); // <--- update adapter
+            public void run() {
+                loadAllOrders(new APICallback<List<OrderDTO>>() {
+                    @Override
+                    public void onSuccess(List<OrderDTO> result) {
+                        allOrders.clear();
+                        allOrders.addAll(result);
+//                        orderAdapter.notifyDataSetChanged(); // <--- update adapter
 
-                for(int i =0; i<allOrders.size(); i++){
-                    OrderDTO orderDTO = allOrders.get(i);
-                    String orderStatus = orderDTO.getTrangThaiDonHang();
 
-                    switch (orderStatus){
-                        case "Pending":
-                            pendingOrders.add(orderDTO);
-                            break;
-                        case "Confirmed":
-                            confirmOrders.add(orderDTO);
-                            break;
-                        case "Delivering":
-                            deliveringOrders.add(orderDTO);
-                            break;
-                        case "Finished":
-                            finishedOrders.add(orderDTO);
-                            break;
+                        pendingOrders.clear();
+                        confirmOrders.clear();
+                        deliveringOrders.clear();
+                        finishedOrders.clear();
+                        canceledOrders.clear();
 
-                        case "Cancelled":
-                            canceledOrders.add(orderDTO);
-                            break;
-                        default:
-                            break;
+
+                        for(int i =0; i<allOrders.size(); i++){
+                            OrderDTO orderDTO = allOrders.get(i);
+                            String orderStatus = orderDTO.getTrangThaiDonHang();
+
+                            switch (orderStatus){
+                                case "Pending":
+                                    pendingOrders.add(orderDTO);
+                                    break;
+                                case "Confirmed":
+                                    confirmOrders.add(orderDTO);
+                                    break;
+                                case "Delivering":
+                                    deliveringOrders.add(orderDTO);
+                                    break;
+                                case "Finished":
+                                    finishedOrders.add(orderDTO);
+                                    break;
+
+                                case "Cancelled":
+                                    canceledOrders.add(orderDTO);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+
+                        switchTab(currentFilterStatus);
+
                     }
-                }
 
-            }
+                    @Override
+                    public void onError(String errorMessage) {
+                        Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu: " + errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            @Override
-            public void onError(String errorMessage) {
-                Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu: " + errorMessage, Toast.LENGTH_SHORT).show();
+                // Schedule next run
+                handler.postDelayed(this, REFRESH_INTERVAL);
             }
-        });
+        };
+
+        addEvents();
+        handler.post(autoReloadRunnable);
+
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeCallbacks(autoReloadRunnable);
     }
 
     private void addControls() {
@@ -112,7 +151,8 @@ public class AdminOrder extends AppCompatActivity {
         btnFinished = findViewById(R.id.btnFinish);
         lvOrders = findViewById(R.id.lvOrders);
 
-        orderAdapter = new OrderStaffviewAdapter(this, currentViewOrders);
+
+
 
         orderAdapter = new OrderStaffviewAdapter(this, currentViewOrders);
         orderAdapter.setStatusChangeCallback(new APICallback<OrderDTO>() {
@@ -154,39 +194,7 @@ public class AdminOrder extends AppCompatActivity {
 
         lvOrders.setAdapter(orderAdapter);
 
-        // Load initial orders
-//        loadAllOrders(new APICallback<List<OrderDTO>>() {
-//            @Override
-//            public void onSuccess(List<OrderDTO> result) {
-//                allOrders.clear();
-//                allOrders.addAll(result);
-//
-//                // Clear filtered lists
-//                pendingOrders.clear();
-//                confirmOrders.clear();
-//                deliveringOrders.clear();
-//                finishedOrders.clear();
-//                canceledOrders.clear();
-//
-//                // Populate filtered lists
-//                for (OrderDTO order : allOrders) {
-//                    switch (order.getTrangThaiDonHang()) {
-//                        case "Pending": pendingOrders.add(order); break;
-//                        case "Confirmed": confirmOrders.add(order); break;
-//                        case "Delivering": deliveringOrders.add(order); break;
-//                        case "Finished": finishedOrders.add(order); break;
-//                        case "Cancelled": canceledOrders.add(order); break;
-//                    }
-//                }
-//
-//                orderAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onError(String errorMessage) {
-//                Toast.makeText(AdminOrder.this, "Lỗi tải dữ liệu: " + errorMessage, Toast.LENGTH_SHORT).show();
-//            }
-//        });
+
     }
 
     @Override
@@ -216,6 +224,25 @@ public class AdminOrder extends AppCompatActivity {
         btnConfirmed.setOnClickListener(v -> switchTab("Confirmed"));
         btnDelivering.setOnClickListener(v -> switchTab("Delivering"));
         btnFinished.setOnClickListener(v -> switchTab("Finished"));
+
+
+        lOrders.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AdminOrder.class);
+            startActivity(intent);
+            finish();
+        });
+
+        lInfor.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Infor.class);
+            startActivity(intent);
+            finish();
+        });
+
+        ldieuchinh.setOnClickListener(view -> {
+            Intent intent = new Intent(this, QuanLyMon.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
 
@@ -308,7 +335,9 @@ public class AdminOrder extends AppCompatActivity {
                                 order.setItems(orderItems);
                                 orderList.add(order);
 
+
                             }
+                            orderList.sort((o1,o2)-> o2.getThoiGianTao().compareTo(o1.getThoiGianTao()));
                             callback.onSuccess(orderList);
 
                         }

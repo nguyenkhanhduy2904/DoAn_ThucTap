@@ -14,7 +14,7 @@
         android:background="@color/design_default_color_secondary"
         android:orientation="horizontal"
         android:baselineAligned="false"
-        android:weightSum="5"
+        android:weightSum="3"
         android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -36,45 +36,6 @@
                 android:layout_height="wrap_content"
                 android:text="Trang chủ"
                 android:textSize="10sp"
-                android:textColor="#000000"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ibtnVoucher"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:background="@color/design_default_color_secondary">
-            <ImageView
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:src="@drawable/voucher"
-                app:tint="#000000"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ưu Đãi"
-                android:textSize="10sp"
-                android:textColor="#000000"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/btnMenuText"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="bottom|center_horizontal"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thực đơn"
-                android:textSize="11sp"
-                android:textStyle="bold"
                 android:textColor="#000000"/>
         </LinearLayout>
 
@@ -122,17 +83,5 @@
     </LinearLayout>
 
 
-    <ImageButton
-        android:id="@+id/ibtnMenu"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/circle_button"
-        android:src="@drawable/mdi_rice"
-        android:padding="15dp"
-        android:scaleType="centerInside"
-        android:elevation="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/bottomBar"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="25dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

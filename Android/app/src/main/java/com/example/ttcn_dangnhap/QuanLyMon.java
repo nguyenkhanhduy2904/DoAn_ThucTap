@@ -41,7 +41,7 @@ public class QuanLyMon extends AppCompatActivity {
 
     ImageButton ibtnLogout;
     Button btn_them_mon;
-    LinearLayout lOrders, lInfor;
+    LinearLayout lOrders, lInfor, ldieuchinh;
 
     LinearLayout layoutVietNam, layoutThaiLand, layoutSKorea, layoutChina, layoutBestSell;
     ListView lv_danh_sach_mon_an;
@@ -101,7 +101,7 @@ public class QuanLyMon extends AppCompatActivity {
 
     private void addControls() {
         btn_them_mon = findViewById(R.id.btn_them_mon);
-//        btnLogout=findViewById(R.id.btnLogout);
+
         layoutBestSell = findViewById(R.id.layoutBestSell);
         layoutVietNam = findViewById(R.id.layoutVietNam);
         layoutThaiLand = findViewById(R.id.layoutThaiLand);
@@ -111,6 +111,10 @@ public class QuanLyMon extends AppCompatActivity {
         customFoodListAdapter = new CustomFoodListAdapter(this, listDisplayMonAn, null, true);
         lv_danh_sach_mon_an.setAdapter(customFoodListAdapter);
         ibtnLogout = findViewById(R.id.ibtn_logout);
+
+        lOrders = findViewById(R.id.nav_don_hang);
+        lInfor= findViewById(R.id.nav_user);
+        ldieuchinh = findViewById(R.id.nav_dieu_chinh);
     }
 
     private void addEvents() {
@@ -224,6 +228,26 @@ public class QuanLyMon extends AppCompatActivity {
             Toast.makeText(QuanLyMon.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
 //            checkLoginState();
         });
+
+        lOrders.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AdminOrder.class);
+            startActivity(intent);
+            finish();
+        });
+
+        lInfor.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Infor.class);
+            startActivity(intent);
+            finish();
+        });
+
+        ldieuchinh.setOnClickListener(view -> {
+            Intent intent = new Intent(this, QuanLyMon.class);
+            startActivity(intent);
+            finish();
+        });
+
+
     }
     private void GETAllItem(APICallback<List<MonAn>> callback){
         String url = "http://10.0.2.2:8080/api/v1/monan";
