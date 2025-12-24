@@ -12,7 +12,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:text="ten mons"
+            android:text="ten món"
             android:textSize="12dp"
             />
         <LinearLayout
@@ -23,7 +23,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="So luong"
+                android:text="Số lượng"
                 android:textSize="12dp"/>
             <TextView
                 android:id="@+id/tvSoluong"
@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Ghi chu:"
+            android:text="Ghi chú:"
             android:textSize="10dp"/>
         <TextView
             android:id="@+id/tvGhiChu"

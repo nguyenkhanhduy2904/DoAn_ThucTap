@@ -41,7 +41,7 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:text="Trang thai Don hang:"
+                android:text="Trạng thái đơn hàng:"
                 android:textStyle="bold"
                 android:textColor="#000000"
                 android:layout_weight="1"
@@ -64,7 +64,7 @@
             android:layout_marginTop="8dp">
 
             <TextView
-                android:text="Trang thai thanh toan:"
+                android:text="Trạng thái thanh toán:"
                 android:textStyle="bold"
                 android:textColor="#000000"
                 android:layout_weight="1"

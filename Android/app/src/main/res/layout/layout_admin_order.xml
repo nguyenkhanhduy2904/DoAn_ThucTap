@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardOrder"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_order"
+    android:layout_margin="10dp"
+    android:padding="20dp">
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Đơn hàng"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvOrderId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Mã đơn hàng: Id"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+
+    <TextView
+        android:id="@+id/tvCustomerName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name user"
+        android:text=""
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/tvOrderId"/>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#555"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tvCustomerName"/>
+
+    <TextView
+        android:id="@+id/tvLabelFood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Món ăn đã đặt:"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/divider1"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/item_cart_tt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:nestedScrollingEnabled="false"
+        app:layout_constraintTop_toBottomOf="@id/tvLabelFood"
+        app:layout_constraintBottom_toTopOf="@id/divider2"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_cart_tt"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="#555"
+        app:layout_constraintTop_toBottomOf="@id/item_cart_tt"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/labelTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tổng giá tiền:"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvTotalPrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Money"
+        android:text=""
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/divider2"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <LinearLayout
+        android:id="@+id/layoutActionPending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTotalPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnReject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:text="Từ chối"
+            android:background="@color/white"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:text="Xác nhận"
+            android:background="@color/white"
+            android:textAllCaps="false"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"/>
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnChangeStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chuyển trạng thái"
+        android:background="@color/white"
+        android:textAllCaps="false"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:paddingHorizontal="20dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/tvTotalPrice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
