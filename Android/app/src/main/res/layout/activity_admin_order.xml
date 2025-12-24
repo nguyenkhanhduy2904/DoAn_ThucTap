@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:id="@+id/main"
+    android:paddingBottom="-120dp"
     tools:context=".AdminOrder">
 
 
@@ -168,7 +169,6 @@
         android:dividerHeight="20dp"
         android:divider="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/layoutTabs"
-
         tools:listitem="@layout/layout_order_staffview"/>
 
     <include
@@ -179,8 +179,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
