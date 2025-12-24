@@ -233,15 +233,24 @@ public class AdminOrder extends AppCompatActivity {
         ibtnYourAccount.setOnClickListener(view -> {
             Intent intent = new Intent(this, Infor.class);
             startActivity(intent);
+            finish();
         });
 
         ibtnOrder.setOnClickListener(view -> {
             Intent intent = new Intent(this, AdminOrder.class);
             startActivity(intent);
+            finish();
         });
         ibtnFoodManagement.setOnClickListener(view -> {
             Intent intent = new Intent(this, QuanLyMon.class);
             startActivity(intent);
+            finish();
+        });
+
+        ibtnAccountManagement.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AccountManagement.class);
+            startActivity(intent);
+            finish();
         });
 
 

@@ -307,12 +307,14 @@ public class HomePage extends AppCompatActivity {
         ibtnAccount.setOnClickListener(view -> {
             Intent intent = new Intent(HomePage.this,Infor.class);
             startActivity(intent);
+            finish();
         });
 
 
         ibtnCart.setOnClickListener(view -> {
             Intent intent = new Intent(HomePage.this, Cart.class);
             startActivity(intent);
+            finish();
         });
 
 
@@ -321,6 +323,7 @@ public class HomePage extends AppCompatActivity {
             Intent intent = new Intent(HomePage.this, Chi_tiet_mon.class);
             intent.putExtra("monAn", monAnDuocChon);
             startActivity(intent);
+            finish();
         });
     }
 

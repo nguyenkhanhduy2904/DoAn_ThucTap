@@ -145,6 +145,11 @@ public class Infor extends AppCompatActivity {
             Intent intent = new Intent(this, QuanLyMon.class);
             startActivity(intent);
         });
+        ibtnAccountManagement.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AccountManagement.class);
+            startActivity(intent);
+            finish();
+        });
 
         //set this for customer
         ibtnHome.setOnClickListener(view -> {
@@ -252,64 +257,7 @@ public class Infor extends AppCompatActivity {
         }
 
         btnConfirm.setOnClickListener(v -> {
-            String newName = edtName.getText().toString().trim();
-            String newPhone = edtPhone.getText().toString().trim();
-            String newAddress = edtAddress.getText().toString().trim();
-
-            boolean isNameChanged = !newName.equals(userDTO.getTenHienThi() != null ? userDTO.getTenHienThi() : "");
-            boolean isPhoneChanged = !newPhone.equals(userDTO.getSdt() != null ? userDTO.getSdt() : "");
-            boolean isAddressChanged = !newAddress.equals(userDTO.getDiaChi() != null ? userDTO.getDiaChi() : "");
-
-            if (!isNameChanged && !isPhoneChanged && !isAddressChanged) {
-                dialog.dismiss();
-            }
-            else {
-                if (newName.isEmpty() || newPhone.isEmpty()) {
-                    Toast.makeText(Infor.this, "Tên và SĐT không được để trống", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                UserDTO updateRequest = new UserDTO(newName, newPhone, newAddress);
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-                int userId = settings.getInt("userid", -1);
-
-                APIService apiService = APIClient.getClient().create(APIService.class);
-                apiService.updateUser(userId, updateRequest).enqueue(new Callback<APIResponse<Void>>() {
-                    @Override
-                    public void onResponse(Call<APIResponse<Void>> call, Response<APIResponse<Void>> response) {
-                        if (response.isSuccessful()) {
-                            Toast.makeText(Infor.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-
-                            SharedPreferences.Editor editor = settings.edit();
-                            editor.putString(KEY_USERNAME, newName);
-                            editor.putString(KEY_PHONE, newPhone);
-                            editor.putString(KEY_ADDRESS, newAddress);
-                            editor.apply();
-
-                            apiService.getUserDetail(userId).enqueue(new Callback<APIResponse<UserDTO>>() {
-                                @Override
-                                public void onResponse(Call<APIResponse<UserDTO>> call, Response<APIResponse<UserDTO>> response) {
-                                    if(response.isSuccessful() && response.body() != null){
-                                        currentUserData = response.body().getData();
-                                        edtName.setText(currentUserData.getTenHienThi());
-                                        edtPhone.setText(currentUserData.getSdt());
-                                        edtAddress.setText(currentUserData.getDiaChi());
-                                    }
-                                }
-                                @Override
-                                public void onFailure(Call<APIResponse<UserDTO>> call, Throwable t) {}
-                            });
-
-                        } else {
-                            Toast.makeText(Infor.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<APIResponse<Void>> call, Throwable t) {
-                        Toast.makeText(Infor.this, "Lỗi mạng!", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+            //can cap nhat lai user pref
         });
 
         dialog.show();

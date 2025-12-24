@@ -137,6 +137,11 @@ public class QuanLyMon extends AppCompatActivity {
             Intent intent = new Intent(this, QuanLyMon.class);
             startActivity(intent);
         });
+        ibtnAccountManagement.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AccountManagement.class);
+            startActivity(intent);
+            finish();
+        });
 
 
 
