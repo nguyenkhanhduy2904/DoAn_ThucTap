@@ -41,18 +41,7 @@
         app:layout_constraintTop_toTopOf="@id/imgLogo"
         app:layout_constraintBottom_toBottomOf="@id/imgLogo">
 
-        <ImageView
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/icon_thong_bao"
-            app:tint="@android:color/black"/>
 
-        <!--        <View-->
-        <!--            android:layout_width="10dp"-->
-        <!--            android:layout_height="10dp"-->
-        <!--            android:background="@drawable/bg_rounded_teal"-->
-        <!--            android:backgroundTint="@color/red_badge"-->
-        <!--            android:layout_gravity="top|end"/>-->
     </FrameLayout>
 
     <TextView

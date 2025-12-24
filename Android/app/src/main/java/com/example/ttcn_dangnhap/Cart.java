@@ -94,7 +94,8 @@ public class Cart extends AppCompatActivity {
 
     void addEvents(){
         ibtnBack.setOnClickListener(view -> {
-            finish();
+            Intent intent = new Intent(Cart.this, HomePage.class);
+            startActivity(intent);
         });
         long totalPrice =0;
         for(int i =0; i< lsCartItem.size(); i++){
@@ -102,11 +103,6 @@ public class Cart extends AppCompatActivity {
             totalPrice = totalPrice + cartItem.getGiaTongMon();
         }
         DecimalFormat formatter = new DecimalFormat("###,###,###");
-
-
-
-
-
 
         txtPrice.setText(formatter.format(totalPrice));
         lsViewCart.setOnItemClickListener((adapterView, view, i, l) -> {

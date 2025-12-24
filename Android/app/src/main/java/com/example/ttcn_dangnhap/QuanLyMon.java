@@ -39,7 +39,7 @@ import models.MonAn;
 
 public class QuanLyMon extends AppCompatActivity {
 
-    ImageButton ibtnLogout;
+
     Button btn_them_mon;
     LinearLayout ibtnFoodManagement, ibtnOrder, ibtnAccountManagement, ibtnYourAccount;
 
@@ -110,7 +110,6 @@ public class QuanLyMon extends AppCompatActivity {
         lv_danh_sach_mon_an = findViewById(R.id.lv_danh_sach_mon_an);
         customFoodListAdapter = new CustomFoodListAdapter(this, listDisplayMonAn, null, true);
         lv_danh_sach_mon_an.setAdapter(customFoodListAdapter);
-        ibtnLogout = findViewById(R.id.ibtn_logout);
 
 
         ibtnYourAccount = findViewById(R.id.ibtnMyAccountAdmin);
@@ -228,21 +227,6 @@ public class QuanLyMon extends AppCompatActivity {
             // 3. Cập nhật giao diện
             customFoodListAdapter.notifyDataSetChanged();
             setListViewHeight(lv_danh_sach_mon_an);
-        });
-
-        ibtnLogout.setOnClickListener(view -> {
-            SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putBoolean(KEY_IS_LOGGED_IN, false);
-            editor.remove("userid");
-            editor.apply();
-
-            Intent intent = new Intent(QuanLyMon.this, Login.class);
-            startActivity(intent);
-            finish();
-
-            Toast.makeText(QuanLyMon.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
-//            checkLoginState();
         });
 
 

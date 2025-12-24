@@ -44,17 +44,8 @@
             android:name=".QuanLyMon"
             android:exported="false" />
         <activity
-            android:name=".VoucherList"
-            android:exported="false" />
-        <activity
             android:name=".ThemMon"
             android:exported="true" />
-        <activity
-            android:name=".Them_Voucher"
-            android:exported="false" />
-        <activity
-            android:name=".Voucher_admin"
-            android:exported="false" />
         <activity
             android:name=".HomePage"
             android:exported="true" />

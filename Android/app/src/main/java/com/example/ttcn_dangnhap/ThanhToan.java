@@ -143,12 +143,7 @@ public class ThanhToan extends AppCompatActivity {
             }
 
             buildMessage();
-//=======
-//            if (rbVNPay.isChecked())
-//            {
-//
-//            }
-//>>>>>>> eb2ebbfe8439fe5b1de1f7ab3ca68ea40f7af63c
+
         });
     }
 
