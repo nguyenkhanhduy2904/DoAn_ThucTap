@@ -41,7 +41,7 @@ public class QuanLyMon extends AppCompatActivity {
 
     ImageButton ibtnLogout;
     Button btn_them_mon;
-    LinearLayout lOrders, lInfor, ldieuchinh;
+    LinearLayout ibtnFoodManagement, ibtnOrder, ibtnAccountManagement, ibtnYourAccount;
 
     LinearLayout layoutVietNam, layoutThaiLand, layoutSKorea, layoutChina, layoutBestSell;
     ListView lv_danh_sach_mon_an;
@@ -112,12 +112,36 @@ public class QuanLyMon extends AppCompatActivity {
         lv_danh_sach_mon_an.setAdapter(customFoodListAdapter);
         ibtnLogout = findViewById(R.id.ibtn_logout);
 
-        lOrders = findViewById(R.id.nav_don_hang);
-        lInfor= findViewById(R.id.nav_user);
-        ldieuchinh = findViewById(R.id.nav_dieu_chinh);
+
+        ibtnYourAccount = findViewById(R.id.ibtnMyAccountAdmin);
+        ibtnOrder = findViewById(R.id.ibtnOrderAdmin);
+        ibtnAccountManagement = findViewById(R.id.ibtnAccountManagement);
+        ibtnFoodManagement = findViewById(R.id.ibtnFoodManagementAdmin);
+
+
+
     }
 
     private void addEvents() {
+
+        ibtnYourAccount.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Infor.class);
+            startActivity(intent);
+        });
+
+        ibtnOrder.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AdminOrder.class);
+            startActivity(intent);
+        });
+        ibtnFoodManagement.setOnClickListener(view -> {
+            Intent intent = new Intent(this, QuanLyMon.class);
+            startActivity(intent);
+        });
+
+
+
+
+
         btn_them_mon.setOnClickListener(view -> {
             Intent intent = new Intent(QuanLyMon.this,ThemMon.class);
             startActivity(intent);
@@ -173,20 +197,7 @@ public class QuanLyMon extends AppCompatActivity {
             setListViewHeight(lv_danh_sach_mon_an);
 
         });
-//        btnLogout.setOnClickListener(view -> {
-//            SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-//            SharedPreferences.Editor editor = settings.edit();
-//            editor.putBoolean(KEY_IS_LOGGED_IN, false);
-//            editor.remove("userid");
-//            editor.apply();
-//
-//            Intent intent = new Intent(QuanLyMon.this, Login.class);
-//            startActivity(intent);
-//            finish();
-//
-//            Toast.makeText(Infor.this, "Đã đăng xuất", Toast.LENGTH_SHORT).show();
-//
-//        });
+
         layoutChina.setOnClickListener(view -> {
             List<MonAn> resultList = new ArrayList<>();
             for(int i=0; i<lsAllMonAn.size(); i++){
@@ -229,23 +240,6 @@ public class QuanLyMon extends AppCompatActivity {
 //            checkLoginState();
         });
 
-        lOrders.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AdminOrder.class);
-            startActivity(intent);
-            finish();
-        });
-
-        lInfor.setOnClickListener(view -> {
-            Intent intent = new Intent(this, Infor.class);
-            startActivity(intent);
-            finish();
-        });
-
-        ldieuchinh.setOnClickListener(view -> {
-            Intent intent = new Intent(this, QuanLyMon.class);
-            startActivity(intent);
-            finish();
-        });
 
 
     }

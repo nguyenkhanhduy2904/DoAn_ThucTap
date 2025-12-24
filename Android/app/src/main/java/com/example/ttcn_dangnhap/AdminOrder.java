@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -44,7 +43,7 @@ public class AdminOrder extends AppCompatActivity {
     AppCompatButton btnPending, btnConfirmed, btnDelivering, btnFinished;
     ListView lvOrders;
 
-    LinearLayout lOrders, lInfor, ldieuchinh;
+    LinearLayout ibtnFoodManagement, ibtnOrder, ibtnAccountManagement, ibtnYourAccount;
 
 
     OrderStaffviewAdapter orderAdapter;
@@ -151,6 +150,11 @@ public class AdminOrder extends AppCompatActivity {
         btnFinished = findViewById(R.id.btnFinish);
         lvOrders = findViewById(R.id.lvOrders);
 
+        ibtnYourAccount = findViewById(R.id.ibtnMyAccountAdmin);
+        ibtnOrder = findViewById(R.id.ibtnOrderAdmin);
+        ibtnAccountManagement = findViewById(R.id.ibtnAccountManagement);
+        ibtnFoodManagement = findViewById(R.id.ibtnFoodManagementAdmin);
+
 
 
 
@@ -226,23 +230,22 @@ public class AdminOrder extends AppCompatActivity {
         btnFinished.setOnClickListener(v -> switchTab("Finished"));
 
 
-        lOrders.setOnClickListener(view -> {
-            Intent intent = new Intent(this, AdminOrder.class);
-            startActivity(intent);
-            finish();
-        });
-
-        lInfor.setOnClickListener(view -> {
+        ibtnYourAccount.setOnClickListener(view -> {
             Intent intent = new Intent(this, Infor.class);
             startActivity(intent);
-            finish();
         });
 
-        ldieuchinh.setOnClickListener(view -> {
+        ibtnOrder.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AdminOrder.class);
+            startActivity(intent);
+        });
+        ibtnFoodManagement.setOnClickListener(view -> {
             Intent intent = new Intent(this, QuanLyMon.class);
             startActivity(intent);
-            finish();
         });
+
+
+
     }
 
 

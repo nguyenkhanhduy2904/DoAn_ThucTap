@@ -295,7 +295,7 @@
 
     <include
         android:id="@+id/navBar"
-        layout="@layout/layout_nav_bar"
+        layout="@layout/layout_nav_bar_custommer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

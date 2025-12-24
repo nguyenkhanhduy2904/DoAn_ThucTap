@@ -8,7 +8,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -20,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -216,8 +214,8 @@ public class DonHang extends AppCompatActivity {
         });
 
         ibtnHome = findViewById(R.id.ibtnHome);
-        ibtnVoucher = findViewById(R.id.ibtnVoucher);
-        ibtnOrder = findViewById(R.id.ibtnOrder);
+
+        ibtnOrder = findViewById(R.id.ibtnOrderCustomer);
         ibtnAccount = findViewById(R.id.ibtnAccount);
 
 

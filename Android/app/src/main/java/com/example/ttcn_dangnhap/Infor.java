@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -32,9 +32,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Infor extends AppCompatActivity {
-    LinearLayout layoutGuest, layoutUserTop, layoutUserBottom,ibtnHome;
+    LinearLayout layoutGuest, layoutUserTop, layoutUserBottom;
+
     MaterialCardView btnLogout,btnUserInfo;
     TextView btnGoToLogin, btnGoToRegister;
+    ConstraintLayout navBarAdmin;
+    ConstraintLayout navBarCustomer;
+
+
+    LinearLayout ibtnFoodManagement, ibtnOrderAdmin, ibtnAccountManagement, ibtnYourAccountAdmin;
+    LinearLayout ibtnHome, ibtnOrderCustomer;
+
+
+
+
     private boolean isLoggedIn = false;
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
@@ -66,14 +77,87 @@ public class Infor extends AppCompatActivity {
         layoutGuest = findViewById(R.id.layoutGuest);
         layoutUserBottom = findViewById(R.id.layoutUserBottom);
         layoutUserTop = findViewById(R.id.layoutUserTop);
-        ibtnHome = findViewById(R.id.ibtnHome);
+
         btnGoToLogin = findViewById(R.id.btnGoToLogin);
         btnGoToRegister = findViewById(R.id.btnGoToRegister);
         btnLogout = findViewById(R.id.btnLogout);
         btnUserInfo = findViewById(R.id.btnUserInfo);
+
+        //find the nav bar
+        navBarAdmin = findViewById(R.id.navBarAdmin);
+        navBarCustomer = findViewById(R.id.navBarCustomer);
+
+
+        //set control for admin
+        ibtnYourAccountAdmin = findViewById(R.id.ibtnMyAccountAdmin);
+        ibtnOrderAdmin = findViewById(R.id.ibtnOrderAdmin);
+        ibtnAccountManagement = findViewById(R.id.ibtnAccountManagement);
+        ibtnFoodManagement = findViewById(R.id.ibtnFoodManagementAdmin);
+
+        //set control for customer
+        ibtnHome = findViewById(R.id.ibtnHome);
+        ibtnOrderCustomer = findViewById(R.id.ibtnOrderCustomer);
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String role = sharedPreferences.getString("user_role", "CUSTOMER"); // default CUSTOMER
+
+        if(role.equals("ADMIN")) {
+            navBarAdmin.setVisibility(View.VISIBLE);
+            navBarCustomer.setVisibility(View.GONE);
+
+            ibtnYourAccountAdmin.setOnClickListener(view -> {
+                Intent intent = new Intent(this, Infor.class);
+                startActivity(intent);
+            });
+
+            ibtnOrderAdmin.setOnClickListener(view -> {
+                Intent intent = new Intent(this, AdminOrder.class);
+                startActivity(intent);
+            });
+            ibtnFoodManagement.setOnClickListener(view -> {
+                Intent intent = new Intent(this, QuanLyMon.class);
+                startActivity(intent);
+            });
+
+
+        } else {
+            navBarAdmin.setVisibility(View.GONE);
+            navBarCustomer.setVisibility(View.VISIBLE);
+        }
+
+
+
     }
 
     private void addEvents() {
+
+        //set this for admin
+        ibtnYourAccountAdmin.setOnClickListener(view -> {
+            Intent intent = new Intent(this, Infor.class);
+            startActivity(intent);
+        });
+
+        ibtnOrderAdmin.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AdminOrder.class);
+            startActivity(intent);
+        });
+        ibtnFoodManagement.setOnClickListener(view -> {
+            Intent intent = new Intent(this, QuanLyMon.class);
+            startActivity(intent);
+        });
+
+        //set this for customer
+        ibtnHome.setOnClickListener(view -> {
+            Intent intent = new Intent(Infor.this,HomePage.class);
+            startActivity(intent);
+        });
+        ibtnOrderCustomer.setOnClickListener(view -> {
+            Intent intent = new Intent(Infor.this,DonHang.class);
+            startActivity(intent);
+        });
+
+
+
         btnGoToLogin.setOnClickListener(view -> {
             Intent intent = new Intent(Infor.this,Login.class);
             startActivity(intent);
@@ -83,10 +167,7 @@ public class Infor extends AppCompatActivity {
             Intent intent = new Intent(Infor.this,Dangky.class);
             startActivity(intent);
         });
-        ibtnHome.setOnClickListener(view -> {
-            Intent intent = new Intent(Infor.this,HomePage.class);
-            startActivity(intent);
-        });
+
         btnLogout.setOnClickListener(view -> {
             SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
             SharedPreferences.Editor editor = settings.edit();

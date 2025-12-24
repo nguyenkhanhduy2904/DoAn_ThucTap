@@ -162,112 +162,19 @@
         android:dividerHeight="20dp"
         android:divider="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/layoutTabs"
-        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+
         tools:listitem="@layout/layout_order_staffview"/>
 
-
-    <LinearLayout
-        android:id="@+id/bottomNav"
+    <include
+        android:id="@+id/navBar"
+        layout="@layout/layout_nav_bar_admin"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:orientation="horizontal"
-        android:background="@color/design_default_color_secondary"
-        android:weightSum="5"
-        android:gravity="center_vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:id="@+id/nav_don_hang"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/icon_don_hang"
-                    app:tint="@android:color/black"/>
-<!--                <View-->
-<!--                    android:layout_width="8dp"-->
-<!--                    android:layout_height="8dp"-->
-<!--                    android:background="@drawable/bg_rounded_teal"-->
-<!--                    android:backgroundTint="#FF0000"-->
-<!--                    android:layout_gravity="top|end"/>-->
-            </FrameLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Đơn hàng"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"/>
-        </LinearLayout>
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/icon_user"
-                app:tint="@android:color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Qlý User"
-                android:textSize="11sp"
-                android:textColor="@android:color/black"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_dieu_chinh"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Điều chỉnh"
-                android:textSize="11sp"
-                android:textColor="@android:color/black"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/icon_thong_ke"
-                app:tint="@android:color/black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Thống kê"
-                android:textSize="11sp"
-                android:textColor="@android:color/black"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

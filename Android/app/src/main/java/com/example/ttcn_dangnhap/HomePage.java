@@ -47,7 +47,7 @@ public class HomePage extends AppCompatActivity {
     CustomFoodListAdapter customFoodListAdapter;
     ImageView cart;
     //nav bar button
-    LinearLayout ibtnHome, ibtnVoucher, ibtnOrder, ibtnAccount;
+    LinearLayout ibtnHome, ibtnOrder, ibtnAccount;
     ImageButton  ibtnMenu, ibtnCart;
 
     //linear layout flag btn
@@ -196,10 +196,10 @@ public class HomePage extends AppCompatActivity {
         //set image button cho thanh nav
         View navBar = findViewById(R.id.navBar);
         ibtnHome = navBar.findViewById(R.id.ibtnHome);
-        ibtnVoucher = navBar.findViewById(R.id.ibtnVoucher);
-        ibtnOrder = navBar.findViewById(R.id.ibtnOrder);
+//        ibtnVoucher = navBar.findViewById(R.id.ibtnVoucher);
+        ibtnOrder = navBar.findViewById(R.id.ibtnOrderCustomer);
         ibtnAccount = navBar.findViewById(R.id.ibtnAccount);
-        ibtnMenu = navBar.findViewById(R.id.ibtnMenu);
+//        ibtnMenu = navBar.findViewById(R.id.ibtnMenu);
         ibtnCart = findViewById(R.id.ibtnCart);
 
         //set linear layout flag
@@ -294,14 +294,10 @@ public class HomePage extends AppCompatActivity {
             overridePendingTransition(0,0);
             Toast.makeText(HomePage.this, "Clicked Home", Toast.LENGTH_SHORT).show();
         });
-        ibtnVoucher.setOnClickListener(view -> {
 
-
-            Toast.makeText(HomePage.this, "Clicked Voucher", Toast.LENGTH_SHORT).show();
-        });
         ibtnOrder.setOnClickListener(view -> {
 
-//            Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
+//
             Intent intent = new Intent(this,DonHang.class);
             startActivity(intent);
             finish();
@@ -312,10 +308,7 @@ public class HomePage extends AppCompatActivity {
             Intent intent = new Intent(HomePage.this,Infor.class);
             startActivity(intent);
         });
-        ibtnMenu.setOnClickListener(view -> {
 
-            Toast.makeText(HomePage.this, "Clicked Order", Toast.LENGTH_SHORT).show();
-        });
 
         ibtnCart.setOnClickListener(view -> {
             Intent intent = new Intent(HomePage.this, Cart.class);
