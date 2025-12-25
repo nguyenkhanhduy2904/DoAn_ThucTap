@@ -78,11 +78,6 @@ public class OrderDetail extends AppCompatActivity {
         lvOrderItems.setAdapter(orderItemAdapter);
 
         btnNextAction.setVisibility(View.GONE);
-
-
-
-
-
     }
 
     void addEvents() {
@@ -93,9 +88,6 @@ public class OrderDetail extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-//        btnNextAction.setOnClickListener(view -> {
-//            // Handle next action based on order status
-//        });
         ibtnBack.setOnClickListener(view -> {
             finish();
         });
@@ -120,9 +112,6 @@ public class OrderDetail extends AppCompatActivity {
                         btnCancel.setVisibility(View.GONE);
                         btnNextAction.setVisibility(View.GONE);
                     }
-
-
-
                 },
                 error -> Toast.makeText(this, "Error updating status", Toast.LENGTH_SHORT).show()
         );

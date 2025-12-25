@@ -345,15 +345,9 @@ public class DonHang extends AppCompatActivity {
                         callback.onError("Connection error");
                     }
                 }
-
-
-
         );
-
         requestQueue.add(request);
     }
-
-
     public static void setListViewHeight(ListView listView) {
         ListAdapter adapter = listView.getAdapter();
         if (adapter == null) return;

@@ -53,9 +53,6 @@
             android:name=".Dangky"
             android:exported="true" />
         <activity
-            android:name=".forgot"
-            android:exported="false" />
-        <activity
             android:name=".Login"
             android:exported="true">
             <intent-filter>

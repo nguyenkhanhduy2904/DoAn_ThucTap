@@ -81,15 +81,11 @@ public class AdminOrder extends AppCompatActivity {
                     public void onSuccess(List<OrderDTO> result) {
                         allOrders.clear();
                         allOrders.addAll(result);
-//                        orderAdapter.notifyDataSetChanged(); // <--- update adapter
-
-
                         pendingOrders.clear();
                         confirmOrders.clear();
                         deliveringOrders.clear();
                         finishedOrders.clear();
                         canceled_and_refused_Orders.clear();
-
 
                         for(int i =0; i<allOrders.size(); i++){
                             OrderDTO orderDTO = allOrders.get(i);
@@ -128,7 +124,6 @@ public class AdminOrder extends AppCompatActivity {
                     }
                 });
 
-                // Schedule next run
                 handler.postDelayed(this, REFRESH_INTERVAL);
             }
         };
@@ -156,15 +151,10 @@ public class AdminOrder extends AppCompatActivity {
         ibtnOrder = findViewById(R.id.ibtnOrderAdmin);
         ibtnAccountManagement = findViewById(R.id.ibtnAccountManagement);
         ibtnFoodManagement = findViewById(R.id.ibtnFoodManagementAdmin);
-
-
-
-
         orderAdapter = new OrderStaffviewAdapter(this, currentViewOrders);
         orderAdapter.setStatusChangeCallback(new APICallback<OrderDTO>() {
             @Override
             public void onSuccess(OrderDTO updatedOrder) {
-                // Remove from old lists
                 pendingOrders.remove(updatedOrder);
                 confirmOrders.remove(updatedOrder);
                 deliveringOrders.remove(updatedOrder);
@@ -179,7 +169,6 @@ public class AdminOrder extends AppCompatActivity {
                     }
                 }
 
-                // Add to new status list
                 switch (updatedOrder.getTrangThaiDonHang()) {
                     case "Pending": pendingOrders.add(updatedOrder); break;
                     case "Confirmed": confirmOrders.add(updatedOrder); break;
@@ -188,7 +177,6 @@ public class AdminOrder extends AppCompatActivity {
                     case "Cancelled": canceled_and_refused_Orders.add(updatedOrder); break;
                 }
 
-                // Refresh current view
                 switchTab(currentFilterStatus);
             }
 
@@ -206,7 +194,6 @@ public class AdminOrder extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        loadAllOrders();
     }
 
     private void switchTab(String status) {
@@ -223,7 +210,6 @@ public class AdminOrder extends AppCompatActivity {
 
         orderAdapter.notifyDataSetChanged();
     }
-
 
     private void addEvents() {
         btnPending.setOnClickListener(v -> switchTab("Pending"));
@@ -255,13 +241,7 @@ public class AdminOrder extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
-
-
     }
-
-
-
     public void loadAllOrders(APICallback< List<OrderDTO>> callback){
 
         String url = "http://10.0.2.2:8080/api/v1/orders";
@@ -298,8 +278,6 @@ public class AdminOrder extends AppCompatActivity {
                                     Toast.makeText(this, "Lỗi chuyển đổi dữ liệu: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
-
-
                                 OrderDTO order = new OrderDTO(
                                         orderObj.getInt("id"),
                                         orderObj.getString("tenNguoiNhan"),
@@ -313,8 +291,6 @@ public class AdminOrder extends AppCompatActivity {
                                         orderObj.getString("phuongThucThanhToan"),
                                         null // Chưa xử lý danh sách món ăn ở đây
                                 );
-
-
                                 JSONArray itemList = orderObj.getJSONArray("items");
                                 List<OrderItemDTO> orderItems = new ArrayList<>();
                                 for(int j=0; j< itemList.length(); j++){
@@ -323,8 +299,6 @@ public class AdminOrder extends AppCompatActivity {
                                     String giaTongMonStr = itemObj.getString("giaTongMon");
                                     BigDecimal giaTungMon = null;
                                     BigDecimal giaTongMon = null;
-
-
                                     try{
                                         giaTungMon = new BigDecimal(giaTungMonStr);
                                         giaTongMon = new BigDecimal(giaTongMonStr);
@@ -344,13 +318,9 @@ public class AdminOrder extends AppCompatActivity {
                                     );
 
                                     orderItems.add(item);
-
-
                                 }
                                 order.setItems(orderItems);
                                 orderList.add(order);
-
-
                             }
                             orderList.sort((o1,o2)-> o2.getThoiGianTao().compareTo(o1.getThoiGianTao()));
                             callback.onSuccess(orderList);
@@ -383,11 +353,7 @@ public class AdminOrder extends AppCompatActivity {
                 }
         );
         requestQueue.add(request);
-
-
     }
-
-
 
 
     private void updateOrderStatus(int orderId, String newStatus) {
@@ -397,7 +363,6 @@ public class AdminOrder extends AppCompatActivity {
         StringRequest request = new StringRequest(Request.Method.PUT, url,
                 response -> {
                     Toast.makeText(this, "Đã cập nhật: " + newStatus, Toast.LENGTH_SHORT).show();
-//                    loadAllOrders();
                 },
                 error -> Toast.makeText(this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show()
         );

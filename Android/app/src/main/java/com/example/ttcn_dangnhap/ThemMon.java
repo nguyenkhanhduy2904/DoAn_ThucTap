@@ -136,16 +136,11 @@ public class ThemMon extends AppCompatActivity {
         imgZone = findViewById(R.id.btn_upload_image);
         imgPreview = findViewById(R.id.img);
         ibtnBack= findViewById(R.id.ibtnBack);
-//        layout_percent = findViewById(R.id.layout_percent);
-//        layout_nbd = findViewById(R.id.layout_nbd);
-//        layout_nkt = findViewById(R.id.layout_nkt);
-
         etxtFoodName = findViewById(R.id.etxtFoodName);
         etxtFoodDesc = findViewById(R.id.etxtDesc);
         etxtPrice = findViewById(R.id.etxtPrice);
         rbgQuocGia = findViewById(R.id.rbgQuocGia);
         rgStatus = findViewById(R.id.rgStatus);
-//        rgDiscount = findViewById(R.id.rgDiscount);
         rbVN = findViewById(R.id.rbVN);
         rbTL = findViewById(R.id.rbTL);
         rbHQ = findViewById(R.id.rbHQ);
@@ -153,11 +148,6 @@ public class ThemMon extends AppCompatActivity {
 
         rbConMon = findViewById(R.id.rb_con);
         rbHetMon = findViewById(R.id.rb_het);
-
-//        tv_start_date=findViewById(R.id.tv_start_date);
-//        tv_end_date=findViewById(R.id.tv_end_date);
-//        tv_start_date.setText(Format_Date.formatDate(calendar.getTime()));
-//        tv_end_date.setText(Format_Date.formatDate(calendar.getTime()));
 
         btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
@@ -167,25 +157,14 @@ public class ThemMon extends AppCompatActivity {
         imgZone.setOnClickListener(view -> {
             pickImageLauncher.launch("image/*");  // Opens gallery
         });
-        ibtnBack.setOnClickListener(view -> finish());
+        ibtnBack.setOnClickListener(view -> {
+            Intent intent = new Intent(this, QuanLyMon.class);
+            startActivity(intent);
+        });
         btnCancel.setOnClickListener(view -> {
             finish();
         });
-//        tv_start_date.setOnClickListener(view -> XulyChonNgay(view, tv_start_date));
-//        tv_end_date.setOnClickListener(view -> XulyChonNgay(view, tv_end_date));
-//        if (rgDiscount.getCheckedRadioButtonId() == R.id.rdo_off) {
-//            hienthi(false);
-//        }
-//        rgDiscount.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(RadioGroup group, int checkedId) {
-//                if (checkedId == R.id.rdo_on) {
-//                    hienthi(true);
-//                } else if (checkedId == R.id.rdo_off) {
-//                    hienthi(false);
-//                }
-//            }
-//        });
+
         btnSave.setOnClickListener(view -> {
             String priceText = etxtPrice.getText().toString().trim();
 
@@ -201,14 +180,11 @@ public class ThemMon extends AppCompatActivity {
                 return;
             }
 
-
-
             if (priceText.isEmpty()) {
                 price = 0;
             } else {
                 price = Long.parseLong(priceText);
             }
-
 
             if (rbVN.isChecked()) {
                 quocGiaChon = EQuocGia.VietNam;
@@ -217,7 +193,7 @@ public class ThemMon extends AppCompatActivity {
             } else if (rbHQ.isChecked()) {
                 quocGiaChon = EQuocGia.HanQuoc;
             } else if (rbTQ.isChecked()) {
-                quocGiaChon = EQuocGia.TrungQuoc;  // If you add this enum later
+                quocGiaChon = EQuocGia.TrungQuoc;
             } else {
                 Toast.makeText(this, "Hãy chọn quốc gia!", Toast.LENGTH_SHORT).show();
                 return;
@@ -416,9 +392,6 @@ public class ThemMon extends AppCompatActivity {
 
         return size; // size in bytes
     }
-
-
-
 
 
     void GetIntentData(){

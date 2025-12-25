@@ -59,7 +59,6 @@ public class Cart extends AppCompatActivity {
             return insets;
         });
 
-        //sqlite
         cartDbHelper = new CartDbHelper(Cart.this);
         cartDAO = new CartDAO(cartDbHelper);
 
@@ -73,9 +72,6 @@ public class Cart extends AppCompatActivity {
 
         addControls();
         addEvents();
-
-
-
     }
 
 
@@ -134,11 +130,6 @@ public class Cart extends AppCompatActivity {
             startActivityForResult(intent, REQUEST_CODE_FOR_CART_UPDATE);
 
             });
-
-
-
-
-
     }
 
     @Override
@@ -151,7 +142,6 @@ public class Cart extends AppCompatActivity {
             lsCartItem.clear();
             adapter.notifyDataSetChanged();
             txtPrice.setText("0");
-//            Toast.makeText(this, "Order placed successfully!", Toast.LENGTH_SHORT).show();
 
         }
     }

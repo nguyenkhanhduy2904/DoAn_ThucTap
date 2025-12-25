@@ -76,9 +76,6 @@ public class AccountManagement extends AppCompatActivity {
     }
 
     void addControls(){
-
-
-
         ibtnYourAccount = findViewById(R.id.ibtnMyAccountAdmin);
         ibtnOrder = findViewById(R.id.ibtnOrderAdmin);
         ibtnAccountManagement = findViewById(R.id.ibtnAccountManagement);
@@ -87,14 +84,6 @@ public class AccountManagement extends AppCompatActivity {
         lv=findViewById(R.id.lvUser);
         adapter = new AccountManagementAdapter(this, lsUserDTO );
         lv.setAdapter(adapter);
-
-
-
-
-
-
-
-
     }
 
     void addEvents(){
@@ -148,13 +137,10 @@ public class AccountManagement extends AppCompatActivity {
 
                                 );
 
-
-
                                 resultList.add(userDTO);
                             }
 
                             callback.onSuccess(resultList);
-
 
                         }else{
                             callback.onError("GET food data failed: " + message);
@@ -182,7 +168,6 @@ public class AccountManagement extends AppCompatActivity {
         );
 
         queue.add(request);
-
 
     }
 

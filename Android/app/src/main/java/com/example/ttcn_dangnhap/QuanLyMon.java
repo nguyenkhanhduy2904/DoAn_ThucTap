@@ -110,15 +110,10 @@ public class QuanLyMon extends AppCompatActivity {
         lv_danh_sach_mon_an = findViewById(R.id.lv_danh_sach_mon_an);
         customFoodListAdapter = new CustomFoodListAdapter(this, listDisplayMonAn, null, true);
         lv_danh_sach_mon_an.setAdapter(customFoodListAdapter);
-
-
         ibtnYourAccount = findViewById(R.id.ibtnMyAccountAdmin);
         ibtnOrder = findViewById(R.id.ibtnOrderAdmin);
         ibtnAccountManagement = findViewById(R.id.ibtnAccountManagement);
         ibtnFoodManagement = findViewById(R.id.ibtnFoodManagementAdmin);
-
-
-
     }
 
     private void addEvents() {
@@ -141,11 +136,6 @@ public class QuanLyMon extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
-
-
-
-
         btn_them_mon.setOnClickListener(view -> {
             Intent intent = new Intent(QuanLyMon.this,ThemMon.class);
             startActivity(intent);

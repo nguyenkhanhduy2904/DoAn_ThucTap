@@ -112,7 +112,6 @@ public class Login extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putBoolean("is_logged_in", true); // Lưu trạng thái đã đăng nhập
                                 editor.putString("user_role", role);     // Lưu quyền (ADMIN/CUSTOMER) để sau này dùng
-//                                editor.putString("username", tenDangNhap); // Lưu tên đăng nhập (nếu cần hiển thị ở Infor)
                                 editor.putString("username", username);
                                 editor.putInt("userid", userid );
                                 editor.putString("userAddress",address );
@@ -130,7 +129,6 @@ public class Login extends AppCompatActivity {
                                 }
                                 else if (role.equals("ADMIN")) {
                                     ThongBao.showThongBao(Login.this, "Thành công", message, () -> {
-//                                        Intent intent = new Intent(Login.this, QuanLyMon.class);
                                         Intent intent = new Intent(this, AdminOrder.class);
                                         startActivity(intent);
                                         finish();
@@ -148,9 +146,6 @@ public class Login extends AppCompatActivity {
                             Toast.makeText(Login.this, "Error convert request: " + e.getMessage(),Toast.LENGTH_LONG ).show();
 
                         }
-
-
-
                     },
                     error -> {
                         if (error.networkResponse != null && error.networkResponse.data != null) {
@@ -169,17 +164,9 @@ public class Login extends AppCompatActivity {
                             Toast.makeText(Login.this, "Connection Error", Toast.LENGTH_LONG).show();
                         }
                     }
-
             );
-
             queue.add(request);
-
-
-
-
         });
-
-
     }
 
     private void addControls() {
@@ -205,7 +192,6 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(Login.this, QuanLyMon.class);
                 startActivity(intent);
             }
-
             finish();
         }
     }

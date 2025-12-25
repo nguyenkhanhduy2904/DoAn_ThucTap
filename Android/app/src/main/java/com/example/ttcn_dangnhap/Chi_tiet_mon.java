@@ -53,26 +53,14 @@ public class Chi_tiet_mon extends AppCompatActivity {
         });
         SharedPreferences sp = this.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         userid = sp.getInt("userid", -1);
-
-
         cartDbHelper = new CartDbHelper(this);
         cartDAO = new CartDAO(cartDbHelper);
-
-
         addControls();
         getIntentData();
         if  (currentFood != null) {
             updatePriceUI();
         }
         addEvents();
-//        if(currentFood==null){
-//            Toast.makeText(this, "null current food", Toast.LENGTH_LONG).show();
-//        }
-//        else {
-//            Toast.makeText(this, currentFood.toString(), Toast.LENGTH_LONG).show();
-//        }
-
-
     }
 
     private void addControls() {
@@ -108,26 +96,6 @@ public class Chi_tiet_mon extends AppCompatActivity {
         });
         btnAddToCart.setOnClickListener(view -> {
             if (currentFood != null) {
-//                // Kiểm tra món này đã có trong giỏ chưa
-//                String noteContent = etNote.getText().toString().trim();
-//                boolean exists = false;
-//                for (CartItem item : CartUtil.mangGioHang) {
-//                    if (item.getMonAn().getIdMonAn() == currentFood.getIdMonAn()) {
-//                        // Nếu đã có, cộng dồn số lượng
-//                        item.setQuantity(item.getQuantity() + quantity);
-//                        if(!noteContent.isEmpty()){
-//                            item.setNote(noteContent);
-//                        }
-//                        exists = true;
-//                        break;
-//                    }
-//                }
-//
-//                // Nếu chưa có, thêm mới (Ghi chú đang để rỗng, bạn có thể thêm EditText nhập ghi chú ở màn hình này nếu muốn)
-//                if (!exists) {
-//                    CartUtil.mangGioHang.add(new CartItem(currentFood, quantity, noteContent));
-//                }
-
                 int foodid = currentFood.getIdMonAn();
                 if (userid == -1) {
                     Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
@@ -167,43 +135,6 @@ public class Chi_tiet_mon extends AppCompatActivity {
                     newItem.setUrl(currentFood.getUrlHinhAnhMonAn());
                     cartDAO.addItem(newItem);
                 }
-
-//                if (existingCartItem != null) {
-//                    String ghiChuExisted = existingCartItem.getGhiChu();
-//
-//                    if((ghiChuExisted == null || ghiChuExisted.isBlank())
-//                            &&(thisOrderGhiChu==null || thisOrderGhiChu.isBlank())){
-//
-//                        existingCartItem.setSoLuong(existingCartItem.getSoLuong() + 1);
-//                        existingCartItem.setGiaTongMon(existingCartItem.getGiaTungMon() * existingCartItem.getSoLuong());
-//                        cartDAO.update(existingCartItem);
-//                    }
-//                    else {
-//                        models.Cart.CartItem newItem = new CartItem();
-//                        newItem.setUserid(userid);
-//                        newItem.setMonanid(foodid);
-//                        newItem.setTenMon(currentFood.getTenMonAn());
-//                        newItem.setSoLuong(quantity);
-//                        newItem.setGiaTungMon(currentFood.getGiaMonAn());
-//                        newItem.setGiaTongMon(currentFood.getGiaMonAn());
-//                        newItem.setGhiChu(etNote.getText().toString().trim());
-//                        cartDAO.addItem(newItem);
-//                    }
-//
-//                } else {
-//                    models.Cart.CartItem newItem = new CartItem();
-//                    newItem.setUserid(userid);
-//                    newItem.setMonanid(foodid);
-//                    newItem.setTenMon(currentFood.getTenMonAn());
-//                    newItem.setSoLuong(quantity);
-//                    newItem.setGiaTungMon(currentFood.getGiaMonAn());
-//                    newItem.setGiaTongMon(currentFood.getGiaMonAn());
-//                    newItem.setGhiChu(etNote.getText().toString().trim());
-//                    cartDAO.addItem(newItem);
-//                }
-
-
-
                 Toast.makeText(Chi_tiet_mon.this, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show();
 
                 // Chuyển sang màn hình Cart
@@ -231,12 +162,5 @@ public class Chi_tiet_mon extends AppCompatActivity {
             DecimalFormat formatter = new DecimalFormat("###,###,###");
             tvPrice.setText(formatter.format(currentFood.getGiaMonAn()));
             Picasso.get().load(currentFood.getUrlHinhAnhMonAn()).resize(500,300).centerCrop().into(imgFood);
-
-
-
         }}
-
-
-
-
 }
