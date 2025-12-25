@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "api/v1/user")
@@ -165,6 +166,56 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
+
+    @PutMapping(path = "{userid}/change-password")
+    public ResponseEntity<APIResponse<Void>> changePassword(
+            @PathVariable("userid") Integer userid,
+            @RequestParam String oldPassword,
+            @RequestParam String newPassword) {
+
+        try {
+            userService.changePassword(oldPassword, newPassword, userid);
+
+            return ResponseEntity.ok(new APIResponse<>(
+                    "success", 200, "Password changed successfully", null));
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse<>("error", 400, e.getMessage(), null));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new APIResponse<>("error", 404, e.getMessage(), null));
+        }
+    }
+
+    @PutMapping(path = "{userName}/reset-password")
+    public ResponseEntity<APIResponse<Void>> resetPassword(
+            @PathVariable String userName,
+            @RequestBody Map<String, String> body) {
+
+        try {
+            String newPassword = body.get("newPassword");
+            String sdt = body.get("sdt");
+            String email = body.get("email");
+
+            if(newPassword == null || sdt == null || email == null) {
+                throw new IllegalArgumentException("Missing fields");
+            }
+
+            userService.resetPassword(userName, sdt, email, newPassword);
+
+            return ResponseEntity.ok(new APIResponse<>("success", 200, "Password changed successfully", null));
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new APIResponse<>("error", 400, e.getMessage(), null));
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new APIResponse<>("error", 404, e.getMessage(), null));
+        }
+    }
+
+
 
 
 

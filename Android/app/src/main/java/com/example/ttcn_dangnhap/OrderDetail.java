@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,6 +15,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.adapter.OrderItemAdapter;
 
 import java.text.SimpleDateFormat;
@@ -27,6 +32,7 @@ import models.OrderItemDTO;
 
 public class OrderDetail extends AppCompatActivity {
 
+    OrderDTO orderDTO;
     List<OrderItemDTO> orderItemDTOList;
     ListView lvOrderItems;
     OrderItemAdapter orderItemAdapter;
@@ -82,6 +88,10 @@ public class OrderDetail extends AppCompatActivity {
     void addEvents() {
         btnCancel.setOnClickListener(view -> {
             // Handle cancel order action
+            changeOrderStatus("Cancelled", orderDTO.getId(), orderDTO);
+            Intent intent = new Intent(this, DonHang.class);
+            startActivity(intent);
+            finish();
         });
 //        btnNextAction.setOnClickListener(view -> {
 //            // Handle next action based on order status
@@ -91,12 +101,41 @@ public class OrderDetail extends AppCompatActivity {
         });
 
     }
+    void changeOrderStatus(String newStatus, int orderId, OrderDTO order) {
+        String url = "http://10.0.2.2:8080/api/v1/orders/update-order-status/" + orderId
+                + "?status=" + newStatus;
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+        StringRequest request = new StringRequest(
+                Request.Method.PUT,
+                url,
+                response -> {
+                    Toast.makeText(this, "Status updated: " + newStatus, Toast.LENGTH_SHORT).show();
+
+                    // update the local order object
+                    order.setTrangThaiDonHang(newStatus);
+
+                    if(newStatus.equals("Finished") || newStatus.equals("Cancelled") || newStatus.equals("Refused")){
+                        btnCancel.setVisibility(View.GONE);
+                        btnNextAction.setVisibility(View.GONE);
+                    }
+
+
+
+                },
+                error -> Toast.makeText(this, "Error updating status", Toast.LENGTH_SHORT).show()
+        );
+
+        requestQueue.add(request);
+    }
 
     void getIntentData() {
         Intent intent = getIntent();
         List<OrderItemDTO> items = (List<OrderItemDTO>) intent.getSerializableExtra("orderItems");
         OrderDTO order = (OrderDTO) intent.getSerializableExtra("order");
         if (items != null && order != null) {
+            orderDTO = order;
             tvOrderId.setText("Order ID: " + String.valueOf(order.getId()));
 
             Date orderTime = order.getThoiGianTao();

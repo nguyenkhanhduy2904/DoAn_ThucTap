@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,9 +22,15 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.ttcn_dangnhap.Network.APIClient;
 import com.example.ttcn_dangnhap.Network.APIService;
 import com.google.android.material.card.MaterialCardView;
+
+import org.json.JSONObject;
 
 import models.APIResponse;
 import models.UserDTO;
@@ -34,7 +41,7 @@ import retrofit2.Response;
 public class Infor extends AppCompatActivity {
     LinearLayout layoutGuest, layoutUserTop, layoutUserBottom;
 
-    MaterialCardView btnLogout,btnUserInfo;
+    MaterialCardView btnLogout,btnUserInfo, btnChangePassword;
     TextView btnGoToLogin, btnGoToRegister;
     ConstraintLayout navBarAdmin;
     ConstraintLayout navBarCustomer;
@@ -65,12 +72,14 @@ public class Infor extends AppCompatActivity {
         });
         addControls();
         addEvents();
+        fetchCurrentUserData();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         checkLoginState();
+        fetchCurrentUserData();
     }
 
     private void addControls() {
@@ -82,6 +91,7 @@ public class Infor extends AppCompatActivity {
         btnGoToRegister = findViewById(R.id.btnGoToRegister);
         btnLogout = findViewById(R.id.btnLogout);
         btnUserInfo = findViewById(R.id.btnUserInfo);
+        btnChangePassword = findViewById(R.id.btnChangePass);
 
         //find the nav bar
         navBarAdmin = findViewById(R.id.navBarAdmin);
@@ -195,6 +205,10 @@ public class Infor extends AppCompatActivity {
         btnUserInfo.setOnClickListener(view -> {
             fetchUserAndShowDialog();
         });
+        btnChangePassword.setOnClickListener(view -> {
+            Toast.makeText(this, "Change password clicked", Toast.LENGTH_LONG).show();
+            showChangePasswordDialog();
+        });
     }
     private void checkLoginState() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -209,6 +223,34 @@ public class Infor extends AppCompatActivity {
             layoutUserBottom.setVisibility(View.GONE);
         }
     }
+
+    private void fetchCurrentUserData() {
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        int userId = settings.getInt("userid", -1);
+
+        if (userId == -1) {
+            Toast.makeText(this, "Không tìm thấy ID user", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        APIService apiService = APIClient.getClient().create(APIService.class);
+        apiService.getUserDetail(userId).enqueue(new Callback<APIResponse<UserDTO>>() {
+            @Override
+            public void onResponse(Call<APIResponse<UserDTO>> call, Response<APIResponse<UserDTO>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    currentUserData = response.body().getData();
+                } else {
+                    Toast.makeText(Infor.this, "Lỗi lấy thông tin: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<APIResponse<UserDTO>> call, Throwable t) {
+                Toast.makeText(Infor.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void fetchUserAndShowDialog() {
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int userId = settings.getInt("userid", -1);
@@ -258,8 +300,133 @@ public class Infor extends AppCompatActivity {
 
         btnConfirm.setOnClickListener(v -> {
             //can cap nhat lai user pref
+            if(!edtName.equals(userDTO.getTenHienThi())|| !edtPhone.equals(userDTO.getSdt())||!edtAddress.equals(userDTO.getDiaChi())){
+                UserDTO newDTO = new UserDTO(
+                        currentUserData.getId(),
+                        edtName.getText().toString(),
+                        edtPhone.getText().toString(),
+                        currentUserData.getRole(),
+                        edtAddress.getText().toString(),
+                        currentUserData.getGioiTinh(),
+                        currentUserData.getTrangThai(),
+                        currentUserData.getEmail()
+                );
+                updateUserDTOData(currentUserData.getId(), newDTO);
+
+                //update share pref
+                SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("username", edtName.getText().toString());
+                editor.putString("userAddress",edtAddress.getText().toString());
+                editor.putString("userPhone", edtPhone.getText().toString());
+
+            }
+
         });
 
         dialog.show();
     }
+
+    private void showChangePasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Infor.this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_change_password, null);
+        builder.setView(dialogView);
+
+        EditText edtOldPass = dialogView.findViewById(R.id.edtOldPass);
+        EditText edtNewPass = dialogView.findViewById(R.id.edtNewPass);
+        EditText edtConfirmedPass = dialogView.findViewById(R.id.edtConfirmedPass);
+        AppCompatButton btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        btnConfirm.setOnClickListener(v -> {
+            String oldPass = edtOldPass.getText().toString().trim();
+            String newPass = edtNewPass.getText().toString().trim();
+            String confirmedPass = edtConfirmedPass.getText().toString().trim();
+
+            if (oldPass.isEmpty() || newPass.isEmpty() || confirmedPass.isEmpty()) {
+                Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!newPass.equals(confirmedPass)) {
+                Toast.makeText(this, "Mật khẩu mới và xác nhận mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Construct URL with query parameters for @RequestParam
+            String url = "http://10.0.2.2:8080/api/v1/user/" + String.valueOf(currentUserData.getId()) + "/change-password" +
+                    "?oldPassword=" + Uri.encode(oldPass) +
+                    "&newPassword=" + Uri.encode(newPass);
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, null,
+                    response -> {
+                        Toast.makeText(this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    },
+                    error -> {
+                        Toast.makeText(this, "Lỗi: Kiểm tra lại mật khẩu cũ " , Toast.LENGTH_SHORT).show();
+                    });
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(request);
+        });
+
+        dialog.show();
+    }
+
+
+
+    void updateUserDTOData(int userId, UserDTO updatedUser) {
+        String url = "http://10.0.2.2:8080/api/v1/user/" + userId;
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        // Convert UserDTO to JSON
+        JSONObject userJson = new JSONObject();
+        try {
+            userJson.put("tenHienThi", updatedUser.getTenHienThi());
+            userJson.put("sdt", updatedUser.getSdt());
+            userJson.put("role", updatedUser.getRole());
+            userJson.put("diaChi", updatedUser.getDiaChi());
+            userJson.put("gioiTinh", updatedUser.getGioiTinh());
+            userJson.put("trangThai", updatedUser.getTrangThai());
+            userJson.put("email", updatedUser.getEmail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.PUT,
+                url,
+                userJson,
+                response -> {
+                    try {
+                        String status = response.getString("status");
+                        String message = response.getString("message");
+
+                        if(status.equals("success")) {
+                            Toast.makeText(this, "User updated successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(this, "Update failed: " + message, Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(this, "Response parsing error", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                error -> {
+                    Toast.makeText(this, "Error updating user: " + error.getMessage(), Toast.LENGTH_LONG).show();
+                }
+        );
+
+        queue.add(request);
+    }
+
+
+
 }

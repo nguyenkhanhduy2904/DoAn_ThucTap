@@ -157,7 +157,8 @@
         android:dividerHeight="20dp"
         android:divider="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@id/layoutTabs"
-        tools:listitem="@layout/layout_order_staffview"/>
+        tools:listitem="@layout/layout_order_staffview"
+        android:paddingBottom="240dp"/>
 
     <include
         android:id="@+id/navBar"

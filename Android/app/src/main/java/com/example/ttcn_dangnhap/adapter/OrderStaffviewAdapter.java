@@ -93,17 +93,18 @@ public class OrderStaffviewAdapter extends BaseAdapter {
             case "Pending":
                 btnNextAction.setText("Nhận đơn");
                 btnNextAction.setEnabled(true);
+                btnCancel.setText("Từ chối");
                 btnCancel.setEnabled(true);
                 break;
             case "Confirmed":
                 btnNextAction.setText("Giao hàng");
                 btnNextAction.setEnabled(true);
-                btnCancel.setEnabled(false);
+                btnCancel.setEnabled(true);
                 break;
             case "Delivering":
                 btnNextAction.setText("Đã giao hàng");
                 btnNextAction.setEnabled(true);
-                btnCancel.setEnabled(false);
+                btnCancel.setEnabled(true);
                 break;
             case "Finished":
 //                btnNextAction.setText("Complete Order");
@@ -114,7 +115,12 @@ public class OrderStaffviewAdapter extends BaseAdapter {
             case "Cancelled":
                 btnNextAction.setText("Order Cancelled");
                 btnNextAction.setEnabled(false);
-                btnCancel.setEnabled(false);
+                btnCancel.setVisibility(View.GONE);
+                break;
+            case "Refused":
+                btnNextAction.setText("Order Refused");
+                btnNextAction.setEnabled(false);
+                btnCancel.setVisibility(View.GONE);
                 break;
             default:
                 btnNextAction.setText("Unknown Status");
@@ -129,6 +135,21 @@ public class OrderStaffviewAdapter extends BaseAdapter {
 
         btnCancel.setOnClickListener(view -> {
             // Handle cancel order action
+            String currentOrderStatus = order.getTrangThaiDonHang();
+            switch (currentOrderStatus){
+                case "Pending":
+                    changeOrderStatus("Refused", order.getId(), order);
+                    break;
+                case "Confirmed":
+                case "Delivering":
+                    changeOrderStatus("Cancelled", order.getId(), order);
+                    break;
+//                    if(order.getPhuongThucThanhToan().equals("COD")){
+//                        changePaymentStatus("Confirmed", order.getId(), order );
+//
+//                    }
+//                    break;
+            }
         });
         btnNextAction.setOnClickListener(view -> {
             String currentOrderStatus = order.getTrangThaiDonHang();

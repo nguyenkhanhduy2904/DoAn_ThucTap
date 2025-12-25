@@ -43,5 +43,27 @@ public class ImageUploadController {
 
     }
 
+    @DeleteMapping("/image")
+    public ResponseEntity<APIResponse<Void>> deleteImage(
+            @RequestParam("fileName") String fileName,
+            @RequestParam("type") String type
+    ) {
+        try {
+            imageUploadService.deleteByName(fileName, type);
+
+            return ResponseEntity.ok(new APIResponse<>(
+                    "success",
+                    200,
+                    "Image deleted successfully",
+                    null
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new APIResponse<>("error", 500, e.getMessage(), null));
+        }
+    }
+
+
+
 
 }

@@ -60,4 +60,16 @@ public class ImageUploadService {
 
 
     }
+
+    public void deleteByName(String fileName, String type) {
+        try {
+            Path imagePath = Paths.get(ROOT_PATH, type, fileName);
+
+            if (Files.exists(imagePath)) {
+                Files.delete(imagePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Cannot delete image: " + fileName, e);
+        }
+    }
 }

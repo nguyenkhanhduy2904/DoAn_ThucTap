@@ -64,35 +64,7 @@ public class UserService {
     }
 
 
-//    @Transactional
-//    public void updateUser(Integer userid,String tenHienThi, String diaChi, String gioiTinh, String sdt) {
-//        User user = userRepository.findById(userid).orElseThrow(() -> new IllegalStateException("user with id: "+ userid + " doesnt exist"));
-//
-//        //update TenHienThi
-//        if(tenHienThi !=null && !tenHienThi.isBlank() && !Objects.equals(user.getTenHienThi(), tenHienThi)){
-//            user.setTenHienThi(tenHienThi);
-//
-//        }
-//        // Update DiaChi
-//        if (diaChi != null && !diaChi.isBlank()
-//                && !Objects.equals(user.getDiaChi(), diaChi)) {
-//            user.setDiaChi(diaChi);
-//        }
-//
-//        // Update GioiTinh
-//        if (gioiTinh != null && !gioiTinh.isBlank()
-//                && !Objects.equals(user.getGioiTinh(), gioiTinh)) {
-//            user.setGioiTinh(gioiTinh);
-//        }
-//
-//        // Update SDT
-//        if (sdt != null && !sdt.isBlank()
-//                && !Objects.equals(user.getSdt(), sdt)) {
-//            user.setSdt(sdt);
-//        }
-//
-//
-//    }
+
 
     public void updateUser(Integer userid, UserDTO newDataDTO){
         User user = userRepository.findById(userid).orElseThrow(()-> new IllegalStateException("User with id: "+ userid + " doesnt exist" ));
@@ -115,12 +87,43 @@ public class UserService {
 
         userRepository.save(user);
 
-
-
-
     }
 
 
+    public void changePassword(String oldPassword, String newPassword, int userid){
+        User user = userRepository.findById(userid)
+                .orElseThrow(() -> new IllegalStateException("User with id: " + userid + " doesn't exist"));
 
+        // Check if the old password matches the stored hash
+        if (!passwordEncoder.matches(oldPassword, user.getMatKhauHashed())) {
+            throw new IllegalArgumentException("Old password is incorrect");
+        }
+
+        // Optional: prevent reusing the same password
+        if (passwordEncoder.matches(newPassword, user.getMatKhauHashed())) {
+            throw new IllegalArgumentException("New password cannot be the same as the old password");
+        }
+
+        // Encode the new password and save
+        user.setMatKhauHashed(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
+
+
+    public void resetPassword(String userName, String sdt, String email, String newPassword) {
+        User user = userRepository.findByTenDangNhap(userName)
+                .orElseThrow(() -> new IllegalStateException("User with username " + userName + " not found"));
+
+        // Verify phone and email
+        if (!user.getSdt().equals(sdt)||!user.getEmail().equals(email) ) {
+            throw new IllegalArgumentException("Info does not match");
+        }
+
+        // Hash and update new password
+        String hashed = passwordEncoder.encode(newPassword);
+        user.setMatKhauHashed(hashed);
+
+        userRepository.save(user);
+    }
 
 }

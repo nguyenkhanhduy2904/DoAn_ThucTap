@@ -22,7 +22,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ttcn_dangnhap.adapter.OrderAdapter;
 import com.example.ttcn_dangnhap.Network.APICallback;
 import com.example.ttcn_dangnhap.adapter.OrderStaffviewAdapter;
 
@@ -40,7 +39,7 @@ import models.OrderDTO;
 import models.OrderItemDTO;
 
 public class AdminOrder extends AppCompatActivity {
-    AppCompatButton btnPending, btnConfirmed, btnDelivering, btnFinished;
+    AppCompatButton btnPending, btnConfirmed, btnDelivering, btnFinished, btnCancelled;
     ListView lvOrders;
 
     LinearLayout ibtnFoodManagement, ibtnOrder, ibtnAccountManagement, ibtnYourAccount;
@@ -52,7 +51,7 @@ public class AdminOrder extends AppCompatActivity {
     List<OrderDTO> confirmOrders = new ArrayList<>();
     List<OrderDTO> deliveringOrders = new ArrayList<>();
     List<OrderDTO> finishedOrders = new ArrayList<>();
-    List<OrderDTO> canceledOrders = new ArrayList<>();
+    List<OrderDTO> canceled_and_refused_Orders = new ArrayList<>();
 
     List<OrderDTO> currentViewOrders = new ArrayList<>();
 
@@ -89,7 +88,7 @@ public class AdminOrder extends AppCompatActivity {
                         confirmOrders.clear();
                         deliveringOrders.clear();
                         finishedOrders.clear();
-                        canceledOrders.clear();
+                        canceled_and_refused_Orders.clear();
 
 
                         for(int i =0; i<allOrders.size(); i++){
@@ -111,7 +110,8 @@ public class AdminOrder extends AppCompatActivity {
                                     break;
 
                                 case "Cancelled":
-                                    canceledOrders.add(orderDTO);
+                                case "Refused":
+                                    canceled_and_refused_Orders.add(orderDTO);
                                     break;
                                 default:
                                     break;
@@ -148,6 +148,8 @@ public class AdminOrder extends AppCompatActivity {
         btnDelivering = findViewById(R.id.btnDelivering);
         btnConfirmed = findViewById(R.id.btnConfirm);
         btnFinished = findViewById(R.id.btnFinish);
+        btnCancelled= findViewById(R.id.btnCanceled);
+
         lvOrders = findViewById(R.id.lvOrders);
 
         ibtnYourAccount = findViewById(R.id.ibtnMyAccountAdmin);
@@ -167,7 +169,7 @@ public class AdminOrder extends AppCompatActivity {
                 confirmOrders.remove(updatedOrder);
                 deliveringOrders.remove(updatedOrder);
                 finishedOrders.remove(updatedOrder);
-                canceledOrders.remove(updatedOrder);
+                canceled_and_refused_Orders.remove(updatedOrder);
 
                 // Update allOrders
                 for (int i = 0; i < allOrders.size(); i++) {
@@ -183,7 +185,7 @@ public class AdminOrder extends AppCompatActivity {
                     case "Confirmed": confirmOrders.add(updatedOrder); break;
                     case "Delivering": deliveringOrders.add(updatedOrder); break;
                     case "Finished": finishedOrders.add(updatedOrder); break;
-                    case "Cancelled": canceledOrders.add(updatedOrder); break;
+                    case "Cancelled": canceled_and_refused_Orders.add(updatedOrder); break;
                 }
 
                 // Refresh current view
@@ -216,7 +218,7 @@ public class AdminOrder extends AppCompatActivity {
             case "Confirmed": currentViewOrders.addAll(confirmOrders); break;
             case "Delivering": currentViewOrders.addAll(deliveringOrders); break;
             case "Finished": currentViewOrders.addAll(finishedOrders); break;
-            case "Cancelled": currentViewOrders.addAll(canceledOrders); break;
+            case "Cancelled": currentViewOrders.addAll(canceled_and_refused_Orders); break;
         }
 
         orderAdapter.notifyDataSetChanged();
@@ -228,6 +230,7 @@ public class AdminOrder extends AppCompatActivity {
         btnConfirmed.setOnClickListener(v -> switchTab("Confirmed"));
         btnDelivering.setOnClickListener(v -> switchTab("Delivering"));
         btnFinished.setOnClickListener(v -> switchTab("Finished"));
+        btnCancelled.setOnClickListener(v -> switchTab("Cancelled"));
 
 
         ibtnYourAccount.setOnClickListener(view -> {
@@ -386,18 +389,7 @@ public class AdminOrder extends AppCompatActivity {
 
 
 
-    private void filterList(String status) {
-        List<OrderDTO> filtered = new ArrayList<>();
-        if (allOrders != null) {
-            for (OrderDTO order : allOrders) {
-                if (status.equalsIgnoreCase(order.getTrangThaiDonHang())) {
-                    filtered.add(order);
-                }
-            }
-        }
-        OrderAdapter adapter = new OrderAdapter(this, filtered, 1, this::updateOrderStatus);
-//        rvOrderList.setAdapter(adapter);
-    }
+
     private void updateOrderStatus(int orderId, String newStatus) {
         String url = "http://10.0.2.2:8080/api/v1/orders/update-order-status/" + orderId + "?status=" + newStatus;
 

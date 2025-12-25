@@ -152,9 +152,11 @@ public class QuanLyMon extends AppCompatActivity {
         });
         lv_danh_sach_mon_an.setOnItemClickListener((adapterView, view, i, l) -> {
             MonAn monAnDuocChon = lsAllMonAn.get(i);
-            Intent intent = new Intent(QuanLyMon.this, ThemMon.class);
+            Log.d("Quan ly Mon", "lv_danh_sach_mon_an.setOnItemClickListener called");
+            Intent intent = new Intent(this, ThemMon.class);
             intent.putExtra("monAn", monAnDuocChon);
             startActivity(intent);
+            finish();
         });
         layoutVietNam.setOnClickListener(view -> {
             List<MonAn> resultList = new ArrayList<>();
@@ -313,5 +315,6 @@ public class QuanLyMon extends AppCompatActivity {
         lsView.setLayoutParams(params);
         lsView.requestLayout();
     }
+
 
 }

@@ -168,12 +168,6 @@ public class Chi_tiet_mon extends AppCompatActivity {
                     cartDAO.addItem(newItem);
                 }
 
-
-
-
-
-
-
 //                if (existingCartItem != null) {
 //                    String ghiChuExisted = existingCartItem.getGhiChu();
 //

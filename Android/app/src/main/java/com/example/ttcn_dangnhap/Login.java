@@ -1,42 +1,45 @@
 package com.example.ttcn_dangnhap;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.content.SharedPreferences;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+
 
 public class Login extends AppCompatActivity {
     EditText txt_tk;
     TextInputEditText txt_mk;
     Button btn_login;
-    TextView txtSignup;
+    TextView txtSignup, tvQuenPass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,10 @@ public class Login extends AppCompatActivity {
                 Intent intent = new Intent(Login.this, Dangky.class);
                 startActivity(intent);
             }
+        });
+        tvQuenPass.setOnClickListener(view -> {
+            Toast.makeText(this, "Quen pass clicked", Toast.LENGTH_LONG).show();
+            showForgotPasswordDialog();
         });
 
         btn_login.setOnClickListener(view -> {
@@ -180,6 +187,7 @@ public class Login extends AppCompatActivity {
         txt_mk=findViewById(R.id.txt_mk);
         btn_login=findViewById(R.id.btn_login);
         txtSignup = findViewById(R.id.txt_dky);
+        tvQuenPass = findViewById(R.id.txt_quenmk);
     }
 
     @Override
@@ -201,4 +209,72 @@ public class Login extends AppCompatActivity {
             finish();
         }
     }
+
+    private void showForgotPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.layout_forgot_password, null);
+        builder.setView(dialogView);
+
+        EditText edtLoginName = dialogView.findViewById(R.id.edtLoginName);
+        EditText edtEmail = dialogView.findViewById(R.id.edtEmail);
+        EditText edtPhone = dialogView.findViewById(R.id.edtPhone);
+        EditText edtNewPass = dialogView.findViewById(R.id.edtNewPass);
+        EditText edtConfirmPass = dialogView.findViewById(R.id.edtConfirmedPass);
+        AppCompatButton btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+
+        AlertDialog dialog = builder.create();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        btnConfirm.setOnClickListener(v -> {
+            String loginName = edtLoginName.getText().toString().trim();
+            String email = edtEmail.getText().toString().trim();
+            String phone = edtPhone.getText().toString().trim();
+            String newPass = edtNewPass.getText().toString().trim();
+            String confirmPass = edtConfirmPass.getText().toString().trim();
+
+            if(loginName.isEmpty() || email.isEmpty() || phone.isEmpty() || newPass.isEmpty() || confirmPass.isEmpty()) {
+                Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if(!newPass.equals(confirmPass)) {
+                Toast.makeText(this, "Mật khẩu mới và xác nhận mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Build JSON body
+            JSONObject jsonBody = new JSONObject();
+            try {
+                jsonBody.put("sdt", phone);
+                jsonBody.put("email", email);
+                jsonBody.put("newPassword", newPass);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Lỗi tạo dữ liệu JSON", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            String url = "http://10.0.2.2:8080/api/v1/user/" + loginName + "/reset-password";
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonBody,
+                    response -> {
+                        Toast.makeText(this, "Đặt lại mật khẩu thành công", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    },
+                    error -> {
+                        Toast.makeText(this, "Lỗi: kiểm tra lại thông tin hoặc kết nối", Toast.LENGTH_SHORT).show();
+                    });
+
+            RequestQueue queue = Volley.newRequestQueue(this);
+            queue.add(request);
+        });
+
+
+        dialog.show();
+    }
+
+
 }

@@ -142,56 +142,14 @@ public class OrderAdapter2 extends BaseAdapter {
         requestQueue.add(request);
     }
 
-    public void updateData(List<OrderDTO> newList) {
-        this.orderList.clear();
-        this.orderList.addAll(newList);
-        notifyDataSetChanged();
-    }
+//    public void updateData(List<OrderDTO> newList) {
+//        this.orderList.clear();
+//        this.orderList.addAll(newList);
+//        notifyDataSetChanged();
+//    }
 
 
 
-    public static void setListViewHeight(ListView listView) {
-        ListAdapter adapter = listView.getAdapter();
-        if (adapter == null) return;
 
-        int totalHeight = 0;
-        for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, listView);
-            listItem.measure(
-                    View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            );
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-    }
-
-
-
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) return;
-
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(
-                    View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            );
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
-        listView.requestLayout();
-        Log.d("OrderAdapter2", "Set ListView height to " + params.height);
-    }
 
 }

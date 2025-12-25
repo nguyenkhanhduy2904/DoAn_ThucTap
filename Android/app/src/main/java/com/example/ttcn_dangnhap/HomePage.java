@@ -133,8 +133,10 @@ public class HomePage extends AppCompatActivity {
                             for(int i =0; i<dataArray.length(); i++){
                                 JSONObject obj = dataArray.getJSONObject(i);
 
+
                                 String quocGia = obj.getString("quocGia");
                                 EQuocGia eQuocGia = EQuocGia.StringtoEnum(quocGia);
+
 
 
 
@@ -145,10 +147,14 @@ public class HomePage extends AppCompatActivity {
                                         obj.getLong("gia"),
                                         "http://10.0.2.2:8080"+obj.getString("hinhAnhURL"),
                                         eQuocGia,
-                                        (obj.getString("trangThai")).equals("ACTIVE")
+                                        (obj.getString("trangThai")).equals("Available")
                                 );
 
-                                resultList.add(monAn);
+                                if(monAn.isTrangThai()){
+                                    resultList.add(monAn);
+                                }
+
+
                             }
 
                             callback.onSuccess(resultList);
