@@ -30,6 +30,7 @@ public class User {
     private String gioiTinh;
     @Column(name = "TrangThai")
     private String trangThai;
+
     @Column(name = "email")
     private String email;
 
@@ -135,6 +136,8 @@ public class User {
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
+
+
 
     public String getEmail() {
         return email;

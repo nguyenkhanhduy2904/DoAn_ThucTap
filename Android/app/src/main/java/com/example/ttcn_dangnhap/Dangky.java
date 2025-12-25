@@ -2,6 +2,7 @@ package com.example.ttcn_dangnhap;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -144,6 +145,7 @@ public class Dangky extends AppCompatActivity {
             }
 
             RequestQueue queue = Volley.newRequestQueue(this);
+            Log.d("Dangky", jsonBody.toString());
 
             JsonObjectRequest request = new JsonObjectRequest(
                     Request.Method.POST,
@@ -155,7 +157,7 @@ public class Dangky extends AppCompatActivity {
                             String message = response.getString("message");
                             if(status.equals("success")){
                                 ThongBao.showThongBao(Dangky.this,"Create Account Success",message,() -> {
-                                    Intent intent = new Intent(Dangky.this,HomePage.class);
+                                    Intent intent = new Intent(Dangky.this,Login.class);
                                     startActivity(intent);
                                     finish();
                                 });

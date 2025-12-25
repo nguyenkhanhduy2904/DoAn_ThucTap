@@ -84,6 +84,9 @@ public class UserService {
         if(newDataDTO.getEmail()!=null && !newDataDTO.getEmail().isBlank() && !Objects.equals(user.getEmail(), newDataDTO.getEmail())){
             user.setEmail(newDataDTO.getEmail());
         }
+        if(newDataDTO.getTrangThai()!=null && !newDataDTO.getTrangThai().isBlank() && !Objects.equals(user.getTrangThai(), newDataDTO.getTrangThai())){
+            user.setTrangThai(newDataDTO.getTrangThai());
+        }
 
         userRepository.save(user);
 
