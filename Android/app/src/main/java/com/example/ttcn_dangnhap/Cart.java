@@ -123,6 +123,10 @@ public class Cart extends AppCompatActivity {
         });
 
         btnConfirm.setOnClickListener(view -> {
+            if(lsCartItem==null || lsCartItem.size()<1){
+                Toast.makeText(this, "Vui lòng chọn món", Toast.LENGTH_LONG).show();
+                return;
+            }
             Intent intent = new Intent(this, ThanhToan.class);
             intent.putExtra("CART_LIST", (Serializable) lsCartItem);
             String totalPriceStr = txtPrice.getText().toString().trim();

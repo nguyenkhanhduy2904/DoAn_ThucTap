@@ -303,7 +303,6 @@ public class HomePage extends AppCompatActivity {
 
         ibtnOrder.setOnClickListener(view -> {
 
-//
             Intent intent = new Intent(this,DonHang.class);
             startActivity(intent);
             finish();

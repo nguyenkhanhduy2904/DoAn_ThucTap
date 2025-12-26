@@ -150,6 +150,7 @@ public class ThanhToan extends AppCompatActivity {
         tvAddress=findViewById(R.id.tvAddress);
         rbCOD=findViewById(R.id.rbCOD);
         rbVNPay=findViewById(R.id.rbVNPay);
+//        rbVNPay.getParent().setEnabled(false);//disable vnpay
         imgBack=findViewById(R.id.btnBack);
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
     }

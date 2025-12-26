@@ -163,7 +163,7 @@ public class OrderStaffviewAdapter extends BaseAdapter {
                 case "Delivering":
                     changeOrderStatus("Finished", order.getId(), order);
                     if(order.getPhuongThucThanhToan().equals("COD")){
-                        changePaymentStatus("Confirmed", order.getId(), order );
+                        changePaymentStatus("Finished", order.getId(), order );
 
                     }
                     break;

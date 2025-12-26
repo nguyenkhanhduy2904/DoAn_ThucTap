@@ -217,6 +217,7 @@
                             app:drawableStartCompat="@drawable/icon_cod"/>
 
                         <RadioButton
+                            android:enabled="false"
                             android:id="@+id/rbVNPay"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
