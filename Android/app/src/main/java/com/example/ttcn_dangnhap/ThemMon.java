@@ -68,26 +68,18 @@ public class ThemMon extends AppCompatActivity {
 
 
     private ActivityResultLauncher<String> pickImageLauncher;
-    LinearLayout imgZone,layout_percent,layout_nbd,layout_nkt;
+    LinearLayout imgZone;
     ImageView imgPreview;
     ImageButton ibtnBack;
     EditText etxtFoodName, etxtFoodDesc, etxtPrice;
-
     RadioButton rbVN, rbTL, rbHQ, rbTQ, rbConMon, rbHetMon;
-
     RadioGroup rbgQuocGia,rgStatus,rgDiscount;
-
-    Button btnCancel, btnSave;
-    TextView tv_start_date,tv_end_date;
-    final Calendar calendar = Calendar.getInstance();
+    Button  btnSave;
     private EQuocGia quocGiaChon = null;
     private String imgUrl = null;
     private String TenMonAn, MoTa, TrangThai;
     private long price =0;
     private Uri selectedImgUri;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,9 +114,6 @@ public class ThemMon extends AppCompatActivity {
                     }
                 }
         );
-
-
-
         addControls();
         addEvents();
         GetIntentData();
@@ -145,11 +134,8 @@ public class ThemMon extends AppCompatActivity {
         rbTL = findViewById(R.id.rbTL);
         rbHQ = findViewById(R.id.rbHQ);
         rbTQ = findViewById(R.id.rbTQ);
-
         rbConMon = findViewById(R.id.rb_con);
         rbHetMon = findViewById(R.id.rb_het);
-
-        btnCancel = findViewById(R.id.btnCancel);
         btnSave = findViewById(R.id.btnSave);
     }
 
@@ -161,10 +147,6 @@ public class ThemMon extends AppCompatActivity {
             Intent intent = new Intent(this, QuanLyMon.class);
             startActivity(intent);
         });
-        btnCancel.setOnClickListener(view -> {
-            finish();
-        });
-
         btnSave.setOnClickListener(view -> {
             String priceText = etxtPrice.getText().toString().trim();
 
@@ -255,11 +237,6 @@ public class ThemMon extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
-
-
-
     private JSONObject buildMonAnJson(){
         JSONObject jsonBody = new JSONObject();
         try{
@@ -392,8 +369,6 @@ public class ThemMon extends AppCompatActivity {
 
         return size; // size in bytes
     }
-
-
     void GetIntentData(){
         monAn = (MonAn) getIntent().getSerializableExtra("monAn");
         if(monAn!=null){
@@ -428,8 +403,6 @@ public class ThemMon extends AppCompatActivity {
             else{
                 rbHetMon.setChecked(true);
             }
-
-
         }
     }
 

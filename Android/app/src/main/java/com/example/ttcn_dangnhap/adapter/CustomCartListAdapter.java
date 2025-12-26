@@ -28,16 +28,19 @@ public class CustomCartListAdapter extends BaseAdapter {
     List<CartItem> lsCartItem;
     LayoutInflater inflater;
     CartDAO cartDAO;
+    boolean isPayment = false;
 
 
-
-    public CustomCartListAdapter(Context ctx, List<CartItem> lsCartItem, CartDAO cartDAO){
+    public CustomCartListAdapter(Context ctx, List<CartItem> lsCartItem, CartDAO cartDAO,boolean isPayment){
         this.context = ctx;
         this.lsCartItem = lsCartItem;
         inflater = LayoutInflater.from(ctx);
         this.cartDAO = cartDAO;
+        this.isPayment = isPayment;
     }
-
+    public CustomCartListAdapter(Context ctx, List<CartItem> lsCartItem, CartDAO cartDAO){
+        this(ctx, lsCartItem, cartDAO, false);
+    }
 
     @Override
     public int getCount() {
@@ -67,21 +70,23 @@ public class CustomCartListAdapter extends BaseAdapter {
 
         Button btnPlus = convertView.findViewById(R.id.btnPlus);
         Button btnMinus = convertView.findViewById(R.id.btnMinus);
-
         ImageButton btnDelete = convertView.findViewById(R.id.btnDelete);
-
-
         CartItem cartItem = lsCartItem.get(pos);
 
         txtFoodName.setText(cartItem.getTenMon());
         txtNote.setText(cartItem.getGhiChu());
         txtPrice.setText(String.valueOf(cartItem.getGiaTongMon()));
         txtQuantity.setText(String.valueOf(cartItem.getSoLuong()));
-
-
         Picasso.get().load(cartItem.getUrl()).resize(150,150).centerCrop().into(imgFood);
-
-
+        if (isPayment) {
+            // Nếu là trang thanh toán: Ẩn hết nút
+            btnPlus.setVisibility(View.GONE);
+            btnMinus.setVisibility(View.GONE);
+            btnDelete.setVisibility(View.GONE);
+        } else{
+            btnPlus.setVisibility(View.VISIBLE);
+        btnMinus.setVisibility(View.VISIBLE);
+        btnDelete.setVisibility(View.VISIBLE);
         SharedPreferences sp = context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         int userid = sp.getInt("userid", -1);
 
@@ -119,9 +124,6 @@ public class CustomCartListAdapter extends BaseAdapter {
             }
         });
 
-
-
-
         if(cartItem.getSoLuong()<=1){
             btnMinus.setEnabled(false);
         }
@@ -134,10 +136,8 @@ public class CustomCartListAdapter extends BaseAdapter {
                 existingCartItem.setGiaTongMon(totalPrice);
 
                 cartDAO.update(existingCartItem);
-
                 cartItem.setSoLuong(quantity);
                 cartItem.setGiaTongMon(totalPrice);
-
                 txtQuantity.setText(String.valueOf(quantity));
                 txtPrice.setText(String.valueOf(totalPrice));
 
@@ -147,6 +147,7 @@ public class CustomCartListAdapter extends BaseAdapter {
                 notifyItemChanged();
             }
         });
+        }
         return convertView;
     }
 

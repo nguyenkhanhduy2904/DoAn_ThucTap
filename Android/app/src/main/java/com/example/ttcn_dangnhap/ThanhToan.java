@@ -57,14 +57,10 @@ public class ThanhToan extends AppCompatActivity {
     TextView tvUserName, tvUserPhone, tvAddress;
     RadioButton rbCOD, rbVNPay;
     CustomCartListAdapter adapter;
-
     String TrangThaiDonHang = "Pending";
     String TrangThaiThanhToan = "Pending";
-
     String PaymentMethod = "";
-
     SharedPreferences sharedPreferences;
-
     CartDbHelper cartDbHelper;
     CartDAO cartDAO;
 
@@ -103,31 +99,30 @@ public class ThanhToan extends AppCompatActivity {
             {
                 PaymentMethod = "COD";
             }
-//<<<<<<< HEAD
-            else if (rbVNPay.isChecked())// need check again( it crash when choose vnpay)
-            {
-                PaymentMethod = "VNPay";
-                long sotien = Long.parseLong(tvTongTienThanhToan.getText().toString().replace("đ","").trim());
-                VNPayAPI api = APIClient.getClient().create(VNPayAPI.class);
-                api.createPayment(sotien).enqueue(new Callback<VNPayResponse>() {
-                    @Override
-                    public void onResponse(Call<VNPayResponse> call, Response<VNPayResponse> response) {
-                        if (response.isSuccessful()) {
-                            Intent intent = new Intent(ThanhToan.this, VNPayWeb.class);
-                            intent.putExtra("PAY_URL",response.body().getPaymentUrl());
-                            startActivity(intent);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<VNPayResponse> call, Throwable t) {
-                        Toast.makeText(ThanhToan.this,
-                                "Không kết nối được server",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
+//            else if (rbVNPay.isChecked())// need check again( it crash when choose vnpay)
+//            {
+//                PaymentMethod = "VNPay";
+//                long sotien = Long.parseLong(tvTongTienThanhToan.getText().toString().replace("đ","").trim());
+//                VNPayAPI api = APIClient.getClient().create(VNPayAPI.class);
+//                api.createPayment(sotien).enqueue(new Callback<VNPayResponse>() {
+//                    @Override
+//                    public void onResponse(Call<VNPayResponse> call, Response<VNPayResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            Intent intent = new Intent(ThanhToan.this, VNPayWeb.class);
+//                            intent.putExtra("PAY_URL",response.body().getPaymentUrl());
+//                            startActivity(intent);
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<VNPayResponse> call, Throwable t) {
+//                        Toast.makeText(ThanhToan.this,
+//                                "Không kết nối được server",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//            }
 
             if(tvAddress.getText().toString().trim().isBlank()){
                 Toast.makeText(this, "Vui lòng nhập địa chỉ nhận hàng!", Toast.LENGTH_SHORT).show();
@@ -141,9 +136,7 @@ public class ThanhToan extends AppCompatActivity {
                 Toast.makeText(this, "Vui lòng nhập số điện thoại người nhận!", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             buildMessage();
-
         });
     }
 
@@ -157,20 +150,11 @@ public class ThanhToan extends AppCompatActivity {
         tvAddress=findViewById(R.id.tvAddress);
         rbCOD=findViewById(R.id.rbCOD);
         rbVNPay=findViewById(R.id.rbVNPay);
-
         imgBack=findViewById(R.id.btnBack);
-
         sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
-
     }
 
     void buildMessage(){
-
-
-
-
-
-
         JSONArray cartList = new JSONArray();
 
         for(int i = 0; i < listThanhToan.size(); i++){
@@ -247,8 +231,6 @@ public class ThanhToan extends AppCompatActivity {
                         try {
                             String errorJson = new String(error.networkResponse.data, "UTF-8");
                             JSONObject obj = new JSONObject(errorJson);
-
-//                            String status = obj.getString("status");
                             String message = obj.getString("message");
 
                             Toast.makeText(this, "eorrro3 "+message, Toast.LENGTH_LONG).show();
@@ -260,10 +242,7 @@ public class ThanhToan extends AppCompatActivity {
                     }
                 }
         );
-
         queue.add(request);
-
-
     }
 
     void setupDefaultData(){
@@ -279,12 +258,10 @@ public class ThanhToan extends AppCompatActivity {
         if(tongTien != null) {
             tvTongTienThanhToan.setText(tongTien + "đ");
         }
-
-
         listThanhToan = (List<CartItem>) intent.getSerializableExtra("CART_LIST");
 
         if (listThanhToan != null && listThanhToan.size() > 0) {
-            adapter = new CustomCartListAdapter(this, listThanhToan, null);
+            adapter = new CustomCartListAdapter(this, listThanhToan, null,true);
             lvDanhSachMonThanhToan.setAdapter(adapter);
             setListViewHeight(lvDanhSachMonThanhToan);
         }

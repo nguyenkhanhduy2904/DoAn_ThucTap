@@ -2,7 +2,6 @@ package com.example.ttcn_dangnhap;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -145,7 +144,6 @@ public class Dangky extends AppCompatActivity {
             }
 
             RequestQueue queue = Volley.newRequestQueue(this);
-            Log.d("Dangky", jsonBody.toString());
 
             JsonObjectRequest request = new JsonObjectRequest(
                     Request.Method.POST,
